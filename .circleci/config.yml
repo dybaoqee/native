@@ -165,10 +165,11 @@ jobs:
       - run: sudo apt-get -y -qq install awscli
       - restore_cache: *restore-node-modules
       - restore_cache: *restore-gems
-      - run: *install-node-modules
-      - run: *install-gems
       - run: mkdir -p tmp/logs tmp/detox tmp/.secrets
       - run: aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets
+      - run: cp -rf  ~/emcasa/tmp/.secrets/.npmrc ~/.npmrc
+      - run: *install-node-modules
+      - run: *install-gems
       - save_cache: *cache-node-modules
       - save_cache: *cache-gems
       - persist_to_workspace:
