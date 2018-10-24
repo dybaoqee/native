@@ -59,12 +59,7 @@ export default class ListingThumbnail extends Component {
       <View style={styles.container} testID={testID}>
         <View>
           {images && images.length ? (
-            <Gallery
-              inline
-              testID={`${testID}_gallery`}
-              width={width}
-              height={height}
-            >
+            <Gallery testID={`${testID}_gallery`} width={width} height={height}>
               {images.slice(0, 4)}
             </Gallery>
           ) : (

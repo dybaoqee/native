@@ -1,4 +1,6 @@
+import {pick} from 'lodash'
 import {PureComponent} from 'react'
+import {Dimensions} from 'react-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListing} from '@/graphql/containers'
@@ -21,10 +23,17 @@ class ListingGalleryScreen extends PureComponent {
     } = this.props
 
     return (
-      <Modal testID="@listing.Gallery">
+      <Modal bg="dark" testID="@listing.Gallery">
         <Body loading={loading}>
           <Modal.Header absolute onDismiss={onDismiss} />
-          {data && <Gallery>{data.images}</Gallery>}
+          {data && (
+            <Gallery
+              scalable
+              {...pick(Dimensions.get('window'), 'width', 'height')}
+            >
+              {data.images}
+            </Gallery>
+          )}
         </Body>
       </Modal>
     )

@@ -1,11 +1,32 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
-import {View} from 'react-native'
+import {StyleSheet} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
+import {View} from '@emcasa/ui-native'
 
 import Image from '../Image'
 import Pagination from './Pagination'
 import styles from './styles'
+
+StyleSheet.create({
+  container: {
+    position: 'relative',
+    flex: 1
+  },
+  gallery: {
+    flex: 1,
+    width: '100%'
+  },
+  slide: {
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  pagination: {
+    position: 'absolute',
+    bottom: 10,
+    width: '100%'
+  }
+})
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
@@ -27,11 +48,14 @@ export default class ListingGallery extends PureComponent {
     return _.defaults({width, height}, dimensions)
   }
 
-  get imageLayout() {
-    const {inline} = this.props
+  get imageProps() {
+    const {scalable} = this.props
     const layout = this.layout
-    if (!inline) layout.height = layout.width * 0.6
-    return layout
+    if (scalable) layout.height = layout.width * 0.6
+    return {
+      scalable,
+      ...layout
+    }
   }
 
   galleryRef = (node) => {
@@ -42,7 +66,9 @@ export default class ListingGallery extends PureComponent {
 
   onLayout = (e) => {
     const {position} = this.state
-    const {nativeEvent: {layout}} = e
+    const {
+      nativeEvent: {layout}
+    } = e
     const dimensions = {
       width: layout.width,
       height: layout.height
@@ -56,72 +82,51 @@ export default class ListingGallery extends PureComponent {
     })
   }
 
-  renderPagination = (image, index) => {
-    let {position} = this.state
-    const {paginationDelta} = this.props
-    let right = position + paginationDelta
-    let left = position - paginationDelta
-    if (left < 0) right -= left
-    if (right >= this.items.length)
-      left = this.items.length - paginationDelta * 2 - 1
-    if (index < left || index > right) return null
-    const distanceFromActivePage = Math.min(
-      paginationDelta,
-      Math.abs(index - position)
-    )
-    const size = 12 / (distanceFromActivePage + 1) + 2
-    const opacity = 0.6 / (distanceFromActivePage + 1) + 0.4
-    return (
-      <Icon
-        key={`${index}.${image.filename}`}
-        type="solid"
-        name="circle"
-        color="white"
-        size={size}
-        style={[styles.pageIcon, {opacity}]}
-      />
-    )
-  }
-
   renderImage = (image, index) => {
-    const {scalable} = this.props
     const {position} = this.state
+    const {width, height, ...imageProps} = this.imageProps
     // Placeholder
     if (Math.abs(index - position) > 2)
-      return <View key={image.filename} style={this.imageLayout} />
+      return <View key={image.filename} width={width} height={height} />
     return (
       <Image
         key={`${index}.${image.filename}`}
-        style={[styles.image]}
-        resolution={scalable ? 4.5 : 1}
-        layout={scalable ? 'scalable' : undefined}
-        {...this.imageLayout}
+        resolution={imageProps.scalable ? 4.5 : 1}
+        width={width}
+        height={height}
+        {...imageProps}
         {...image}
       />
     )
   }
 
   render() {
-    const {inline, style, testID} = this.props
+    const {scalable, style, props} = this.props
     const {position} = this.state
     return (
       <View
-        style={[styles.container, this.layout, style]}
+        {...props}
+        style={[styles.container].concat(style)}
         onLayout={this.onLayout}
-        testID={testID}
       >
         <SwipeableView
           ref={this.galleryRef}
           onLayout={this.onLayout}
-          style={styles.gallery}
-          slideStyle={styles.slide}
+          style={{
+            flex: 1,
+            width: '100%'
+          }}
+          slideStyle={{
+            justifyContent: 'center',
+            alignItems: 'flex-start'
+          }}
           onChangeIndex={this.onChange}
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
         <View style={styles.pagination}>
           <Pagination
-            displayText={!inline}
+            displayText={scalable}
             currentPosition={position}
             totalPages={this.items.length}
           />

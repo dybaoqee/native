@@ -65,7 +65,7 @@ function ListingCard({
       <View testID={`listing_card(${testUniqueID})`}>
         <View style={[styles.thumbnail, imageSize]}>
           {images.length ? (
-            <Gallery style={imageStyle} inline {...imageSize}>
+            <Gallery style={imageStyle} {...imageSize}>
               {images.slice(0, 4)}
             </Gallery>
           ) : (
