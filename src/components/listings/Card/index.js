@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {cond, get, stubTrue} from 'lodash/fp'
 import {Dimensions, StyleSheet} from 'react-native'
 import styled from 'styled-components'
 import {themeGet} from 'styled-system'
@@ -6,7 +6,8 @@ import {compose} from 'recompose'
 import {View, Row, Text} from '@emcasa/ui-native'
 
 import * as format from '@/assets/format.js'
-import {withFavoriteMutation, withBlacklistMutation} from '@/graphql/containers'
+import {withFavoriteMutation} from '@/graphql/containers'
+import {touchable} from '@/components/shared/Touchable'
 import Gallery from '@/components/listings/Gallery'
 import Image from '@/components/listings/Image'
 import FavoriteButton from '../FavoriteButton'
@@ -37,9 +38,9 @@ const Header = styled(function ListingCardHeader({
         {children}
       </View>
       {images.length ? (
-        <Gallery>{images.slice(0, 4)}</Gallery>
+        <Gallery width={width}>{images.slice(0, 4)}</Gallery>
       ) : (
-        <Image thumbnail {...imageSize} />
+        <Image thumbnail width={width} {...imageSize} />
       )}
     </View>
   )
@@ -55,6 +56,10 @@ const Body = styled.View`
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border: 1px solid ${themeGet('colors.lightGrey')};
+  background-color: ${cond([
+    [get('pressed'), () => 'rgba(216, 216, 216, 0.5)'],
+    [stubTrue, () => 'white']
+  ])};
 `
 
 function ListingCard({
@@ -64,18 +69,19 @@ function ListingCard({
   price,
   favorite,
   onFavorite,
-  onPress,
   testUniqueID,
   ...props
 }) {
+  const innerWidth = parseInt(width) - parseInt(props.ml) - parseInt(props.mr)
   return (
     <View {...props}>
       <View testID={`listing_card(${testUniqueID})`}>
-        <Header images={images} width={width}>
+        <Header images={images} width={innerWidth}>
           <View style={{position: 'absolute', top: 10, right: 10}}>
             <FavoriteButton
               contrast
               testID="favorite_button"
+              hitSlop={15}
               active={favorite}
               onPress={onFavorite}
               accessibilityLabel={
@@ -84,7 +90,7 @@ function ListingCard({
             />
           </View>
         </Header>
-        <Body>
+        <Body pressed={props.active}>
           <Row mb="4px">
             <Text fontSize="16px">{address.neighborhood.toUpperCase()}</Text>
           </Row>
@@ -111,12 +117,14 @@ function ListingCard({
 
 ListingCard.defaultProps = {
   testUniqueID: '',
+  ml: 0,
+  mr: 0,
   get width() {
     return Dimensions.get('window').width
   }
 }
 
 export default compose(
-  withFavoriteMutation,
-  withBlacklistMutation
+  touchable,
+  withFavoriteMutation
 )(ListingCard)

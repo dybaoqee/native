@@ -136,4 +136,7 @@ ListingCard.defaultProps = {
   }
 }
 
-export default compose(withFavoriteMutation, withBlacklistMutation)(ListingCard)
+export default compose(
+  withFavoriteMutation,
+  withBlacklistMutation
+)(ListingCard)

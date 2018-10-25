@@ -1,32 +1,10 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
-import {StyleSheet} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
 import {View} from '@emcasa/ui-native'
 
 import Image from '../Image'
 import Pagination from './Pagination'
-import styles from './styles'
-
-StyleSheet.create({
-  container: {
-    position: 'relative',
-    flex: 1
-  },
-  gallery: {
-    flex: 1,
-    width: '100%'
-  },
-  slide: {
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
-  pagination: {
-    position: 'absolute',
-    bottom: 10,
-    width: '100%'
-  }
-})
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
@@ -106,7 +84,7 @@ export default class ListingGallery extends PureComponent {
     return (
       <View
         {...props}
-        style={[styles.container].concat(style)}
+        style={[{flex: 1, position: 'relative'}].concat(style)}
         onLayout={this.onLayout}
       >
         <SwipeableView
@@ -124,7 +102,7 @@ export default class ListingGallery extends PureComponent {
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
-        <View style={styles.pagination}>
+        <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
           <Pagination
             displayText={scalable}
             currentPosition={position}
