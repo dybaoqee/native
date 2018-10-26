@@ -4,16 +4,15 @@ import {View} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
+import {Button} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
-import * as format from '@/assets/format'
 import {withListing} from '@/graphql/containers'
 import {logEvent} from '@/redux/modules/firebase/analytics'
 import {load as loadRelatedListings} from '@/redux/modules/relatedListings'
 import {getRelatedListings} from '@/redux/modules/relatedListings/selectors'
-import {Shell, Body, Footer, Section} from '@/components/layout'
-import Button from '@/components/shared/Button'
+import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Feed from '@/components/listings/Feed/Related'
 import Listing from './Listing'
 
@@ -26,6 +25,8 @@ class ListingScreen extends PureComponent {
 
   static options = {
     topBar: {
+      drawBehind: true,
+      visible: false,
       backButton: {title: ''}
     }
   }
@@ -50,39 +51,13 @@ class ListingScreen extends PureComponent {
     }
   }
 
-  updateNavigation() {
-    const {
-      listing: {data},
-      componentId
-    } = this.props
-    if (!data) return
-    Navigation.mergeOptions(componentId, {
-      topBar: {
-        title: {
-          text: data.price
-            ? `R$${format.number(data.price)}`
-            : 'Preço a definir'
-        }
-      }
-    })
-  }
-
   componentDidMount() {
     const {
-      listing: {data},
       relatedListings,
       loadRelatedListings,
       params: {id}
     } = this.props
     if (_.isEmpty(relatedListings)) loadRelatedListings(id)
-    if (data) this.updateNavigation()
-  }
-
-  componentDidUpdate(prev) {
-    const {
-      listing: {data}
-    } = this.props
-    if (data && !_.isEqual(data, prev.listing.data)) this.updateNavigation()
   }
 
   navigateTo = (component, params = this.props.params) => () => {
@@ -122,6 +97,10 @@ class ListingScreen extends PureComponent {
       name: TourScreen.screenName
     })
 
+  onPopScreen = _.once(() => {
+    Navigation.pop(this.props.componentId)
+  })
+
   onShare = async () => {
     const {
       logEvent,
@@ -148,27 +127,18 @@ class ListingScreen extends PureComponent {
     return <Feed data={relatedListings} onSelect={this.onSelectListing} />
   }
 
-  renderFooter() {
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <Button
-          color="green"
-          style={{flex: 1}}
-          onPress={this.navigateTo({name: InterestFormScreen.screenName})}
-        >
-          Marcar visita
-        </Button>
-      </View>
-    )
-  }
-
   render() {
     const {
-      listing: {data, loading}
+      listing: {data, loading},
+      componentId
     } = this.props
 
+    const isActive = data && data.isActive
     return (
       <Shell>
+        <Header translucent backButton={componentId}>
+          {isActive && `${data.address.neighborhood} (${data.area}m²)`}
+        </Header>
         <Body scroll loading={loading}>
           {data && (
             <Listing
@@ -178,15 +148,22 @@ class ListingScreen extends PureComponent {
               onShare={this.onShare}
             />
           )}
-          {data &&
-            data.isActive && (
-              <Section title="Veja Também">
-                {this.renderRelatedListings()}
-              </Section>
-            )}
+          {isActive && (
+            <Section title="Veja Também">
+              {this.renderRelatedListings()}
+            </Section>
+          )}
         </Body>
         {!loading && (
-          <Footer style={{padding: 15}}>{this.renderFooter()}</Footer>
+          <Footer p="15px">
+            <Button
+              active
+              height="tall"
+              onPress={this.navigateTo({name: InterestFormScreen.screenName})}
+            >
+              Marcar visita
+            </Button>
+          </Footer>
         )}
       </Shell>
     )

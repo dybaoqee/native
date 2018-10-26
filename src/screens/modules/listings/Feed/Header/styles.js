@@ -5,6 +5,7 @@ import {margin, padding} from '@/assets/styles'
 
 export default StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'white',
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.gray.light

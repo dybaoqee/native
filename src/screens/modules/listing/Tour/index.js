@@ -1,5 +1,4 @@
 import {PureComponent} from 'react'
-import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListing} from '@/graphql/containers'
@@ -30,7 +29,7 @@ class ListingTourScreen extends PureComponent {
       <Modal testID="@listing.Tour">
         <Body loading={loading} onLayout={this.onLayout}>
           <Modal.Header
-            absolute
+            translucent
             style={{marginTop: 60, justifyContent: 'flex-end'}}
             onDismiss={onDismiss}
           />

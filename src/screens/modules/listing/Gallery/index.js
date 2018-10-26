@@ -25,7 +25,7 @@ class ListingGalleryScreen extends PureComponent {
     return (
       <Modal bg="dark" testID="@listing.Gallery">
         <Body loading={loading}>
-          <Modal.Header absolute onDismiss={onDismiss} />
+          <Modal.Header translucent onDismiss={onDismiss} />
           {data && (
             <Gallery
               scalable

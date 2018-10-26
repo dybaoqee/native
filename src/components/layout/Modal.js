@@ -76,8 +76,8 @@ Modal.Header = styled(function ModalHeader({
   justify-content: center;
   padding-horizontal: 10px;
   padding-vertical: 5px;
-  ${({absolute}) =>
-    absolute && {
+  ${({translucent}) =>
+    translucent && {
       position: 'absolute',
       top: 0,
       left: 0

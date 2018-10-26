@@ -20,6 +20,11 @@ export default {
     android: 'OpenSans'
   }),
   size: {
+    statusBar: Platform.select({
+      ios: 20,
+      android: 0
+    }),
+    topBar: 50,
     bottomTabs: 55,
     bottomTabsBg: {
       width: 122,
