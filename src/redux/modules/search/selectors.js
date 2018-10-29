@@ -1,7 +1,15 @@
 import _ from 'lodash/fp'
+import {isEqual, isEqualWith} from 'lodash'
 import {createSelector} from 'reselect'
 
+import {initialState} from './index'
+
 const omitEmpty = _.omitBy(_.isEmpty)
+
+const compareFilter = (a, b) => {
+  if (_.isArray(a) && _.isArray(b)) return _.isEqual(a.sort(), b.sort())
+  return isEqual(a, b)
+}
 
 export const getSearchScreen = (state) => state.search
 
@@ -9,6 +17,13 @@ export const getSearchCity = (state) => getSearchScreen(state).city
 
 export const getSearchFilters = (state) =>
   omitEmpty(getSearchScreen(state).filters || {})
+
+export const hasSearchFilters = (state) =>
+  !isEqualWith(
+    getSearchFilters(state),
+    getSearchFilters({search: initialState}),
+    compareFilter
+  )
 
 const parseRange = (name, {min, max}) => ({
   [`min${_.upperFirst(name)}`]: min,
