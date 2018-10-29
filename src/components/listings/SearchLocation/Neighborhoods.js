@@ -41,7 +41,7 @@ export default function Neighborhood({
           )}
         >
           {neighborhoods.map(({name, slug}) => (
-            <GhostButton key={slug} value={slug}>
+            <GhostButton key={slug} value={name}>
               {name}
             </GhostButton>
           ))}

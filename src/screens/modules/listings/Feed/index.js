@@ -10,7 +10,6 @@ import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollV
 import InfiniteScroll from '@/containers/InfiniteScroll'
 import Feed from '@/components/listings/Feed/Listing'
 import SearchLocation from './Location'
-import SearchHeader from './Header'
 import ListEmpty from './ListEmpty'
 import ListHeader from './ListHeader'
 
@@ -87,9 +86,6 @@ class ListingsFeedScreen extends PureComponent {
           onDismiss={this.onCloseLocationSearch}
           zIndex={2}
         />
-        <Header>
-          <SearchHeader onPress={this.onOpenFilters} />
-        </Header>
         <Body loading={loading}>
           <InfiniteScroll
             loading={loading}
