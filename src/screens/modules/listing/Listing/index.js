@@ -8,13 +8,14 @@ import {Button} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
-import {withListing} from '@/graphql/containers'
+import {withListing, withViewTourMutation} from '@/graphql/containers'
 import {logEvent} from '@/redux/modules/firebase/analytics'
 import {load as loadRelatedListings} from '@/redux/modules/relatedListings'
 import {getRelatedListings} from '@/redux/modules/relatedListings/selectors'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
+import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Related'
-import Listing from './Listing'
+import RightButtons from './RightButtons'
 
 import GalleryScreen from '@/screens/modules/listing/Gallery'
 import TourScreen from '@/screens/modules/listing/Tour'
@@ -87,16 +88,6 @@ class ListingScreen extends PureComponent {
     })
   }
 
-  onOpenGallery = () =>
-    this.openModal('gallery', {
-      name: GalleryScreen.screenName
-    })
-
-  onOpenTour = () =>
-    this.openModal('tour', {
-      name: TourScreen.screenName
-    })
-
   onPopScreen = _.once(() => {
     Navigation.pop(this.props.componentId)
   })
@@ -122,6 +113,8 @@ class ListingScreen extends PureComponent {
       }
     })
 
+  onViewTour = _.once(() => this.props.onViewTour())
+
   renderRelatedListings() {
     const {relatedListings} = this.props
     return <Feed data={relatedListings} onSelect={this.onSelectListing} />
@@ -136,16 +129,24 @@ class ListingScreen extends PureComponent {
     const isActive = data && data.isActive
     return (
       <Shell>
-        <Header translucent backButton={componentId}>
+        <Header
+          translucent
+          backButton={componentId}
+          rightButtons={<RightButtons onShare={this.onShare} />}
+        >
           {isActive && `${data.address.neighborhood} (${data.area}m²)`}
         </Header>
         <Body scroll loading={loading}>
           {data && (
             <Listing
               {...data}
-              onOpenGallery={this.onOpenGallery}
-              onOpenTour={this.onOpenTour}
-              onShare={this.onShare}
+              onViewTour={this.onViewTour}
+              onOpenGallery={this.openModal('gallery', {
+                name: GalleryScreen.screenName
+              })}
+              onOpenTour={this.openModal('tour', {
+                name: TourScreen.screenName
+              })}
             />
           )}
           {isActive && (
@@ -177,5 +178,6 @@ export default composeWithRef(
     }),
     {loadRelatedListings, logEvent}
   ),
-  withListing(({params: {id}}) => ({id}))
+  withListing(({params: {id}}) => ({id})),
+  withViewTourMutation
 )(ListingScreen)
