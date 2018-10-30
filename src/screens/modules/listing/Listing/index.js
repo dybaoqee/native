@@ -129,14 +129,16 @@ class ListingScreen extends PureComponent {
     const isActive = data && data.isActive
     return (
       <Shell>
-        <Header
-          translucent
-          backButton={componentId}
-          rightButtons={<RightButtons onShare={this.onShare} />}
-        >
-          {isActive && `${data.address.neighborhood} (${data.area}m²)`}
-        </Header>
+        <Header.StatusBar bg="white" />
         <Body scroll loading={loading}>
+          <Header
+            translucent
+            statusBar={false}
+            backButton={componentId}
+            rightButtons={<RightButtons onShare={this.onShare} />}
+          >
+            {isActive && `${data.address.neighborhood} (${data.area}m²)`}
+          </Header>
           {data && (
             <Listing
               {...data}

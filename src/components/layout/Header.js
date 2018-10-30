@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import {PureComponent, Fragment} from 'react'
 import {Navigation} from 'react-native-navigation'
-import styled from 'styled-components'
+import styled from 'styled-components/native'
 import {themeGet, bgColor} from 'styled-system'
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
@@ -40,53 +40,67 @@ const Title = styled(Text)`
     translucent && `text-shadow: 0 1px 4px ${colors.dark}`};
 `
 
-export default styled(function Header({
-  children,
-  backButton,
-  rightButtons,
-  translucent,
-  ...props
-}) {
-  let color
-  if (translucent) color = 'white'
-  color = color || props.color
-  return (
-    <View {...props}>
-      <Row alignItems="center" flex={1} style={{position: 'relative'}}>
-        {Boolean(backButton) && (
-          <Col zIndex={1} ml="15px">
-            <BackButton componentId={backButton} color={color} />
-          </Col>
-        )}
-        {Boolean(rightButtons) && (
-          <Col zIndex={1} flex={1} mr="15px">
-            <Row justifyContent="flex-end">{rightButtons}</Row>
-          </Col>
-        )}
-        {Boolean(children) &&
-          (typeof children === 'string' ? (
-            <Title color={color} translucent={translucent} pointerEvents="none">
-              {children}
-            </Title>
-          ) : (
-            children
-          ))}
-      </Row>
-    </View>
-  )
-})`
+const StatusBar = styled.View`
+  z-index: 1;
+  height: ${themeGet('size.statusBar')};
+  width: 100%;
+  ${bgColor};
+`
+
+const TopBar = styled(View)`
   z-index: 1;
   background-color: white;
   justify-content: center;
   min-height: ${themeGet('size.topBar')};
-  margin-top: ${themeGet('size.statusBar')};
-  ${({translucent}) =>
-    translucent && {
+  ${({translucent, statusBar, theme}) =>
+    Boolean(translucent) && {
       backgroundColor: 'transparent',
       position: 'absolute',
-      top: 0,
+      top: statusBar ? theme.size.statusBar : 0,
       left: 0,
       right: 0
     }};
   ${bgColor};
 `
+
+function Header({children, backButton, rightButtons, ...props}) {
+  const childProps = _.pick(props, ['translucent', 'statusBar', 'color'])
+  const statusBarProps =
+    typeof props.statusBar === 'object' ? props.statusBar : {}
+  if (props.translucent) childProps.color = childProps.color || 'white'
+  return (
+    <Fragment>
+      {Boolean(props.statusBar) && <StatusBar {...statusBarProps} />}
+      <TopBar {...props}>
+        <Row alignItems="center" flex={1} style={{position: 'relative'}}>
+          {Boolean(backButton) && (
+            <Col zIndex={1} ml="15px">
+              <BackButton componentId={backButton} {...childProps} />
+            </Col>
+          )}
+          {Boolean(rightButtons) && (
+            <Col zIndex={1} flex={1} mr="15px">
+              <Row justifyContent="flex-end">{rightButtons}</Row>
+            </Col>
+          )}
+          {Boolean(children) &&
+            (typeof children === 'string' ? (
+              <Title pointerEvents="none" {...childProps}>
+                {children}
+              </Title>
+            ) : (
+              children
+            ))}
+        </Row>
+      </TopBar>
+    </Fragment>
+  )
+}
+
+Header.defaultProps = {
+  statusBar: {bg: 'white'}
+}
+
+Header.StatusBar = StatusBar
+
+export default Header
