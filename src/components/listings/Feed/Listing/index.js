@@ -24,7 +24,7 @@ export default function ListingFeed({onSelect, pagination, Card, ...props}) {
           mb="5px"
           ml="15px"
           mr="15px"
-          testUniqueID={index + 1}
+          index={index}
           onPress={createHandler(onSelect, item.id)}
           {...item}
         />

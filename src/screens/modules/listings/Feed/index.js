@@ -116,6 +116,6 @@ export default composeWithRef(
   withListingsFeed(({filters}) => ({
     filters,
     pageSize: 15,
-    fetchPolicy: 'cache-and-network'
+    fetchPolicy: 'network-only'
   }))
 )(ListingsFeedScreen)
