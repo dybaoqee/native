@@ -212,7 +212,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':react-native-linear-gradient')
+    implementation project(':react-native-linear-gradient')
     implementation project(':react-native-code-push')
     implementation project(':react-native-facebook-account-kit')
     implementation project(':react-native-check-app-install')
