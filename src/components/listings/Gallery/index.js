@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import {TouchableWithoutFeedback} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
 import {View} from '@emcasa/ui-native'
 
@@ -61,20 +62,30 @@ export default class ListingGallery extends PureComponent {
   }
 
   renderImage = (image, index) => {
+    const {onPressImage} = this.props
     const {position} = this.state
     const {width, height, ...imageProps} = this.imageProps
     // Placeholder
     if (Math.abs(index - position) > 2)
       return <View key={image.filename} width={width} height={height} />
     return (
-      <Image
-        key={`${index}.${image.filename}`}
-        resolution={imageProps.scalable ? 4.5 : 1}
-        width={width}
-        height={height}
-        {...imageProps}
-        {...image}
-      />
+      <TouchableWithoutFeedback
+        key={index}
+        disabled={!onPressImage}
+        onPress={() => onPressImage(index)}
+      >
+        {React.isValidElement(image) ? (
+          image
+        ) : (
+          <Image
+            resolution={imageProps.scalable ? 4.5 : 1}
+            width={width}
+            height={height}
+            {...imageProps}
+            {...image}
+          />
+        )}
+      </TouchableWithoutFeedback>
     )
   }
 

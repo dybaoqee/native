@@ -49,7 +49,7 @@ export default class ListingHeader extends PureComponent {
               testID={`${testID}_gallery`}
               width={width}
               height={height}
-              onPressSlide={this.onPressSlide}
+              onPressImage={this.onPressSlide}
             >
               {images}
             </Gallery>
