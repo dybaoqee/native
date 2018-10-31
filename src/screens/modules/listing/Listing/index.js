@@ -96,9 +96,10 @@ class ListingScreen extends PureComponent {
     Navigation.pop(this.props.componentId)
   })
 
-  onScroll = ({nativeEvent: {contentOffset, ...x}}) =>
+  onScroll = ({nativeEvent: {contentOffset, contentSize, layoutMeasurement}}) =>
     this.setState({
-      bounces: contentOffset.y > 100
+      bounces:
+        contentOffset.y > contentSize.height / 2 - layoutMeasurement.height / 2
     })
 
   onShare = async () => {
@@ -150,6 +151,7 @@ class ListingScreen extends PureComponent {
           <Header
             translucent
             statusBar={false}
+            color={isActive ? 'white' : 'pink'}
             backButton={componentId}
             rightButtons={<RightButtons onShare={this.onShare} />}
           >
