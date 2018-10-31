@@ -32,6 +32,10 @@ class ListingScreen extends PureComponent {
     }
   }
 
+  state = {
+    bounces: false
+  }
+
   get shareOptions() {
     const {
       id,
@@ -92,6 +96,11 @@ class ListingScreen extends PureComponent {
     Navigation.pop(this.props.componentId)
   })
 
+  onScroll = ({nativeEvent: {contentOffset, ...x}}) =>
+    this.setState({
+      bounces: contentOffset.y > 100
+    })
+
   onShare = async () => {
     const {
       logEvent,
@@ -125,12 +134,19 @@ class ListingScreen extends PureComponent {
       listing: {data, loading},
       componentId
     } = this.props
+    const {bounces} = this.state
 
     const isActive = data && data.isActive
     return (
       <Shell>
         <Header.StatusBar bg="white" />
-        <Body scroll loading={loading}>
+        <Body
+          scroll
+          loading={loading}
+          onScroll={this.onScroll}
+          scrollEventThrottle={10}
+          bounces={bounces}
+        >
           <Header
             translucent
             statusBar={false}
