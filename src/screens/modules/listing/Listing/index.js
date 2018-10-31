@@ -77,24 +77,33 @@ class ListingScreen extends PureComponent {
     })
   }
 
-  openModal = (idSuffix, component) => {
-    const {params, componentId} = this.props
-    const id = `${componentId}_${idSuffix}`
+  onPopScreen = _.once(() => {
+    Navigation.pop(this.props.componentId)
+  })
+
+  onOpenGallery = (index) => {
     Navigation.showModal({
       component: {
-        ...component,
-        id,
+        name: GalleryScreen.screenName,
         passProps: {
-          params,
-          onDismiss: () => Navigation.dismissModal(id)
+          index,
+          params: this.props.params,
+          onDismiss: () => Navigation.dismissAllModals()
         }
       }
     })
   }
 
-  onPopScreen = _.once(() => {
-    Navigation.pop(this.props.componentId)
-  })
+  onOpenTour = () =>
+    Navigation.showModal({
+      component: {
+        name: TourScreen.screenName,
+        passProps: {
+          params: this.props.params,
+          onDismiss: () => Navigation.dismissAllModals()
+        }
+      }
+    })
 
   onScroll = ({nativeEvent: {contentOffset, contentSize, layoutMeasurement}}) =>
     this.setState({
@@ -161,12 +170,8 @@ class ListingScreen extends PureComponent {
             <Listing
               {...data}
               onViewTour={this.onViewTour}
-              onOpenGallery={this.openModal('gallery', {
-                name: GalleryScreen.screenName
-              })}
-              onOpenTour={this.openModal('tour', {
-                name: TourScreen.screenName
-              })}
+              onOpenGallery={this.onOpenGallery}
+              onOpenTour={this.onOpenTour}
             />
           )}
           {isActive && (

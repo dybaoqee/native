@@ -19,6 +19,7 @@ class ListingGalleryScreen extends PureComponent {
   render() {
     const {
       listing: {data, loading},
+      index,
       onDismiss
     } = this.props
 
@@ -29,6 +30,7 @@ class ListingGalleryScreen extends PureComponent {
           {data && (
             <Gallery
               scalable
+              initialIndex={index}
               {...pick(Dimensions.get('window'), 'width', 'height')}
             >
               {data.images}

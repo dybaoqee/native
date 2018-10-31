@@ -9,17 +9,12 @@ import styles, {markerStyles} from './styles'
 
 export default class ListingView extends Component {
   state = {
-    ready: false,
-    view: undefined
+    ready: false
   }
 
   componentDidMount() {
     requestAnimationFrame(() => this.setState({ready: true}))
   }
-
-  onOpen = (view) => this.setState({view})
-
-  onClose = () => this.setState({view: undefined})
 
   render() {
     const {address} = this.props

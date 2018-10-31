@@ -9,12 +9,19 @@ import Pagination from './Pagination'
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
+    initialIndex: 0,
     paginationDelta: 2
   }
 
   state = {
-    position: 0,
     dimensions: {}
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      index:
+        typeof state.index === 'undefined' ? props.initialIndex : state.index
+    }
   }
 
   get items() {
@@ -41,10 +48,15 @@ export default class ListingGallery extends PureComponent {
     this.gallery = node
   }
 
-  onChange = (position) => this.setState({position: Math.floor(position)})
+  onChangeIndex = (_index) => {
+    const {onChangeIndex} = this.props
+    const index = Math.floor(_index)
+    this.setState({index})
+    if (onChangeIndex) onChangeIndex(index)
+  }
 
   onLayout = (e) => {
-    const {position} = this.state
+    const {index} = this.state
     const {
       nativeEvent: {layout}
     } = e
@@ -55,7 +67,7 @@ export default class ListingGallery extends PureComponent {
     this.setState({dimensions})
     this.gallery.handleLayout(e)
     this.gallery.scrollViewNode.scrollTo({
-      x: dimensions.width * position,
+      x: dimensions.width * index,
       y: 0,
       animated: false
     })
@@ -63,10 +75,10 @@ export default class ListingGallery extends PureComponent {
 
   renderImage = (image, index) => {
     const {onPressImage} = this.props
-    const {position} = this.state
+    const {index: currentIndex} = this.state
     const {width, height, ...imageProps} = this.imageProps
     // Placeholder
-    if (Math.abs(index - position) > 2)
+    if (Math.abs(index - currentIndex) > 2)
       return <View key={image.filename} width={width} height={height} />
     return (
       <TouchableWithoutFeedback
@@ -91,7 +103,7 @@ export default class ListingGallery extends PureComponent {
 
   render() {
     const {scalable, style, props} = this.props
-    const {position} = this.state
+    const {index} = this.state
     return (
       <View
         {...props}
@@ -109,14 +121,14 @@ export default class ListingGallery extends PureComponent {
             justifyContent: 'center',
             alignItems: 'flex-start'
           }}
-          onChangeIndex={this.onChange}
+          onChangeIndex={this.onChangeIndex}
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
         <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
           <Pagination
             displayText={scalable}
-            currentPosition={position}
+            currentPosition={index}
             totalPages={this.items.length}
           />
         </View>
