@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash/fp'
 import {Navigation} from 'react-native-navigation'
 import {delay} from 'redux-saga'
 import {
@@ -45,6 +45,16 @@ function* switchTab({tabIndex}) {
   )
 }
 
+const parseBottomTabs = _.flow(
+  _.filter(_.get('component')),
+  _.map(({component}) => ({
+    stack: {
+      children: [{component}],
+      options: component.options
+    }
+  }))
+)
+
 function* updateStackRoot({rootId, tabIndex, children}) {
   const graphql = yield getContext('graphql')
   const {
@@ -54,14 +64,11 @@ function* updateStackRoot({rootId, tabIndex, children}) {
     fetchPolicy: 'cache-first',
     errorPolicy: 'ignore'
   })
-  const bottomTabs = (yield select(getBottomTabs, {
-    user: userProfile || {}
-  })).map((component) => ({
-    stack: {
-      children: [{component}],
-      options: component.options
-    }
-  }))
+  const bottomTabs = parseBottomTabs(
+    yield select(getBottomTabs, {
+      user: userProfile || {}
+    })
+  )
   if (children.length) bottomTabs[tabIndex].stack.children.push(...children)
   Navigation.setRoot({
     root: {
