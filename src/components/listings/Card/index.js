@@ -18,16 +18,19 @@ const stringifyProps = ({area, rooms, suites}) => {
   return result
 }
 
-const Header = styled(function ListingCardHeader({
-  children,
-  images,
-  width,
-  ...props
-}) {
-  const imageSize = {
+const ListingImages = ({images, width, showImages}) => {
+  const visibleImages = images.slice(0, showImages)
+  let imageProps = {
     width,
     height: width * 0.64
   }
+  if (visibleImages.length > 1)
+    return <Gallery width={width}>{visibleImages}</Gallery>
+  if (visibleImages.length === 0) return <Image thumbnail {...imageProps} />
+  else return <Image thumbnail {...imageProps} {...images[0]} />
+}
+
+const Header = styled(function ListingCardHeader({children, ...props}) {
   return (
     <View {...props}>
       <View
@@ -37,11 +40,7 @@ const Header = styled(function ListingCardHeader({
       >
         {children}
       </View>
-      {images.length ? (
-        <Gallery width={width}>{images.slice(0, 4)}</Gallery>
-      ) : (
-        <Image thumbnail width={width} {...imageSize} />
-      )}
+      <ListingImages {...props} />
     </View>
   )
 })`
@@ -70,13 +69,14 @@ function ListingCard({
   favorite,
   onFavorite,
   testUniqueID,
+  showImages,
   ...props
 }) {
   const innerWidth = parseInt(width) - parseInt(props.ml) - parseInt(props.mr)
   return (
     <View {...props}>
       <View testID={`listing_card(${testUniqueID})`}>
-        <Header images={images} width={innerWidth}>
+        <Header images={images} width={innerWidth} showImages={showImages}>
           <View style={{position: 'absolute', top: 10, right: 10}}>
             <FavoriteButton
               contrast
@@ -120,6 +120,7 @@ ListingCard.defaultProps = {
   testUniqueID: '',
   ml: 0,
   mr: 0,
+  showImages: 4,
   get width() {
     return Dimensions.get('window').width
   }
