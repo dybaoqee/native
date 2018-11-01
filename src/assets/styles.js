@@ -9,11 +9,11 @@ export const elevation = (value) =>
     },
     ios: {
       shadowColor: '#666',
-      shadowOpacity: 0.6,
-      shadowRadius: 4 * value / 5,
+      shadowOpacity: 0.35,
+      shadowRadius: value * 1.5,
       shadowOffset: {
         width: 0,
-        height: 2.5 * value / 5
+        height: value / 2
       }
     }
   })
