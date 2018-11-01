@@ -79,7 +79,7 @@ export default class ListingGallery extends PureComponent {
     const {width, height, ...imageProps} = this.imageProps
     // Placeholder
     if (Math.abs(index - currentIndex) > 2)
-      return <View key={image.filename} width={width} height={height} />
+      return <View key={index} width={width} height={height} />
     return (
       <TouchableOpacity
         accessible

@@ -94,7 +94,7 @@ class ListingScreen extends PureComponent {
     })
   }
 
-  onOpenTour = () =>
+  onOpenTour = () => {
     Navigation.showModal({
       component: {
         name: TourScreen.screenName,
@@ -104,6 +104,7 @@ class ListingScreen extends PureComponent {
         }
       }
     })
+  }
 
   onScroll = ({nativeEvent: {contentOffset, contentSize, layoutMeasurement}}) =>
     this.setState({
