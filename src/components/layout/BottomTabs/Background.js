@@ -24,8 +24,8 @@ const FloatingBackgroundImage = styled.Image.attrs({
   top: 0;
   resize-mode: stretch;
   margin-left: ${({theme}) => -(theme.size.bottomTabsBg.width / 2)};
-  width: ${themeGet('size.bottomTabsBg.width')};
-  height: ${themeGet('size.bottomTabsBg.height')};
+  width: ${themeGet('size.bottomTabsBg.width', 0)};
+  height: ${themeGet('size.bottomTabsBg.height', 0)};
 `
 
 export const BarBackgroundImage = styled.Image.attrs({
@@ -38,7 +38,7 @@ export const BarBackgroundImage = styled.Image.attrs({
   position: absolute;
   resize-mode: stretch;
   top: 0;
-  height: ${themeGet('size.bottomTabsBg.height')};
+  height: ${themeGet('size.bottomTabsBg.height', 0)};
   width: ${bgWidth};
   ${width};
   ${left};
@@ -75,5 +75,5 @@ export default styled(function TabBackground({children, hasButton, ...props}) {
   position: absolute;
   width: 100%;
   bottom: 0;
-  height: ${themeGet('size.bottomTabs')};
+  height: ${themeGet('size.bottomTabs', 0)};
 `

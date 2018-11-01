@@ -11,7 +11,8 @@ export default {
   },
   statusBar: {
     visible: true,
-    style: 'dark'
+    style: 'dark',
+    backgroundColor: 'white'
   },
   topBar: {
     buttonColor: theme.colors.pink,

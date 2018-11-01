@@ -68,5 +68,5 @@ export default styled(function Tabs({hasButton, tabs, ...props}) {
   align-items: stretch;
   justify-content: space-around;
   background-color: transparent;
-  height: ${themeGet('size.bottomTabs')};
+  height: ${themeGet('size.bottomTabs', 0)};
 `

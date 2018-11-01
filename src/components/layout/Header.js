@@ -35,14 +35,14 @@ const Title = styled(Text)`
   bottom: 0;
   font-size: 18;
   text-align: center;
-  line-height: ${themeGet('size.topBar')};
+  line-height: ${themeGet('size.topBar', 0)};
   ${({translucent, theme: {colors}}) =>
     translucent && `text-shadow: 0 1px 4px ${colors.dark}`};
 `
 
 const StatusBar = styled.View`
   z-index: 1;
-  height: ${themeGet('size.statusBar')};
+  height: ${themeGet('size.statusBar', 0)};
   width: 100%;
   ${bgColor};
 `
@@ -51,7 +51,7 @@ const TopBar = styled(View)`
   z-index: 1;
   background-color: white;
   justify-content: center;
-  min-height: ${themeGet('size.topBar')};
+  min-height: ${themeGet('size.topBar', 0)};
   ${({translucent, statusBar, theme}) =>
     Boolean(translucent) && {
       backgroundColor: 'transparent',

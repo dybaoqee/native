@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import React, {PureComponent} from 'react'
-import {TouchableWithoutFeedback} from 'react-native'
+import {TouchableOpacity} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
 import {View} from '@emcasa/ui-native'
 
@@ -81,8 +81,9 @@ export default class ListingGallery extends PureComponent {
     if (Math.abs(index - currentIndex) > 2)
       return <View key={image.filename} width={width} height={height} />
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
         key={index}
+        activeOpacity={0.95}
         disabled={!onPressImage}
         onPress={() => onPressImage(index)}
       >
@@ -97,7 +98,7 @@ export default class ListingGallery extends PureComponent {
             {...image}
           />
         )}
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     )
   }
 
@@ -111,7 +112,9 @@ export default class ListingGallery extends PureComponent {
         onLayout={this.onLayout}
       >
         <SwipeableView
+          keyboardShouldPersistTaps="always"
           ref={this.galleryRef}
+          index={index}
           onLayout={this.onLayout}
           style={{
             flex: 1,
