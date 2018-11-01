@@ -86,6 +86,7 @@ export default class ListingGallery extends PureComponent {
         activeOpacity={0.95}
         disabled={!onPressImage}
         onPress={() => onPressImage(index)}
+        style={{width: '100%', height: '100%'}}
       >
         {React.isValidElement(image) ? (
           image
