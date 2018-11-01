@@ -2,55 +2,57 @@ import styled from 'styled-components/native'
 import {Fragment} from 'react'
 import {themeGet} from 'styled-system'
 import {connect} from 'react-redux'
-import {View} from '@emcasa/ui-native'
 
 import getBottomTabs from '@/config/tabs'
 import {switchTab} from '@/screens/modules/navigation'
 import {getCurrentTabIndex} from '@/screens/modules/navigation/selectors'
 import {withUserProfile} from '@/graphql/containers'
-import Button, {ButtonContainer} from './Button'
+import Button from './Button'
 import Tabs from './Tabs'
-import {BackgroundImage, BackgroundColor} from './Background'
+import Background from './Background'
 import {compose} from 'recompose'
 
-const BaseBottomTabs = styled(function BottomTabs({
+const Center = styled.View.attrs({
+  pointerEvents: 'box-none'
+})`
+  z-index: 2;
+  position: absolute;
+  align-items: center;
+  bottom: 17px;
+  padding: 10px;
+  left: 50%;
+  margin-left: ${({theme}) => -(theme.size.bottomTabsBg.width / 2)};
+  width: ${themeGet('size.bottomTabsBg.width')};
+`
+
+const BaseBottomTabs = function BottomTabs({
+  testID,
   tabs,
   tabIndex,
   onChange,
   icon,
   type,
-  onPress,
-  ...props
+  onPress
 }) {
-  const hasChildren = Boolean(icon)
+  const hasButton = Boolean(icon)
   return (
-    <View {...props}>
-      {hasChildren && (
-        <ButtonContainer>
+    <Fragment>
+      {hasButton && (
+        <Center>
           <Button icon={icon} type={type} onPress={onPress} />
-        </ButtonContainer>
+        </Center>
       )}
-      <Tabs
-        tabs={tabs}
-        tabIndex={tabIndex}
-        hasChildren={hasChildren}
-        onChange={onChange}
-      />
-      {hasChildren ? (
-        <Fragment>
-          <BackgroundImage left={0} />
-          <BackgroundImage right={0} />
-        </Fragment>
-      ) : (
-        <BackgroundImage width={1.0} />
-      )}
-      <BackgroundColor />
-    </View>
+      <Background hasButton={hasButton} testID={testID}>
+        <Tabs
+          tabs={tabs}
+          tabIndex={tabIndex}
+          hasButton={hasButton}
+          onChange={onChange}
+        />
+      </Background>
+    </Fragment>
   )
-})`
-  position: relative;
-  height: ${themeGet('size.bottomTabs')};
-`
+}
 
 const BottomTabs = compose(
   withUserProfile,

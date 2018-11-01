@@ -30,7 +30,7 @@ class ListingTourScreen extends PureComponent {
       <Modal testID="@listing.Tour">
         <Body loading={loading} onLayout={this.onLayout}>
           <Modal.Header
-            iconColor="white"
+            absolute
             style={{marginTop: 60, justifyContent: 'flex-end'}}
             onDismiss={onDismiss}
           />

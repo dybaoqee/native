@@ -1,4 +1,4 @@
-import {Platform} from 'react-native'
+import {Platform, PixelRatio} from 'react-native'
 import {fas} from '@fortawesome/pro-solid-svg-icons'
 import {fal} from '@fortawesome/pro-light-svg-icons'
 import {fab} from '@fortawesome/free-brands-svg-icons'
@@ -6,6 +6,9 @@ import theme from '@emcasa/ui'
 
 export default {
   ...theme,
+  fontSizes: theme.fontSizes.map((size) =>
+    PixelRatio.roundToNearestPixel(size * 0.85)
+  ),
   icons: {
     default: fas,
     solid: fas,

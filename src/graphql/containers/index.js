@@ -28,3 +28,4 @@ export {
   withSignOutMutation
 } from './AuthMutation'
 export {withJwt, withUserProfile} from './CredentialsQuery'
+export {withDistricts} from './DistrictsQuery'

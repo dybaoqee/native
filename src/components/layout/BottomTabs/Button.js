@@ -1,38 +1,10 @@
-import {__, flow, at, get} from 'lodash/fp'
-import {Fragment} from 'react'
-import {Image} from 'react-native'
 import styled from 'styled-components/native'
-import {themeGet} from 'styled-system'
-import {top, bottom, zIndex} from 'styled-system'
 import LinearGradient from 'react-native-linear-gradient'
-import {View, Icon} from '@emcasa/ui-native'
+import {Icon} from '@emcasa/ui-native'
 
 import {touchable} from '@/components/shared/Touchable'
 
 const SIZE = 60
-
-const Overlay = styled.View`
-  position: absolute;
-  left: 50%;
-  margin-left: ${({theme}) => -(theme.size.bottomTabsBg.width / 2)};
-  width: ${themeGet('size.bottomTabsBg.width')}
-  height: ${flow(
-    at(['theme.size.bottomTabs', 'pv']),
-    ([h, pv]) => h + pv * 2
-  )};
-  padding-top: ${get('pv')};
-  flex: 1;
-  justify-content: flex-start;
-  align-items: center;
-  ${zIndex};
-  ${top};
-  ${bottom};
-`
-
-Overlay.defaultProps = {
-  pv: 0,
-  zIndex: 0
-}
 
 const ButtonIcon = styled(Icon)`
   transform: rotate(45deg);
@@ -62,30 +34,3 @@ const Button = styled(function Button({icon, type, active, ...props}) {
 `
 
 export default touchable(Button)
-
-const BackgroundImage = styled.Image.attrs({
-  source: {
-    ...Image.resolveAssetSource(
-      require('@/assets/img/bg-bottom-bar-floating-bt.png')
-    ),
-    cache: 'force-cache'
-  }
-})`
-  resize-mode: stretch;
-  width: ${themeGet('size.bottomTabsBg.width')};
-  height: ${themeGet('size.bottomTabsBg.height')};
-`
-
-/**
- *  Tab bar center button wrapper
- */
-export const ButtonContainer = ({children}) => (
-  <Fragment>
-    <Overlay zIndex={3} bottom={20} pv={10} pointerEvents="box-none">
-      {children}
-    </Overlay>
-    <Overlay zIndex={1} top={0} pointerEvents="none">
-      <BackgroundImage />
-    </Overlay>
-  </Fragment>
-)

@@ -3,7 +3,7 @@ import {PureComponent} from 'react'
 import {View, Image, TouchableOpacity} from 'react-native'
 import {connect} from 'react-redux'
 
-import {getSearchFilters} from '@/screens/modules/listings/Search/module/selectors'
+import {getSearchFilters} from '@/redux/modules/search/selectors'
 import {abbrevPrice} from '@/assets/format'
 import Text from '@/components/shared/Text'
 import styles from './styles'
@@ -23,7 +23,7 @@ activeFilters.types = ([...value]) => {
   if (value.length) return `${result} e ${value.length}+`
   return result
 }
-activeFilters.garage_spots = ({min, max}) => {
+activeFilters.garageSpots = ({min, max}) => {
   if (!max || max >= 4) return `${min}+ vagas`
   return `${min}-${max >= 4 ? '4+' : max} vagas`
 }
@@ -39,15 +39,16 @@ activeFilters.area = ({min, max}) => {
   if (!max || max >= 1000) return `${min}m²+`
   return `${min}-${max}m²`
 }
-activeFilters.neighborhoods = ([...value]) => {
-  const result = value.pop()
-  if (value.length) return `${result} e ${value.length}+`
+activeFilters.neighborhoodsSlugs = ([...value]) => {
+  const neighborhoods = value.map(_.upperFirst)
+  const result = neighborhoods.pop()
+  if (neighborhoods.length) return `${result} e ${neighborhoods.length}+`
   return result
 }
 
 const Icon = () => (
   <Image
-    style={[styles.icon, {width: 20, height: 33 * 20 / 54}]}
+    style={[styles.icon, {width: 20, height: (33 * 20) / 54}]}
     source={require('@/assets/img/filter-icon.png')}
   />
 )

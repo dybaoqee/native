@@ -9,13 +9,11 @@ import relatedListings from './relatedListings/saga'
 import gallery from './gallery/saga'
 import interest from './interest/saga'
 import neighborhoods from './neighborhoods/saga'
-import assets from './assets/saga'
 import screens from '@/screens/modules/saga'
 
 export default function* root() {
   yield all([
     fork(screens),
-    fork(assets),
     fork(firebase),
     fork(auth),
     fork(relatedListings),

@@ -53,13 +53,13 @@ const renderTabs = ({tabIndex, onChange}) => (tabs, offset = 0) =>
     )
   })
 
-export default styled(function Tabs({hasChildren, tabs, ...props}) {
+export default styled(function Tabs({hasButton, tabs, ...props}) {
   const [left, right] = chunk(tabs, Math.ceil(tabs.length / 2))
   const $renderTabs = renderTabs(props)
   return (
     <View zIndex={2} {...props}>
       {$renderTabs(left)}
-      {hasChildren && <View width={60} height={1} alignSelf="flex-end" />}
+      {hasButton && <View width={60} height={1} alignSelf="flex-end" />}
       {$renderTabs(right, left.length)}
     </View>
   )

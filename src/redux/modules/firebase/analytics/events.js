@@ -2,7 +2,7 @@ import {put, all, select, takeEvery} from 'redux-saga/effects'
 
 import * as auth from '@/redux/modules/auth'
 import * as interestForm from '@/redux/modules/interest/form'
-import * as listingsSearch from '@/screens/modules/listings/Search/module'
+import * as listingsSearch from '@/redux/modules/search'
 import {getInterestType} from '@/redux/modules/interest/types/selectors'
 import * as actions from './index'
 

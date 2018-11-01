@@ -556,6 +556,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				C3A71AC82176C6A200DDA9B9 /* libBVLinearGradient.a in Frameworks */,
 				C39C671E21543D3400F7ED61 /* libz.tbd in Frameworks */,
 				C39C66D321543BB000F7ED61 /* libCodePush.a in Frameworks */,
@@ -569,7 +570,6 @@
 				C3D6CCF5209774AA00E1D8D1 /* libRNSVG.a in Frameworks */,
 				C3D3B5C0205C4AB20004FBF1 /* libAirMaps.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
-				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,

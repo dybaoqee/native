@@ -23,7 +23,7 @@ class ListingGalleryScreen extends PureComponent {
     return (
       <Modal testID="@listing.Gallery">
         <Body loading={loading}>
-          <Modal.Header iconColor="white" onDismiss={onDismiss} />
+          <Modal.Header absolute onDismiss={onDismiss} />
           {data && <Gallery>{data.images}</Gallery>}
         </Body>
       </Modal>

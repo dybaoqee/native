@@ -1225,11 +1225,11 @@
     lodash.mapvalues "^4.6.0"
     slugify "^1.3.1"
 
-"@emcasa/ui-native@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.4.1.tgz#8050431a84e4f2810cf525dc607949e96715d1db"
+"@emcasa/ui-native@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.5.2.tgz#7a796818e1606612b4be25a96f9ddbd6daa26e03"
   dependencies:
-    "@emcasa/ui" "^0.4.1"
+    "@emcasa/ui" "^0.5.2"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     react-native-svg "^7.1.2"
@@ -1237,11 +1237,12 @@
     styled-icons "3.0.0"
     styled-system "3.1.6"
 
-"@emcasa/ui@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.4.1.tgz#d69fd3791b1b403b17675216480bef9b3ee5b92a"
+"@emcasa/ui@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.5.2.tgz#6bf05cc1434d0b817546b85564a5c243994aec86"
   dependencies:
     "@fortawesome/free-solid-svg-icons" "^5.4.1"
+    lodash.toarray "^4.4.0"
     styled-components "3.4.9"
     styled-icons "3.0.0"
     styled-system "3.1.6"
@@ -4370,6 +4371,10 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+final-form@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.10.0.tgz#6179bca7676925202510e9877eb1ad2ad1cd3460"
+
 finalhandler@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.0.tgz#ce0b6855b45853e791b2fcc680046d88253dd7f5"
@@ -6373,6 +6378,10 @@ lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
 
+lodash.toarray@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
+
 lodash@4.x.x, lodash@^4.16.6, lodash@^4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
@@ -7720,6 +7729,10 @@ react-event-listener@^0.6.0:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-final-form@^3.6.7:
+  version "3.6.7"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-3.6.7.tgz#c4d2e01e04674201b850cdd05ed5b67ff5ea06c5"
+
 react-is@^16.3.1, react-is@^16.3.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
@@ -7827,9 +7840,9 @@ react-native-modal-dropdown@^0.6.2:
   dependencies:
     prop-types "^15.6.0"
 
-react-native-navigation@^2.0.2582:
-  version "2.0.2582"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2582.tgz#cb2b15ed68b618f6ff2adb67e716352af0147d03"
+react-native-navigation@^2.0.2607:
+  version "2.0.2612"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.0.2612.tgz#ed856b83d1ca70e55375038357c65b5da5fc1845"
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.x.x"
@@ -7879,8 +7892,8 @@ react-native-svg@^6.4.1:
     pegjs "^0.10.0"
 
 react-native-svg@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-7.1.2.tgz#ccc7676c5181945e7d1122b763f66b98fa9cdbfd"
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-7.2.0.tgz#4a43e843938eb5edcb6a7ec34f0387d301533315"
   dependencies:
     color "^2.0.1"
     lodash "^4.16.6"

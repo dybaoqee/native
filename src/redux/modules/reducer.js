@@ -10,6 +10,7 @@ import gallery from './gallery'
 import interest from './interest'
 import firebase from './firebase'
 import neighborhoods from './neighborhoods'
+import search from './search'
 import screens from '@/screens/modules/reducer'
 
 const persistent = (reducer, options = {}) =>
@@ -26,6 +27,7 @@ const persistent = (reducer, options = {}) =>
 export default combineReducers({
   screens,
   network,
+  search: persistent(search, {whitelist: ['city']}),
   auth: persistent(auth, {whitelist: ['user']}),
   firebase: persistent(firebase, {whitelist: ['messaging']}),
   relatedListings,

@@ -3,7 +3,9 @@ import {createSelector} from 'reselect'
 
 const omitEmpty = _.omitBy(_.isEmpty)
 
-export const getSearchScreen = (state) => state.screens.listings.Search
+export const getSearchScreen = (state) => state.search
+
+export const getSearchCity = (state) => getSearchScreen(state).city
 
 export const getSearchFilters = (state) =>
   omitEmpty(getSearchScreen(state).filters || {})
@@ -16,14 +18,14 @@ const parseRange = (name, {min, max}) => ({
 export const getSearchFiltersQuery = createSelector(
   getSearchFilters,
   _.flow(
-    ({price, area, rooms, garage_spots, ...filters}) =>
+    ({price, area, rooms, garageSpots, ...filters}) =>
       Object.assign(
         {},
         filters,
         price && parseRange('price', price),
         area && parseRange('area', area),
         rooms && parseRange('rooms', rooms),
-        garage_spots && parseRange('garageSpots', garage_spots)
+        garageSpots && parseRange('garageSpots', garageSpots)
       ),
     _.pickBy(_.identity)
   )

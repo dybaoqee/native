@@ -4,16 +4,17 @@ import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed} from '@/graphql/containers'
-import {getSearchFiltersQuery} from '@/screens/modules/listings/Search/module/selectors'
+import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body, Header} from '@/components/layout'
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
 import InfiniteScroll from '@/containers/InfiniteScroll'
 import Feed from '@/components/listings/Feed/Listing'
+import SearchLocation from './Location'
 import SearchHeader from './Header'
 import ListEmpty from './ListEmpty'
 import ListHeader from './ListHeader'
 
-import SearchScreen from '@/screens/modules/listings/Search'
+import SearchFiltersScreen from '@/screens/modules/listings/Search'
 import ListingScreen from '@/screens/modules/listing/Listing'
 
 class ListingsFeedScreen extends PureComponent {
@@ -27,6 +28,10 @@ class ListingsFeedScreen extends PureComponent {
       height: 0,
       backButton: {title: 'Imóveis'}
     }
+  }
+
+  state = {
+    modalActive: false
   }
 
   componentDidDisappear() {
@@ -43,14 +48,15 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenSearch = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: SearchScreen.screenName,
-        passProps: this.props
-      }
+  onOpenFilters = () => {
+    Navigation.showModal({
+      component: {name: SearchFiltersScreen.screenName}
     })
   }
+
+  onOpenLocationSearch = () => this.setState({modalActive: true})
+
+  onCloseLocationSearch = () => this.setState({modalActive: false})
 
   onSelect = (id) => {
     Navigation.push(this.props.componentId, {
@@ -65,16 +71,24 @@ class ListingsFeedScreen extends PureComponent {
     const {
       listingsFeed: {loading, data, remainingCount}
     } = this.props
+    const {modalActive} = this.state
     return (
       <Shell
         testID="@listings.Feed"
         bottomTabs={{
-          icon: 'map-marker-alt',
-          onPress: this.onPressTabButton
+          icon: modalActive ? 'check' : 'map-marker-alt',
+          onPress: modalActive
+            ? this.onCloseLocationSearch
+            : this.onOpenLocationSearch
         }}
       >
+        <SearchLocation
+          visible={modalActive}
+          onDismiss={this.onCloseLocationSearch}
+          zIndex={2}
+        />
         <Header>
-          <SearchHeader onPress={this.onOpenSearch} />
+          <SearchHeader onPress={this.onOpenFilters} />
         </Header>
         <Body loading={loading}>
           <InfiniteScroll
@@ -103,5 +117,9 @@ class ListingsFeedScreen extends PureComponent {
 
 export default composeWithRef(
   connect((state) => ({filters: getSearchFiltersQuery(state)})),
-  withListingsFeed({pageSize: 15, fetchPolicy: 'network-only'})
+  withListingsFeed(({filters}) => ({
+    filters,
+    pageSize: 15,
+    fetchPolicy: 'cache-and-network'
+  }))
 )(ListingsFeedScreen)
