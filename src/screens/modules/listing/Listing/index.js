@@ -187,7 +187,7 @@ class ListingScreen extends PureComponent {
               height="tall"
               onPress={this.navigateTo({name: InterestFormScreen.screenName})}
             >
-              Marcar visitaa
+              Marcar visita
             </Button>
           </Footer>
         )}
