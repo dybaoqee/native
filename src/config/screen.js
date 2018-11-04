@@ -18,7 +18,7 @@ export default {
     buttonColor: theme.colors.pink,
     height: 50,
     elevation: 1,
-    borderColor: theme.colors.lightGrey,
+    borderColor: theme.colors.border,
     backButton: {
       icon: require('@/assets/img/back.png'),
       title: '',
@@ -27,7 +27,7 @@ export default {
     visible: true,
     animate: false,
     title: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: '400',
       color: theme.colors.dark,
       fontFamily: theme.fontFamily
