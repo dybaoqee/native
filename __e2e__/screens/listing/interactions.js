@@ -5,7 +5,7 @@ export async function navigate() {
   await waitFor(element(listings.nthCard(1)))
     .toBeVisible()
     .withTimeout(3000)
-  await element(listings.nthViewButton(1)).tap()
+  await element(listings.nthCard(1)).tap()
   await waitFor(element(map()))
     .toExist()
     .withTimeout(5000)
