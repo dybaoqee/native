@@ -5,28 +5,40 @@ import * as actions from './interactions'
 describe('listing', () => {
   beforeAll(actions.navigate)
 
-  it('displays a gallery in the thumbnail', async () => {
-    await expect(element(select.thumbnailGallery())).toBeVisible()
+  it('has a listing gallery', async () => {
+    await expect(element(select.headerGallery())).toBeVisible()
   })
 
-  it('opens the gallery modal', async () => {
-    await element(select.galleryButton()).tap()
-    await waitFor(element(select.listingScreen())).toBeNotVisible()
-    await expect(element(select.galleryScreen())).toBeVisible()
-    await element(shared.modalCloseButton()).tap()
-    await waitFor(element(select.galleryScreen())).toBeNotVisible()
-    await expect(element(select.galleryScreen())).toBeNotVisible()
+  describe('3d tour', () => {
+    const galleryTour = () =>
+      by.type('RCTWebView').withAncestor(select.headerGallery())
+    const mainTour = () =>
+      by.type('RCTWebview').withAncestor(select.tourScreen())
   })
 
-  it('opens the 3d tour modal', async () => {
-    await element(select.tourButton()).tap()
-    await waitFor(element(select.listingScreen())).toBeNotVisible()
-    await expect(element(select.tourScreen())).toBeVisible()
-    await expect(
-      element(by.type('RCTWebView').withAncestor(select.tourScreen()))
-    ).toExist()
-    await element(shared.modalCloseButton()).tap()
-    await waitFor(element(select.tourScreen())).toBeNotVisible()
-    await expect(element(select.tourScreen())).toBeNotVisible()
+  describe('gallery', () => {
+    const galleryImage = (index) =>
+      by.type('RCTImageView').withAncestor(select.gallerySlide(index))
+
+    it('has listing images', async () => {
+      await expect(element(galleryImage(1))).toBeVisible()
+      await element(select.headerGallery()).swipe('left', 'fast', 0.6)
+      await expect(element(galleryImage(2))).toBeVisible()
+    })
+
+    it('opens gallery modal at selected slide', async () => {
+      await element(select.headerGallery()).tap()
+      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await expect(element(select.galleryScreen())).toBeVisible()
+      await expect(
+        element(galleryImage(2).withAncestor(select.galleryScreen()))
+      )
+    })
+
+    it('closes gallery modal', async () => {
+      await element(shared.modalCloseButton()).tap()
+      await waitFor(element(select.galleryScreen())).toBeNotVisible()
+      await expect(element(select.galleryScreen())).toBeNotVisible()
+    })
   })
 })

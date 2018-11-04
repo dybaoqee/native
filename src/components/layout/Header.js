@@ -71,15 +71,20 @@ function Header({children, backButton, rightButtons, ...props}) {
   return (
     <Fragment>
       {Boolean(props.statusBar) && <StatusBar {...statusBarProps} />}
-      <TopBar {...props}>
-        <Row alignItems="center" flex={1} style={{position: 'relative'}}>
+      <TopBar {...props} pointerEvents="box-none">
+        <Row
+          alignItems="center"
+          flex={1}
+          style={{position: 'relative'}}
+          pointerEvents="box-none"
+        >
           {Boolean(backButton) && (
-            <Col zIndex={1} ml="15px">
+            <Col zIndex={1} ml="15px" pointerEvents="box-none">
               <BackButton componentId={backButton} {...childProps} />
             </Col>
           )}
           {Boolean(rightButtons) && (
-            <Col zIndex={1} flex={1} mr="15px">
+            <Col zIndex={1} flex={1} mr="15px" pointerEvents="box-none">
               <Row justifyContent="flex-end">{rightButtons}</Row>
             </Col>
           )}

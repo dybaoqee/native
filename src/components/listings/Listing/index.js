@@ -21,7 +21,7 @@ export default class ListingView extends Component {
     const {ready} = this.state
     return (
       <View style={styles.container}>
-        <Header active={ready} testID="listing_thumbnail" {...this.props} />
+        <Header active={ready} testID="listing_header" {...this.props} />
         <Properties {...this.props} />
         <Description {...this.props} />
         {ready && (

@@ -82,6 +82,8 @@ export default class ListingGallery extends PureComponent {
       return <View key={image.filename} width={width} height={height} />
     return (
       <TouchableOpacity
+        accessible
+        testID={`gallery_slide(${index + 1})`}
         key={index}
         activeOpacity={0.95}
         disabled={!onPressImage}
@@ -104,7 +106,7 @@ export default class ListingGallery extends PureComponent {
   }
 
   render() {
-    const {scalable, style, props} = this.props
+    const {scalable, style, testID, ...props} = this.props
     const {index} = this.state
     return (
       <View
@@ -113,6 +115,7 @@ export default class ListingGallery extends PureComponent {
         onLayout={this.onLayout}
       >
         <SwipeableView
+          testID={testID}
           keyboardShouldPersistTaps="always"
           ref={this.galleryRef}
           index={index}
@@ -132,7 +135,7 @@ export default class ListingGallery extends PureComponent {
         <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
           <Pagination
             displayText={scalable}
-            currentPosition={index}
+            index={index}
             totalPages={this.items.length}
           />
         </View>

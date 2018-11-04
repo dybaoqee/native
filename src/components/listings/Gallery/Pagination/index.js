@@ -17,13 +17,10 @@ export default class GalleryPagination extends PureComponent {
   }
 
   get cappedPosition() {
-    const {currentPosition, totalPages} = this.props
+    const {index, totalPages} = this.props
     const {length} = this.state
     const {max, min, floor} = Math
-    return max(
-      length - (totalPages - currentPosition),
-      min(currentPosition, floor(length / 2))
-    )
+    return max(length - (totalPages - index), min(index, floor(length / 2)))
   }
 
   calculateLayout() {
@@ -62,7 +59,7 @@ export default class GalleryPagination extends PureComponent {
   }
 
   componentDidUpdate(prev) {
-    if (prev.currentPosition !== this.props.currentPosition) this.updateLayout()
+    if (prev.index !== this.props.index) this.updateLayout()
   }
 
   renderIcon = (index) => {
@@ -80,14 +77,14 @@ export default class GalleryPagination extends PureComponent {
   }
 
   render() {
-    const {displayText, currentPosition, totalPages} = this.props
+    const {displayText, index, totalPages} = this.props
     const {length} = this.state
     return (
       <View style={styles.container}>
         {displayText && (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
-              {currentPosition} / {totalPages}
+              {index + 1} / {totalPages}
             </Text>
           </View>
         )}

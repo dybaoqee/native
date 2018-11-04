@@ -27,14 +27,11 @@ export default class ListingHeader extends PureComponent {
     const images = this.props.images.slice(0, 4)
     return images
   }
-  onPressSlide = (index) => {
-    if (index === 0) this.onPressTour(index)
-    else this.onPressImage(index)
+
+  onPressImage = (index) => {
+    if (index === 0) this.props.onOpenTour()
+    else this.props.onOpenGallery(index)
   }
-
-  onPressImage = (index) => this.props.onOpenGallery(index)
-
-  onPressTour = () => {}
 
   render() {
     const {testID, matterportCode} = this.props
@@ -49,7 +46,7 @@ export default class ListingHeader extends PureComponent {
               testID={`${testID}_gallery`}
               width={width}
               height={height}
-              onPressImage={this.onPressSlide}
+              onPressImage={this.onPressImage}
             >
               {images}
             </Gallery>

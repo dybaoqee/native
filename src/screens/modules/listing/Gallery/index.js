@@ -30,6 +30,7 @@ class ListingGalleryScreen extends PureComponent {
           {data && (
             <Gallery
               scalable
+              testID="listing_gallery"
               initialIndex={index}
               {...pick(Dimensions.get('window'), 'width', 'height')}
             >
