@@ -151,7 +151,7 @@ class ListingScreen extends PureComponent {
       <Shell>
         <Header.StatusBar bg="white" />
         <Body
-          scroll
+          scroll={!loading}
           loading={loading}
           onScroll={this.onScroll}
           scrollEventThrottle={10}
