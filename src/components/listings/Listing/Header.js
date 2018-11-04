@@ -38,7 +38,7 @@ const PlayButton = styled((props) => (
 ))`
   width: 75px;
   height: 75px;
-  margin-top: ${themeGet('size.statusBar')};
+  margin-top: ${themeGet('size.statusBar')}px;
   justify-content: center;
   align-items: center;
   border-radius: 100px;
@@ -74,8 +74,8 @@ export default class ListingHeader extends PureComponent {
   }
 
   onPressImage = (index) => {
-    if (index === 0) this.props.onOpenTour(index)
-    else this.props.onOpenGallery(index)
+    if (index === 0) this.props.onOpenTour()
+    else this.props.onOpenGallery(index - 1)
   }
 
   renderTour() {
