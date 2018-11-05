@@ -33,7 +33,8 @@ class ListingScreen extends PureComponent {
   }
 
   state = {
-    bounces: false
+    bounces: false,
+    visible: false
   }
 
   get shareOptions() {
@@ -54,6 +55,14 @@ class ListingScreen extends PureComponent {
       url: `${FRONTEND_URL}/imoveis/${stateSlug}/${citySlug}/${neighborhoodSlug}/${streetSlug}/id-${id}`,
       message: `${type} na ${street}, ${neighborhood}, ${city}`
     }
+  }
+
+  componentDidAppear() {
+    this.setState({visible: true})
+  }
+
+  componentDidDisappear() {
+    this.setState({visible: false})
   }
 
   componentDidMount() {
@@ -145,7 +154,7 @@ class ListingScreen extends PureComponent {
       listing: {data, loading},
       componentId
     } = this.props
-    const {bounces} = this.state
+    const {bounces, visible} = this.state
 
     const isActive = data && data.isActive
     return (
@@ -170,6 +179,7 @@ class ListingScreen extends PureComponent {
           {data && (
             <Listing
               {...data}
+              ready={visible}
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}

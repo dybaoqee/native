@@ -9,6 +9,7 @@ import Pagination from './Pagination'
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
+    lazy: true,
     initialIndex: 0,
     paginationDelta: 2
   }
@@ -74,11 +75,11 @@ export default class ListingGallery extends PureComponent {
   }
 
   renderImage = (image, index) => {
-    const {onPressImage} = this.props
+    const {lazy, onPressImage} = this.props
     const {index: currentIndex} = this.state
     const {width, height, ...imageProps} = this.imageProps
     // Placeholder
-    if (Math.abs(index - currentIndex) > 2)
+    if (lazy && Math.abs(index - currentIndex) > 2)
       return <View key={index} width={width} height={height} />
     return (
       <TouchableOpacity

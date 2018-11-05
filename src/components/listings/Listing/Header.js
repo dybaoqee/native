@@ -72,10 +72,9 @@ const injectCssScript = (css) => `requestAnimationFrame(function() {
 });`
 
 const openFloorPlanScript = () => `
-setTimeout(function openFloorPlan() {
+setTimeout(function () {
   const element = document.querySelector(".ui-icon.floorplan");
-  if (!element) { setTimeout(openFloorPlan, 500); }
-  else { element.click(); }
+  element.click();
 }, 2500);
 `
 
@@ -97,27 +96,35 @@ export default class ListingHeader extends PureComponent {
 
   renderTour() {
     return (
-      <View key={this.props.matterportCode} width="100%" height="100%">
+      <View
+        key={this.props.matterportCode}
+        bg="dark"
+        width="100%"
+        height="100%"
+      >
         <TourOverlay />
-        <Matterport
-          play={false}
-          code={this.props.matterportCode}
-          injectedJavaScript={`
-          ${injectCssScript('#cta-container {display: none}')}
-          ${openFloorPlanScript()}
-          `.trim()}
-          pointerEvents="none"
-          q={{
-            title: 0, // Hide top bar
-            help: 0, // Don't show help
-            hl: 0, // Don't show highlight reel
-            vr: 0, // Hide VR button
-            dh: 1, // Hide dollhouse & floor-plan buttons
-            gt: 0, // Hide guided tour button
-            qs: 1,
-            ts: 0
-          }}
-        />
+        {this.props.ready && (
+          <Matterport
+            useWebKit
+            play={false}
+            code={this.props.matterportCode}
+            injectedJavaScript={`
+            ${injectCssScript('#cta-container {display: none}')}
+            ${openFloorPlanScript()}
+            `.trim()}
+            pointerEvents="none"
+            q={{
+              title: 0, // Hide top bar
+              help: 0, // Don't show help
+              hl: 0, // Don't show highlight reel
+              vr: 0, // Hide VR button
+              dh: 1, // Hide dollhouse & floor-plan buttons
+              gt: 0, // Hide guided tour button
+              qs: 1,
+              ts: 0
+            }}
+          />
+        )}
       </View>
     )
   }
@@ -132,6 +139,7 @@ export default class ListingHeader extends PureComponent {
         <GalleryContainer testID={testID} width={width} height={height}>
           {images && images.length ? (
             <Gallery
+              lazy={false}
               testID={`${testID}_gallery`}
               width={width}
               height={height}
