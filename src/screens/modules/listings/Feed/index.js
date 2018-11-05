@@ -1,8 +1,8 @@
-import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
 
+import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed} from '@/graphql/containers'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
@@ -21,15 +21,20 @@ import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
 
-  static get options() {
-    return {
-      topBar: {
-        title: {text: 'Explorar'},
-        backButton: {title: 'Imóveis'},
-        leftButtons: [
-          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
-        ]
-      }
+  static options = {
+    topBar: {
+      title: {text: 'Explorar'},
+      backButton: {title: 'Imóveis'},
+      leftButtons: [
+        {id: 'listings_feed_logo', component: {name: HeaderLogo.screenName}}
+      ],
+      rightButtons: [
+        {
+          id: 'search_filters',
+          icon: require('@/assets/img/filter.png'),
+          color: theme.colors.grey
+        }
+      ]
     }
   }
 
@@ -42,6 +47,14 @@ class ListingsFeedScreen extends PureComponent {
       listingsFeed: {loading, updateBlacklists}
     } = this.props
     if (!loading) updateBlacklists()
+  }
+
+  navigationButtonPressed({buttonId}) {
+    if (buttonId === 'search_filters') {
+      Navigation.showModal({
+        component: {name: SearchFiltersScreen.screenName}
+      })
+    }
   }
 
   onLoadMore = () => {
