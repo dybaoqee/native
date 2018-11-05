@@ -16,19 +16,6 @@ const GalleryContainer = styled.View`
   ${height};
 `
 
-const addressDescription = ({type, address: {street, city}}) =>
-  `${type} na ${street}, ${city}`
-
-const injectCssScript = (css) => `requestAnimationFrame(function() {
-  var css = '${css.replace(' ', '')}';
-  var node = document.createElement('style');
-  node.type = 'text/css';
-  document.body.appendChild(node);
-  if ('textContent' in node) { node.textContent = css; }
-  else { node.innerText = css; }
-  window.node = node;
-});`
-
 const PlayButton = styled((props) => (
   <View {...props}>
     <View mt="-5px">
@@ -38,7 +25,6 @@ const PlayButton = styled((props) => (
 ))`
   width: 75px;
   height: 75px;
-  margin-top: ${themeGet('size.statusBar', 0)};
   justify-content: center;
   align-items: center;
   border-radius: 100px;
@@ -60,6 +46,27 @@ const TourOverlay = styled((props) => (
   align-items: center;
   background-color: ${themeGet('colors.dark')};
   opacity: 0.45;
+`
+
+const addressDescription = ({type, address: {street, city}}) =>
+  `${type} na ${street}, ${city}`
+
+const injectCssScript = (css) => `requestAnimationFrame(function() {
+  var css = '${css.replace(' ', '')}';
+  var node = document.createElement('style');
+  node.type = 'text/css';
+  document.body.appendChild(node);
+  if ('textContent' in node) { node.textContent = css; }
+  else { node.innerText = css; }
+  window.node = node;
+});`
+
+const openFloorPlanScript = () => `
+setTimeout(function openFloorPlan() {
+  const element = document.querySelector(".ui-icon.floorplan");
+  if (!element) { setTimeout(openFloorPlan, 500); }
+  else { element.click(); }
+}, 2500);
 `
 
 export default class ListingHeader extends PureComponent {
@@ -85,15 +92,19 @@ export default class ListingHeader extends PureComponent {
         <Matterport
           play={false}
           code={this.props.matterportCode}
-          injectedJavaScript={injectCssScript('#cta-container {display: none}')}
+          injectedJavaScript={`
+          ${injectCssScript('#cta-container {display: none}')}
+          ${openFloorPlanScript()}
+          `.trim()}
           pointerEvents="none"
           q={{
             title: 0, // Hide top bar
             help: 0, // Don't show help
             hl: 0, // Don't show highlight reel
             vr: 0, // Hide VR button
-            dh: 0, // Hide dollhouse button
+            dh: 1, // Hide dollhouse & floor-plan buttons
             gt: 0, // Hide guided tour button
+            qs: 1,
             ts: 0
           }}
         />
