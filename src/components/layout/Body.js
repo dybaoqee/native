@@ -1,55 +1,34 @@
 import {PureComponent} from 'react'
-import {
-  View,
-  ScrollView,
-  ActivityIndicator,
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import {ScrollView as RCTScrollView, ActivityIndicator} from 'react-native'
+import styled from 'styled-components/native'
+import {justifyContent, alignItems} from 'styled-system'
+import {View as BaseView} from '@emcasa/ui-native'
 
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
-import * as colors from '@/assets/colors'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    zIndex: 0
-  },
-  overlay: {
-    zIndex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff20'
-  },
-  statusBar: {
-    zIndex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: 30,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 5,
-    paddingHorizontal: 15
-  },
-  body: {
-    flex: 1,
-    zIndex: 0
-  }
-})
+const View = styled(BaseView)`
+  ${justifyContent};
+  ${alignItems};
+`
+
+const ScrollView = View.withComponent(RCTScrollView)
+
+const Overlay = styled.View`
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff20;
+`
 
 export default class Body extends PureComponent {
   state = {
-    children: undefined,
-    layout: {
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height - 50
-    }
+    children: undefined
   }
 
   static getDerivedStateFromProps({children, loading}) {
@@ -58,19 +37,15 @@ export default class Body extends PureComponent {
   }
 
   renderOverlay() {
-    const {children, layout} = this.state
     return (
-      <View style={[layout, children ? styles.statusBar : styles.overlay]}>
-        <ActivityIndicator
-          size={children ? 'small' : 'large'}
-          color={colors.blue.medium}
-        />
-      </View>
+      <Overlay>
+        <ActivityIndicator size="large" />
+      </Overlay>
     )
   }
 
   render() {
-    const {style, scroll, loading, testID, hasBottomTabs, ...props} = this.props
+    const {scroll, loading, testID, hasBottomTabs, ...props} = this.props
     const {children} = this.state
     const ViewComponent = scroll ? ScrollView : View
 
@@ -78,11 +53,12 @@ export default class Body extends PureComponent {
       <ViewComponent
         automaticallyAdjustContentInsets={false}
         testID={testID}
-        style={[styles.container, style]}
+        zIndex={1}
+        flex={1}
         {...props}
       >
-        {loading && this.renderOverlay()}
-        <View style={styles.body}>{children}</View>
+        {Boolean(loading && !children) && this.renderOverlay()}
+        {children}
       </ViewComponent>
     )
     if (!(scroll && hasBottomTabs)) return component
