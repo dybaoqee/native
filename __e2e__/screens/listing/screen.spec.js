@@ -10,10 +10,27 @@ describe('listing', () => {
   })
 
   describe('3d tour', () => {
-    const galleryTour = () =>
-      by.type('RCTWebView').withAncestor(select.headerGallery())
-    const mainTour = () =>
-      by.type('RCTWebview').withAncestor(select.tourScreen())
+    const tourView = () => by.type('RCTWebView')
+    const galleryTour = () => tourView().withAncestor(select.gallerySlide(1))
+
+    it('has a 3d tour', async () => {
+      await expect(element(galleryTour())).toBeVisible()
+    })
+
+    it('opens tour modal', async () => {
+      await element(select.headerGallery()).tap()
+      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await expect(element(select.tourScreen())).toBeVisible()
+      await expect(
+        element(tourView().withAncestor(select.tourScreen()))
+      ).toBeVisible()
+    })
+
+    it('closes tour modal', async () => {
+      await element(shared.modalCloseButton()).tap()
+      await waitFor(element(select.galleryScreen())).toBeNotVisible()
+      await expect(element(select.galleryScreen())).toBeNotVisible()
+    })
   })
 
   describe('gallery', () => {
@@ -21,9 +38,10 @@ describe('listing', () => {
       by.type('RCTImageView').withAncestor(select.gallerySlide(index))
 
     it('has listing images', async () => {
-      await expect(element(galleryImage(1))).toBeVisible()
-      await element(select.headerGallery()).swipe('left', 'fast', 0.6)
+      await actions.swipeGallery()
       await expect(element(galleryImage(2))).toBeVisible()
+      await actions.swipeGallery()
+      await expect(element(galleryImage(3))).toBeVisible()
     })
 
     it('opens gallery modal at selected slide', async () => {
@@ -31,8 +49,8 @@ describe('listing', () => {
       await waitFor(element(select.listingScreen())).toBeNotVisible()
       await expect(element(select.galleryScreen())).toBeVisible()
       await expect(
-        element(galleryImage(2).withAncestor(select.galleryScreen()))
-      )
+        element(select.gallerySlide(2).withAncestor(select.galleryScreen()))
+      ).toBeVisible()
     })
 
     it('closes gallery modal', async () => {

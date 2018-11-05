@@ -12,19 +12,22 @@ export default class ListingView extends Component {
     ready: false
   }
 
+  get ready() {
+    return this.state.ready && this.props.ready
+  }
+
   componentDidMount() {
     requestAnimationFrame(() => this.setState({ready: true}))
   }
 
   render() {
     const {address} = this.props
-    const {ready} = this.state
     return (
       <View style={styles.container}>
-        <Header active={ready} testID="listing_header" {...this.props} />
+        <Header ready={this.ready} testID="listing_header" {...this.props} />
         <Properties {...this.props} />
         <Description {...this.props} />
-        {ready && (
+        {this.ready && (
           <View testID="listing_map">
             <Map zoom="close" style={styles.map} {...address}>
               <Marker styles={markerStyles} address={address}>
