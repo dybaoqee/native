@@ -24,10 +24,10 @@ export default (Screen) =>
       return instance
     }
 
-    resendEvent = (eventName, params) => {
+    resendEvent = (eventName, ...params) => {
       const instance = this.getWrappedInstance()
       if (instance && instance[eventName]) {
-        instance[eventName](params)
+        instance[eventName](...params)
       }
     }
 
@@ -37,6 +37,10 @@ export default (Screen) =>
 
     componentDidDisappear() {
       this.resendEvent('componentDidDisappear')
+    }
+
+    navigationButtonPressed(...params) {
+      this.resendEvent('navigationButtonPressed', ...params)
     }
 
     render() {

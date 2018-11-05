@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 
@@ -8,6 +9,7 @@ import Feed from '@/components/listings/Feed/Listing'
 import ListEmpty from './ListEmpty'
 
 import ListingScreen from '@/screens/modules/listing/Listing'
+import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 
 class FavoritesScreen extends PureComponent {
   static defaultProps = {
@@ -16,10 +18,15 @@ class FavoritesScreen extends PureComponent {
 
   static screenName = 'account.Favorites'
 
-  static options = {
-    topBar: {
-      title: {text: 'Meus imóveis favoritos'},
-      backButton: {title: 'Favoritos'}
+  static get options() {
+    return {
+      topBar: {
+        title: {text: 'Meus imóveis favoritos'},
+        backButton: {title: 'Favoritos'},
+        leftButtons: [
+          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
+        ]
+      }
     }
   }
 
