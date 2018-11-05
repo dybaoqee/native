@@ -23,6 +23,7 @@ const PlayButton = styled((props) => (
     </View>
   </View>
 ))`
+  z-index: 1;
   width: 75px;
   height: 75px;
   justify-content: center;
@@ -33,9 +34,20 @@ const PlayButton = styled((props) => (
   transform: rotate(90deg);
 `
 
+const Background = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: ${themeGet('colors.dark')};
+  opacity: 0.45;
+`
+
 const TourOverlay = styled((props) => (
   <View {...props}>
     <PlayButton />
+    <Background />
   </View>
 ))`
   z-index: 1;
@@ -44,8 +56,6 @@ const TourOverlay = styled((props) => (
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: ${themeGet('colors.dark')};
-  opacity: 0.45;
 `
 
 const addressDescription = ({type, address: {street, city}}) =>
