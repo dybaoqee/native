@@ -15,7 +15,7 @@ import RecommendedFilters from '@/components/listings/RecommendedFilters'
 function ListHeader({hasFilters, filters, updateFilters}) {
   const onChange = (nextValue) => updateFilters({...filters, ...nextValue})
   return (
-    <View mb="5px" mt="5px" mr="15px" ml="15px">
+    <View mb="5px" mt="25px" mr="15px" ml="15px">
       <View mb="15px">
         {hasFilters ? (
           <ActiveFilters filters={filters} onChange={onChange} />
