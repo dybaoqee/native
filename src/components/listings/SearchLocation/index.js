@@ -10,7 +10,7 @@ import Form from './Form'
 
 const Body = styled.View`
   position: absolute;
-  bottom: ${themeGet('size.bottomTabs')};
+  bottom: ${themeGet('size.bottomTabs', 0)};
   width: 100%;
   margin-horizontal: 30px;
   margin-bottom: 45px;

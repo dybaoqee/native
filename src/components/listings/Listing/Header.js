@@ -38,7 +38,7 @@ const PlayButton = styled((props) => (
 ))`
   width: 75px;
   height: 75px;
-  margin-top: ${themeGet('size.statusBar')}px;
+  margin-top: ${themeGet('size.statusBar', 0)};
   justify-content: center;
   align-items: center;
   border-radius: 100px;
