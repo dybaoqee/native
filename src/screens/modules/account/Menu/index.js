@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
@@ -11,16 +12,20 @@ import AccountHeader from './Header'
 
 import EditProfileScreen from '@/screens/modules/account/EditProfile'
 import UserListingsScreen from '@/screens/modules/account/Listings'
+import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 
 class AccountMenuScreen extends PureComponent {
   static screenName = 'account.Menu'
 
-  static options = {
-    topBar: {
-      visible: false,
-      drawBehind: true,
-      height: 0,
-      backButton: {title: 'Perfil'}
+  static get options() {
+    return {
+      topBar: {
+        title: {text: 'Meu Perfil'},
+        backButton: {title: 'Meu Perfil'},
+        leftButtons: [
+          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
+        ]
+      }
     }
   }
 
