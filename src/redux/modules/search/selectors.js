@@ -1,5 +1,5 @@
 import _ from 'lodash/fp'
-import {isEqual, isEqualWith} from 'lodash'
+import {isEqualWith} from 'lodash'
 import {createSelector} from 'reselect'
 
 import {initialState} from './index'
@@ -7,8 +7,8 @@ import {initialState} from './index'
 const omitEmpty = _.omitBy(_.isEmpty)
 
 const compareFilter = (a, b) => {
-  if (_.isArray(a) && _.isArray(b)) return _.isEqual(a.sort(), b.sort())
-  return isEqual(a, b)
+  if (_.isArray(a) && _.isArray(b))
+    return _.isEqual(a.slice().sort(), b.slice().sort())
 }
 
 export const getSearchScreen = (state) => state.search
