@@ -1,31 +1,38 @@
-import {View, StyleSheet} from 'react-native'
+import fp, {__} from 'lodash/fp'
+import {View, Text} from '@emcasa/ui-native'
+import styled from 'styled-components/native'
 
-import Icon from '@/components/shared/Icon'
-import * as colors from '@/assets/colors'
+const initials = (name) => {
+  const nameParts = name.split(' ', 2)
+  if (nameParts.length === 1) return name.slice(0, 2).toUpperCase()
+  else return (nameParts[0][0] + nameParts[1][0]).toUpperCase()
+}
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 46,
-    width: 46,
-    borderRadius: 23,
-    backgroundColor: colors.gray.offWhite,
-    borderWidth: 1,
-    borderColor: colors.gray.lighter
-  }
-})
-
-export default function Avatar() {
+const Avatar = styled(function Avatar({user, color, fontSize, ...props}) {
   return (
-    <View style={styles.container}>
-      <Icon
-        size={29}
-        name="user-circle"
-        type="solid"
-        color={colors.gray.medium}
-      />
+    <View {...props}>
+      <Text fontSize={fontSize} color={color}>
+        {initials(user.name)}
+      </Text>
     </View>
   )
+})`
+  border-radius: ${fp.flow(
+    fp.get('size'),
+    parseInt,
+    fp.divide(__, 2)
+  )};
+  width: ${fp.get('size')};
+  height: ${fp.get('size')};
+  justify-content: center;
+  align-items: center;
+`
+
+export default Avatar
+
+Avatar.defaultProps = {
+  size: '90px',
+  fontSize: '38px',
+  color: 'white',
+  bg: 'blue'
 }

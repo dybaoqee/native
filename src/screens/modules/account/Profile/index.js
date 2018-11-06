@@ -43,7 +43,7 @@ class UserProfileScreen extends PureComponent {
             <Profile
               user={user}
               onSignOut={this.onSignOut}
-              onEditProfile={this.EditProfileScreen}
+              onEditProfile={this.onEditProfile}
             />
           )}
         </Body>
