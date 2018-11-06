@@ -5,7 +5,7 @@ import * as actions from './interactions'
 describe('listing', () => {
   beforeAll(actions.navigate)
 
-  it('displays a gallery in the thumbnail', async () => {
+  it.skip('displays a gallery in the thumbnail', async () => {
     await expect(element(select.thumbnailGallery())).toBeVisible()
   })
 
