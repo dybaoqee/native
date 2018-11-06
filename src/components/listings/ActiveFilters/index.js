@@ -38,7 +38,6 @@ const Filter = styled(function Filter({children, onPress, ...props}) {
 
 function FilterArray({name, value, onChange}) {
   const toString = parse[name] || _.identity
-  if (name === 'types' && value.length === 3) return null
   return (
     <Fragment>
       {value.map((val) => (
