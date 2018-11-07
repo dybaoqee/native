@@ -8,7 +8,8 @@ import {updateStackRoot} from '@/screens/modules/navigation'
 import {
   withUserListings,
   withSignOutMutation,
-  withUserProfile
+  withUserProfile,
+  withJwt
 } from '@/graphql/containers'
 import {Shell, Body} from '@/components/layout'
 import Avatar from '@/components/account/Avatar'
@@ -134,23 +135,25 @@ class UserProfileScreen extends PureComponent {
   }
 
   render() {
-    const {user} = this.props
+    const {user, jwt} = this.props
     const {isEditing} = this.state
 
     return (
       <Shell bottomTabs>
-        <Body scroll bounces={false} mb="auto" height="auto">
-          <Row
-            height={Dimensions.get('window').height / 3.5}
-            justifyContent="center"
-            alignItems="flex-end"
-          >
-            <Avatar user={user} />
-          </Row>
-          <Row flex={1} m="25px" mb="15px">
-            {isEditing ? this.renderProfileForm() : this.renderProfile()}
-          </Row>
-        </Body>
+        {Boolean(jwt) && (
+          <Body scroll bounces={false} mb="auto" height="auto">
+            <Row
+              height={Dimensions.get('window').height / 3.5}
+              justifyContent="center"
+              alignItems="flex-end"
+            >
+              <Avatar user={user} />
+            </Row>
+            <Row flex={1} m="25px" mb="15px">
+              {isEditing ? this.renderProfileForm() : this.renderProfile()}
+            </Row>
+          </Body>
+        )}
       </Shell>
     )
   }
@@ -163,5 +166,6 @@ export default composeWithRef(
   ),
   withSignOutMutation,
   withUserListings,
-  withUserProfile
+  withUserProfile,
+  withJwt
 )(UserProfileScreen)

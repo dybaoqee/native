@@ -1,6 +1,6 @@
 import {PureComponent} from 'react'
 import * as Final from 'react-final-form'
-import {View, Col, Text, Input} from '@emcasa/ui-native'
+import {View, Col, Input} from '@emcasa/ui-native'
 import composeValidations, * as validations from '@/lib/validations'
 
 function Field({children, ...props}) {
