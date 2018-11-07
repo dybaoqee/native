@@ -2,7 +2,7 @@ import fp, {__} from 'lodash/fp'
 import {View, Text} from '@emcasa/ui-native'
 import styled from 'styled-components/native'
 
-const initials = (name) => {
+const initials = (name = '') => {
   const nameParts = name.split(' ', 2)
   if (nameParts.length === 1) return name.slice(0, 2).toUpperCase()
   else return (nameParts[0][0] + nameParts[1][0]).toUpperCase()
