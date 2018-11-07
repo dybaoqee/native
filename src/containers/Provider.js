@@ -4,11 +4,10 @@ import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
 import {ApolloProvider} from 'react-apollo'
 import {Navigation} from 'react-native-navigation'
-import {ThemeProvider} from 'styled-components'
 
 import defaultOptions from '@/config/screen'
-import theme from '@/config/theme'
 import client from '@/lib/client'
+import ThemeProvider from './ThemeProvider'
 import ScreenDelegator from './ScreenDelegator'
 
 export default class AppProvider extends PureComponent {
@@ -27,7 +26,7 @@ export default class AppProvider extends PureComponent {
     return (
       <Provider store={client.store}>
         <PersistGate persistor={client.store.persistor}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider>
             <ApolloProvider client={client.graphql}>{children}</ApolloProvider>
           </ThemeProvider>
         </PersistGate>
