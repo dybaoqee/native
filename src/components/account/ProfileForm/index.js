@@ -1,54 +1,66 @@
-import {Component} from 'react'
-import {View} from 'react-native'
+import {PureComponent} from 'react'
+import * as Final from 'react-final-form'
+import {View, Col, Text, Input} from '@emcasa/ui-native'
 
-import {required} from '@/lib/validations'
-import Form from '@/components/shared/Form/Form'
-import Email from '@/components/shared/Form/Email'
-import Phone from '@/components/shared/Form/Phone'
-import TextInput from '@/components/shared/Form/TextInput'
-import Button from '../FormButton'
-import Section from '../FormSection'
-import styles from './styles'
+function Field({children, ...props}) {
+  return (
+    <Final.Field {...props}>
+      {(field) => <View mb="15px">{children(field)}</View>}
+    </Final.Field>
+  )
+}
 
-export default class ProfileForm extends Component {
+export default class ProfileForm extends PureComponent {
   isInputActive = (key) =>
     this.props.value[key] !== (this.props.user[key] || '')
 
   render() {
-    const {onEditPassword, onEditNotifications, ...props} = this.props
+    const {onChange, onSubmit, initialValues} = this.props
 
     return (
-      <View style={styles.container}>
-        <Form style={styles.form} {...props}>
-          <Section active={this.isInputActive('name')} title="Nome completo">
-            <TextInput
-              style={styles.input}
-              name="name"
-              placeholder="Nome"
-              validations={[required('O nome é obrigatório')]}
+      <Final.Form initialValues={initialValues} onSubmit={onSubmit}>
+        {({form}) => (
+          <Col flex={1}>
+            <Field name="name">
+              {({input: {onChange, ...input}}) => (
+                <Input
+                  {...input}
+                  autoCapitalize="words"
+                  placeholder="Nome"
+                  onChangeText={onChange}
+                  onSubmitEditing={() => form.focus('email')}
+                />
+              )}
+            </Field>
+            <Field name="email">
+              {({input: {onChange, ...input}}) => (
+                <Input
+                  {...input}
+                  autoCapitalize="none"
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  onChangeText={onChange}
+                />
+              )}
+            </Field>
+            <Field name="phone">
+              {({onChange, ...input}) => (
+                <Input
+                  {...input}
+                  disabled
+                  placeholder="Telefone (obrigatório)"
+                  keyboardType="phone-pad"
+                  onChangeText={onChange}
+                />
+              )}
+            </Field>
+            <Final.FormSpy
+              subscription={{values: true, pristine: true}}
+              onChange={(state) => onChange(state)}
             />
-          </Section>
-          <Section
-            active={this.isInputActive('email')}
-            title="Endereço de email"
-          >
-            <Email style={styles.input} name="email" />
-          </Section>
-          <Section active={this.isInputActive('phone')} title="Telefone">
-            <Phone
-              style={styles.input}
-              name="phone"
-              validations={[required(false)]}
-            />
-          </Section>
-        </Form>
-        <Button onPress={onEditNotifications} icon="chevron-right">
-          Notificações
-        </Button>
-        <Button onPress={onEditPassword} icon="chevron-right">
-          Alterar senha
-        </Button>
-      </View>
+          </Col>
+        )}
+      </Final.Form>
     )
   }
 }
