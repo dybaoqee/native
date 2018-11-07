@@ -1,17 +1,8 @@
 import {isObject} from 'lodash'
 import React, {PureComponent} from 'react'
-import styled from 'styled-components'
 import {View, Keyboard, KeyboardAvoidingView, Platform} from 'react-native'
 
 import BottomTabs from './BottomTabs'
-
-const AbsoluteBottomTabs = styled(BottomTabs)`
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
 
 export default class Shell extends PureComponent {
   static defaultProps = {
@@ -21,7 +12,7 @@ export default class Shell extends PureComponent {
 
   state = {
     keyboardVisible: false,
-    offset: 63
+    offset: 80
   }
 
   keyboardAvoidingView = React.createRef()
@@ -31,6 +22,10 @@ export default class Shell extends PureComponent {
       'keyboardDidHide',
       this.onKeyboardHide
     )
+    this.keyboardListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this.onKeyboardShow
+    )
   }
 
   componentWillUnmount() {
@@ -39,14 +34,22 @@ export default class Shell extends PureComponent {
 
   onLayout = ({nativeEvent: {layout}}) =>
     this.setState({layout: {height: layout.height}})
-  // Reset KeyboardAvoidingView padding when keyboard is hidden
+
   onKeyboardHide = () => {
+    // Reset KeyboardAvoidingView padding when keyboard is hidden
     this.keyboardAvoidingView.current._onKeyboardChange()
+    this.setState({keyboardHeight: 0})
+  }
+
+  onKeyboardShow = (e) => {
+    this.setState({
+      keyboardHeight: e.endCoordinates.height
+    })
   }
 
   render() {
     const {style, children, testID, behavior, bottomTabs} = this.props
-    const {offset, layout, keyboardVisible} = this.state
+    const {offset, layout, keyboardVisible, keyboardHeight} = this.state
     const bottomTabProps = typeof bottomTabs === 'object' ? bottomTabs : {}
     const layoutInfo = {
       hasBottomTabs: Boolean(bottomTabs)
@@ -73,7 +76,11 @@ export default class Shell extends PureComponent {
           </View>
         </KeyboardAvoidingView>
         {layoutInfo.hasBottomTabs && (
-          <AbsoluteBottomTabs testID="bottom_tabs" {...bottomTabProps} />
+          <BottomTabs
+            bottom={keyboardHeight}
+            testID="bottom_tabs"
+            {...bottomTabProps}
+          />
         )}
       </View>
     )

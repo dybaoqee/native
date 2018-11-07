@@ -5,6 +5,7 @@ import {justifyContent, alignItems} from 'styled-system'
 import {View as BaseView} from '@emcasa/ui-native'
 
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
+import {compose} from 'recompose'
 
 const View = styled(BaseView)`
   ${({hasBottomTabs, mb, theme}) => {
@@ -17,7 +18,16 @@ const View = styled(BaseView)`
   ${alignItems};
 `
 
-const ScrollView = styled(
+const withContentContainerStyle = (Target) => styled(({style, ...props}) => (
+  <Target contentContainerStyle={style} {...props} />
+))`
+  ${({height, hasBottomTabs, theme}) =>
+    Boolean(hasBottomTabs && height === 'auto') && {
+      minHeight: theme.dimensions.layout.height - theme.size.bottomTabs
+    }};
+`
+
+const ScrollView = compose(withContentContainerStyle)(styled(
   BaseView.withComponent(({hasBottomTabs, ...props}) => {
     let component = <RCTScrollView {...props} />
     if (hasBottomTabs && props.mb === 'auto')
@@ -28,7 +38,8 @@ const ScrollView = styled(
   })
 )`
   ${({mb}) => ({marginBottom: ['auto', 'none'].includes(mb) ? 0 : mb})};
-`
+  ${({height}) => ({height: height === 'auto' ? undefined : height})};
+`)
 
 const Overlay = styled.View`
   z-index: 1;

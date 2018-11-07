@@ -103,7 +103,7 @@ class UserProfileScreen extends PureComponent {
 
     return (
       <Shell bottomTabs>
-        <Body mb="auto">
+        <Body scroll bounces={false} mb="auto" height="auto">
           <Row
             height={Dimensions.get('window').height / 3.5}
             justifyContent="center"
