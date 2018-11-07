@@ -64,7 +64,7 @@ export default class ProfileForm extends PureComponent {
               )}
             </Field>
             <Final.FormSpy
-              subscription={{values: true, pristine: true}}
+              subscription={{values: true, pristine: true, valid: true}}
               onChange={(state) => onChange(state)}
             />
           </Col>

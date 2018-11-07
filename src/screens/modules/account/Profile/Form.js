@@ -19,21 +19,25 @@ class EditProfileScreen extends PureComponent {
   onSubmit = async () => {
     const {
       user,
+      loading,
       changeEmail,
       editUserProfile,
-      setContext,
-      onSubmit
+      onSuccess,
+      onError
     } = this.props
-    const {values, pristine} = this.state
+    const {values, pristine, valid} = this.state
     const shouldUpdate = !pristine
-    if (shouldUpdate) {
-      setContext({loading: true})
-      if (user.email != values.email) await changeEmail({email: values.email})
-      if (user.name != values.name || user.phone != values.phone)
-        await editUserProfile({name: values.name, phone: values.phone})
-      setContext({loading: false})
-    }
-    if (onSubmit) onSubmit(shouldUpdate)
+    if (!valid || loading) return
+    if (shouldUpdate)
+      try {
+        if (user.email != values.email) await changeEmail({email: values.email})
+        if (user.name != values.name || user.phone != values.phone)
+          await editUserProfile({name: values.name, phone: values.phone})
+      } catch (error) {
+        if (onError) onError(error)
+        return
+      }
+    if (onSuccess) onSuccess(shouldUpdate)
   }
 
   onChange = (formState) => this.setState(formState)

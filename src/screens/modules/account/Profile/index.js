@@ -1,7 +1,7 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, Fragment} from 'react'
 import {Dimensions} from 'react-native'
 import {connect} from 'react-redux'
-import {View, Row, Col, Button} from '@emcasa/ui-native'
+import {View, Row, Col, Button, Text, Icon} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {updateStackRoot} from '@/screens/modules/navigation'
@@ -34,18 +34,31 @@ class UserProfileScreen extends PureComponent {
 
   hideMessage = () => this.setState({message: undefined})
 
-  onEditProfile = () => this.setState({isEditing: true})
+  onEditProfile = () => this.setState({isEditing: true, message: undefined})
 
-  onCancelEditing = () => this.setState({isEditing: false})
+  onCancelEditing = () => this.setState({isEditing: false, message: undefined})
 
-  onSubmit = (hasChanges) =>
-    this.setState(
-      {
-        isEditing: false,
-        message: hasChanges ? 'Informações salvas com sucesso' : undefined
-      },
-      () => setTimeout(this.hideMessage(), 5000)
-    )
+  onSuccess = (hasChanges) =>
+    this.setState({
+      isEditing: false,
+      message: hasChanges && {
+        key: Date.now(),
+        icon: 'check-circle',
+        color: 'green',
+        text: 'Informações salvas com sucesso'
+      }
+    })
+
+  onError = (error) =>
+    this.setState({
+      isEditing: false,
+      message: {
+        key: Date.now(),
+        icon: 'times-circle',
+        color: 'red',
+        text: error.message
+      }
+    })
 
   onSignOut = async () => {
     const {signOut, updateStackRoot} = this.props
@@ -53,15 +66,37 @@ class UserProfileScreen extends PureComponent {
     updateStackRoot()
   }
 
+  renderMessage() {
+    const {message} = this.state
+    return (
+      <Row height="20px" flex={1} alignItems="center" justifyContent="center">
+        {Boolean(message) && (
+          <Fragment>
+            <Col mr="2.5px">
+              <Icon name={message.icon} color={message.color} size={18} />
+            </Col>
+            <Col>
+              <Text color={message.color} fontSize={16} textAlign="center">
+                {message.text}
+              </Text>
+            </Col>
+          </Fragment>
+        )}
+      </Row>
+    )
+  }
+
   renderProfileForm() {
     return (
       <View flex={1}>
         <ProfileForm
           ref={this.formRef}
-          onSubmit={this.onSubmit}
+          onSuccess={this.onSuccess}
+          onError={this.onError}
           onChange={this.onChange}
           onCancel={this.onCancelEditing}
         />
+        {this.renderMessage()}
         <Row justifyContent="space-between">
           <Button height="tall" onPress={this.onCancelEditing}>
             Cancelar
@@ -85,6 +120,7 @@ class UserProfileScreen extends PureComponent {
         <Row flex={1}>
           <Profile user={user} />
         </Row>
+        <Row height="30px">{this.renderMessage()}</Row>
         <Col>
           <Button active mt="15px" height="tall" onPress={this.onEditProfile}>
             Editar
