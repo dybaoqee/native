@@ -1,6 +1,7 @@
 import {PureComponent} from 'react'
 import * as Final from 'react-final-form'
 import {View, Col, Text, Input} from '@emcasa/ui-native'
+import composeValidations, * as validations from '@/lib/validations'
 
 function Field({children, ...props}) {
   return (
@@ -9,6 +10,13 @@ function Field({children, ...props}) {
     </Final.Field>
   )
 }
+
+const validatePhone = composeValidations(
+  validations.required('O telefone é obrigatório'),
+  validations.phone()
+)
+const validateName = validations.required('O nome é obrigatório')
+const validateEmail = validations.email()
 
 export default class ProfileForm extends PureComponent {
   isInputActive = (key) =>
@@ -21,7 +29,7 @@ export default class ProfileForm extends PureComponent {
       <Final.Form initialValues={initialValues} onSubmit={onSubmit}>
         {({form}) => (
           <Col flex={1}>
-            <Field name="name">
+            <Field name="name" validate={validateName}>
               {({input: {onChange, ...input}}) => (
                 <Input
                   {...input}
@@ -32,7 +40,7 @@ export default class ProfileForm extends PureComponent {
                 />
               )}
             </Field>
-            <Field name="email">
+            <Field name="email" validate={validateEmail}>
               {({input: {onChange, ...input}}) => (
                 <Input
                   {...input}
@@ -43,11 +51,12 @@ export default class ProfileForm extends PureComponent {
                 />
               )}
             </Field>
-            <Field name="phone">
-              {({onChange, ...input}) => (
+            <Field name="phone" validate={validatePhone}>
+              {({input: {onChange, ...input}}) => (
                 <Input
                   {...input}
                   disabled
+                  editable={false}
                   placeholder="Telefone (obrigatório)"
                   keyboardType="phone-pad"
                   onChangeText={onChange}

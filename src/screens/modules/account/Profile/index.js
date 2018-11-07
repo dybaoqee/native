@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react'
+import React, {PureComponent} from 'react'
 import {Dimensions} from 'react-native'
 import {connect} from 'react-redux'
 import {View, Row, Col, Button} from '@emcasa/ui-native'
