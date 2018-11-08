@@ -20,7 +20,7 @@ export default {
     elevation: 1,
     borderColor: theme.colors.border,
     backButton: {
-      icon: require('@/assets/img/back.png'),
+      icon: require('@/assets/img/icons/back.png'),
       title: '',
       color: theme.colors.pink
     },
@@ -30,7 +30,8 @@ export default {
       fontSize: 16,
       fontWeight: '400',
       color: theme.colors.dark,
-      fontFamily: theme.fontFamily
+      fontFamily: theme.fontFamily,
+      alignment: 'center'
     }
   },
   bottomTabs: {

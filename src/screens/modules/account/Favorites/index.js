@@ -9,7 +9,6 @@ import Feed from '@/components/listings/Feed/Listing'
 import ListEmpty from './ListEmpty'
 
 import ListingScreen from '@/screens/modules/listing/Listing'
-import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 
 class FavoritesScreen extends PureComponent {
   static defaultProps = {
@@ -18,15 +17,16 @@ class FavoritesScreen extends PureComponent {
 
   static screenName = 'account.Favorites'
 
-  static get options() {
-    return {
-      topBar: {
-        title: {text: 'Meus imóveis favoritos'},
-        backButton: {title: 'Favoritos'},
-        leftButtons: [
-          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
-        ]
-      }
+  static options = {
+    topBar: {
+      title: {text: 'Meus imóveis favoritos'},
+      backButton: {title: 'Favoritos'},
+      leftButtons: [
+        {
+          id: 'account.Favorites#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 
