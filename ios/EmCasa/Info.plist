@@ -1,129 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-  <dict>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
-    <key>CFBundleDisplayName</key>
-    <string>EmCasa</string>
-    <key>CFBundleExecutable</key>
-    <string>$(EXECUTABLE_NAME)</string>
-    <key>CFBundleIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER)$(BUNDLE_IDENTIFIER_SUFFIX)</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundleName</key>
-    <string>$(PRODUCT_NAME)</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0</string>
-    <key>CFBundleSignature</key>
-    <string>????</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>ak$(FACEBOOK_APP_ID)</string>
-        </array>
-      </dict>
-    </array>
-    <key>CFBundleVersion</key>
-    <string>1</string>
-    <key>Fabric</key>
-    <dict>
-      <key>APIKey</key>
-      <string>$(FABRIC_API_KEY)</string>
-      <key>Kits</key>
-      <array>
-        <dict>
-          <key>KitInfo</key>
-          <dict/>
-          <key>KitName</key>
-          <string>Crashlytics</string>
-        </dict>
-      </array>
-    </dict>
-    <key>FacebookAppID</key>
-    <string>$(FACEBOOK_APP_ID)</string>
-    <key>FacebookDisplayName</key>
-    <string>EmCasa</string>
-    <key>AccountKitClientToken</key>
-    <string>$(ACCOUNTKIT_CLIENT_TOKEN)</string>
-    <key>GoogleMapsApiKey</key>
-    <string>$(GOOGLE_MAPS_API_KEY)</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>whatsapp</string>
-      <string>mailto</string>
-    </array>
-    <key>LSRequiresIPhoneOS</key>
-    <true/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSExceptionDomains</key>
-      <dict>
-        <key>localhost</key>
-        <dict>
-          <key>NSExceptionAllowsInsecureHTTPLoads</key>
-          <true/>
-        </dict>
-        <key>codepush.azurewebsites.net</key>
-        <dict/>
-        <key>codepush.blob.core.windows.net</key>
-        <dict/>
-        <key>codepushupdates.azureedge.net</key>
-        <dict/>
-      </dict>
-    </dict>
-    <key>NSAppleMusicUsageDescription</key>
-    <string>Acesso à mídia</string>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>Acesso ao bluetooth</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>Acesso ao calendário</string>
-    <key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) precisa de permissão para usar a sua câmera</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>$(PRODUCT_NAME) usa a sua localização para melhorar a sua experiência com o mapa</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>$(PRODUCT_NAME) precisa usar o seu microfone para gravar vídeos</string>
-    <key>NSMotionUsageDescription</key>
-    <string>Acesso ao sensor de movimento</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>$(PRODUCT_NAME) permisa de permissão para adicionar fotos a sua galeria</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>$(PRODUCT_NAME) precisa de permissão para acessar sua galeria de fotos</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>Acesso ao serviço de reconhecimento de fala</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>$(PRODUCT_NAME) usa a sua localização enviar notificações segmentadas ao seu local</string>
-    <key>UIAppFonts</key>
-    <array>
-      <string>OpenSans-Bold.ttf</string>
-      <string>OpenSans-ExtraBold.ttf</string>
-      <string>OpenSans-Light.ttf</string>
-      <string>OpenSans-Regular.ttf</string>
-      <string>OpenSans-SemiBold.ttf</string>
-    </array>
-    <key>UIBackgroundModes</key>
-    <array>
-      <string>remote-notification</string>
-    </array>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-      <string>armv7</string>
-    </array>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>UIViewControllerBasedStatusBarAppearance</key>
-    <true/>
-    <key>CodePushDeploymentKey</key>
-    <string>$(CODEPUSH_DEPLOYMENT_KEY)</string>
-  </dict>
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>EmCasa</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)$(BUNDLE_IDENTIFIER_SUFFIX)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>ak$(FACEBOOK_APP_ID)</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>$(FABRIC_API_KEY)</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
+	<key>FacebookAppID</key>
+	<string>$(FACEBOOK_APP_ID)</string>
+	<key>FacebookDisplayName</key>
+	<string>EmCasa</string>
+	<key>AccountKitClientToken</key>
+	<string>$(ACCOUNTKIT_CLIENT_TOKEN)</string>
+	<key>GoogleMapsApiKey</key>
+	<string>$(GOOGLE_MAPS_API_KEY)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+		<string>mailto</string>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>codepush.azurewebsites.net</key>
+			<dict/>
+			<key>codepush.blob.core.windows.net</key>
+			<dict/>
+			<key>codepushupdates.azureedge.net</key>
+			<dict/>
+		</dict>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Acesso à mídia</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Acesso ao bluetooth</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Acesso ao calendário</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) precisa de permissão para usar a sua câmera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) usa a sua localização para melhorar a sua experiência com o mapa</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) precisa usar o seu microfone para gravar vídeos</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Acesso ao sensor de movimento</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) permisa de permissão para adicionar fotos a sua galeria</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) precisa de permissão para acessar sua galeria de fotos</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Acesso ao serviço de reconhecimento de fala</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>$(PRODUCT_NAME) usa a sua localização enviar notificações segmentadas ao seu local</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-ExtraBold.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-SemiBold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+	<key>CodePushDeploymentKey</key>
+	<string>$(CODEPUSH_DEPLOYMENT_KEY)</string>
+</dict>
 </plist>
