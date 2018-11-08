@@ -14,7 +14,6 @@ export default {
     buttonColor: colors.blue.medium,
     height: 50,
     elevation: 1,
-    borderColor: colors.gray.light,
     backButton: {title: ''},
     visible: true,
     animate: false,

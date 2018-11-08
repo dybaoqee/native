@@ -23,12 +23,12 @@ export default class ProfileForm extends PureComponent {
     this.props.value[key] !== (this.props.user[key] || '')
 
   render() {
-    const {onChange, onSubmit, initialValues} = this.props
+    const {onChange, onSubmit, initialValues, ...props} = this.props
 
     return (
       <Final.Form initialValues={initialValues} onSubmit={onSubmit}>
         {({form}) => (
-          <Col flex={1}>
+          <Col flex={1} {...props}>
             <Field name="name" validate={validateName}>
               {({input: {onChange, ...input}}) => (
                 <Input
