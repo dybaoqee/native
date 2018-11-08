@@ -30,7 +30,8 @@ export default {
       fontSize: 16,
       fontWeight: '400',
       color: theme.colors.dark,
-      fontFamily: theme.fontFamily
+      fontFamily: theme.fontFamily,
+      alignment: 'center'
     }
   },
   bottomTabs: {
