@@ -20,7 +20,7 @@ export default {
     elevation: 1,
     borderColor: theme.colors.border,
     backButton: {
-      icon: require('@/assets/img/back.png'),
+      icon: require('@/assets/img/icons/back.png'),
       title: '',
       color: theme.colors.pink
     },

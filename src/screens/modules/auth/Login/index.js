@@ -13,21 +13,20 @@ import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 import styles from './styles'
 
-import HeaderLogo from '@/screens/modules/shared/Header/Logo'
-
 const isRegistrationComplete = (user) => Boolean(user.name)
 
 class LoginScreen extends PureComponent {
   static screenName = 'auth.Login'
 
-  static get options() {
-    return {
-      topBar: {
-        title: {text: 'Login'},
-        leftButtons: [
-          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
-        ]
-      }
+  static options = {
+    topBar: {
+      title: {text: 'Login'},
+      leftButtons: [
+        {
+          id: 'auth.Login#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

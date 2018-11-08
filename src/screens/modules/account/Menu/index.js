@@ -12,20 +12,19 @@ import AccountHeader from './Header'
 
 import EditProfileScreen from '@/screens/modules/account/EditProfile'
 import UserListingsScreen from '@/screens/modules/account/Listings'
-import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 
 class AccountMenuScreen extends PureComponent {
   static screenName = 'account.Menu'
 
-  static get options() {
-    return {
-      topBar: {
-        title: {text: 'Meu Perfil'},
-        backButton: {title: 'Meu Perfil'},
-        leftButtons: [
-          {id: uniqueId('logo'), component: {name: HeaderLogo.screenName}}
-        ]
-      }
+  static options = {
+    topBar: {
+      title: {text: 'Meu Perfil'},
+      leftButtons: [
+        {
+          id: 'account.Menu#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

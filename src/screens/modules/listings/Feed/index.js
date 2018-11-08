@@ -16,7 +16,6 @@ import ListHeader from './ListHeader'
 
 import SearchFiltersScreen from '@/screens/modules/listings/Search'
 import ListingScreen from '@/screens/modules/listing/Listing'
-import HeaderLogo from '@/screens/modules/shared/Header/Logo'
 
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
@@ -24,14 +23,16 @@ class ListingsFeedScreen extends PureComponent {
   static options = {
     topBar: {
       title: {text: 'Explorar'},
-      backButton: {title: 'Imóveis'},
       leftButtons: [
-        {id: 'listings_feed_logo', component: {name: HeaderLogo.screenName}}
+        {
+          id: 'listings.Feed#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
       ],
       rightButtons: [
         {
-          id: 'search_filters',
-          icon: require('@/assets/img/filter.png'),
+          id: 'listings.Feed#filters',
+          icon: require('@/assets/img/icons/filter.png'),
           color: theme.colors.grey
         }
       ]
@@ -50,7 +51,7 @@ class ListingsFeedScreen extends PureComponent {
   }
 
   navigationButtonPressed({buttonId}) {
-    if (buttonId === 'search_filters') {
+    if (buttonId === 'listings.Feed#filters') {
       Navigation.showModal({
         component: {name: SearchFiltersScreen.screenName}
       })
