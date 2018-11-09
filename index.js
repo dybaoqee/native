@@ -4,11 +4,13 @@ import {YellowBox} from 'react-native'
 import AccountKit from 'react-native-facebook-account-kit'
 
 import initNavigation from '@/screens'
+import accountKitConfig from '@/config/accountKit'
 
 AccountKit.configure({
   responseType: 'token',
-  // defaultCountry: 'BR',
-  receiveSMS: true
+  defaultCountry: 'BR',
+  receiveSMS: true,
+  theme: accountKitConfig
 })
 
 // Temporary fix for

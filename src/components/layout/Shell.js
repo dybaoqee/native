@@ -37,7 +37,8 @@ export default class Shell extends PureComponent {
 
   onKeyboardHide = () => {
     // Reset KeyboardAvoidingView padding when keyboard is hidden
-    this.keyboardAvoidingView.current._onKeyboardChange()
+    if (this.keyboardAvoidingView.current)
+      this.keyboardAvoidingView.current._onKeyboardChange()
     this.setState({keyboardHeight: 0})
   }
 
