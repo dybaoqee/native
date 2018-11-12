@@ -1,6 +1,7 @@
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
+import {View, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withFavoriteListings} from '@/graphql/containers'
@@ -20,7 +21,7 @@ class FavoritesScreen extends PureComponent {
 
   static options = {
     topBar: {
-      title: {text: 'Meus imóveis favoritos'},
+      title: {text: 'Meus Favoritos'},
       backButton: {title: 'Favoritos'}
     }
   }
@@ -51,6 +52,17 @@ class FavoritesScreen extends PureComponent {
           <Feed
             data={data}
             onSelect={this.onSelect}
+            ListHeaderComponent={
+              data.length ? (
+                <View m="15px" mb="-10px">
+                  <Text fontWeight="500" fontSize={16}>
+                    Meus Imóveis favoritos
+                  </Text>
+                </View>
+              ) : (
+                undefined
+              )
+            }
             ListEmptyComponent={
               <ListEmpty
                 loading={loading}
