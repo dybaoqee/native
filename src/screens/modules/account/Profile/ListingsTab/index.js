@@ -58,9 +58,8 @@ class UserListingsTab extends PureComponent {
             image={require('@/assets/img/icons/sad_smartphone.png')}
             onPress={this.onCreateListing}
           >
-            Navegue pelos nosso imóveis e dê um coração para os que você mais
-            gostar. Esses imóveis ficarão salvos aqui nessa lista para você ver
-            e rever quando quiser.
+            Quer anunciar seu imóvel aqui na EmCasa? Vamos te redirecionar para
+            o nosso site para você anunciar seu imóvel.
           </ListEmpty>
         }
       />
