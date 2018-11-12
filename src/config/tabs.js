@@ -18,8 +18,11 @@ export default (_, {user}) => [
     props: {
       icon: 'search',
       type: 'light',
+      label: 'Explorar',
       strokeWidth: 25,
-      label: 'Explorar'
+      size: 17,
+      scale: 0.95,
+      y: 10
     }
   },
   {
