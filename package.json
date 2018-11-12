@@ -84,7 +84,7 @@
     "react-native-code-push": "^5.4.2",
     "react-native-code-push-saga": "^1.0.1",
     "react-native-communications": "^2.2.1",
-    "react-native-facebook-account-kit": "https://github.com/emcasa/react-native-facebook-account-kit.git",
+    "react-native-facebook-account-kit": "https://github.com/emcasa/react-native-facebook-account-kit.git#ak-framework",
     "react-native-fbsdk": "^0.8.0",
     "react-native-firebase": "4.2.0",
     "react-native-fontawesome-pro": "^1.0.12",

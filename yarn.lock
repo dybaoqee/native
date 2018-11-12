@@ -7764,9 +7764,9 @@ react-native-communications@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
 
-"react-native-facebook-account-kit@https://github.com/emcasa/react-native-facebook-account-kit.git":
-  version "0.10.1"
-  resolved "https://github.com/emcasa/react-native-facebook-account-kit.git#04bacadcce9e1069e9ba8d4a978e50b63df39658"
+"react-native-facebook-account-kit@https://github.com/emcasa/react-native-facebook-account-kit.git#ak-framework":
+  version "1.0.0"
+  resolved "https://github.com/emcasa/react-native-facebook-account-kit.git#05b5875c3d09015497baaaf742098b7271a3b5d9"
   dependencies:
     prop-types "^15.5.10"
 
