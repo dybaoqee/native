@@ -51,7 +51,7 @@ class LoginScreen extends PureComponent {
     const {onRequestPermission, permission} = this.props
     if (Platform.OS === 'android' && permission === 'undetermined')
       await onRequestPermission()
-    if (!this.state.viewActive && process.env.NODE_ENV !== 'e2e')
+    if (!this.state.viewActive)
       this.setState({viewActive: true}, this.accountKitLogin)
   }
 

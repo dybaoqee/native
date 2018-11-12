@@ -8,10 +8,11 @@ import notifications from './notifications/saga'
 
 export default function* firebaseSaga() {
   yield take(READY)
-  yield all([
-    fork(analytics),
-    fork(crashlytics),
-    fork(messaging),
-    fork(notifications)
-  ])
+  if (process.env.NODE_ENV !== 'e2e')
+    yield all([
+      fork(analytics),
+      fork(crashlytics),
+      fork(messaging),
+      fork(notifications)
+    ])
 }
