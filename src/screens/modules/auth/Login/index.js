@@ -43,7 +43,7 @@ class LoginScreen extends PureComponent {
           if (response) this.onSubmit(response)
           else this.onDismiss()
         })
-        .catch((error) => this.setState({error, akActive: false}))
+        .catch(() => this.onDismiss())
     )
   }
 
@@ -67,11 +67,12 @@ class LoginScreen extends PureComponent {
       const {
         data: {accountKitSignIn}
       } = await signIn({token})
-      if (!accountKitSignIn) return // TODO
-      if (isRegistrationComplete(accountKitSignIn.user)) this.onSuccess()
+      if (!accountKitSignIn) this.onDismiss()
+      else if (isRegistrationComplete(accountKitSignIn.user)) this.onSuccess()
       else this.onSignUp()
     } catch (error) {
-      this.setState({error})
+      // TODO handle error
+      this.onDismiss()
     } finally {
       this.setState({loading: false})
     }
@@ -88,6 +89,7 @@ class LoginScreen extends PureComponent {
       params: {previousTabIndex}
     } = this.props
     updateStackRoot({tabIndex: previousTabIndex})
+    Navigation.dismissAllModals()
   }
 
   onSignUp = () => {
