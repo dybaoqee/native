@@ -45,7 +45,7 @@
     "@absinthe/socket": "^0.1.10",
     "@absinthe/socket-apollo-link": "^0.1.11",
     "@emcasa/ui": "^0.6.10",
-    "@emcasa/ui-native": "^0.6.10",
+    "@emcasa/ui-native": "^0.6.11",
     "@fortawesome/free-brands-svg-icons": "^5.4.1",
     "@fortawesome/pro-light-svg-icons": "^5.4.1",
     "@fortawesome/pro-solid-svg-icons": "^5.4.1",
