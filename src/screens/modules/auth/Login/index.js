@@ -1,17 +1,17 @@
-import {PureComponent, Fragment} from 'react'
+import {PureComponent} from 'react'
 import {View, ActivityIndicator, Platform} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import AccountKit from 'react-native-facebook-account-kit'
 import {connect} from 'react-redux'
-import {Button, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withSignInMutation} from '@/graphql/containers'
-import {updateStackRoot} from '@/screens/modules/navigation'
+import {getTabIndexHistory} from '@/screens/modules/navigation/selectors'
+import {updateStackRoot, switchTab} from '@/screens/modules/navigation'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 
-import styles from './styles'
+import SignUpScreen from '@/screens/modules/auth/SignUp'
 
 const isRegistrationComplete = (user) => Boolean(user.name)
 
@@ -20,7 +20,11 @@ class LoginScreen extends PureComponent {
 
   static options = {
     topBar: {
-      title: {text: 'Login'}
+      visible: false,
+      drawBehind: true,
+      translucent: true,
+      height: 0,
+      backButton: {title: 'Login'}
     }
   }
 
@@ -37,6 +41,7 @@ class LoginScreen extends PureComponent {
         .then((response) => {
           this.setState({akActive: false})
           if (response) this.onSubmit(response)
+          else this.onDismiss()
         })
         .catch((error) => this.setState({error, akActive: false}))
     )
@@ -54,8 +59,6 @@ class LoginScreen extends PureComponent {
     if (!this.state.akActive) this.setState({viewActive: false})
   }
 
-  onChange = (value) => this.setState({value})
-
   onSubmit = async ({token}) => {
     const {signIn} = this.props
     if (this.state.loading) return
@@ -64,7 +67,7 @@ class LoginScreen extends PureComponent {
       const {
         data: {accountKitSignIn}
       } = await signIn({token})
-      if (!accountKitSignIn) return
+      if (!accountKitSignIn) return // TODO
       if (isRegistrationComplete(accountKitSignIn.user)) this.onSuccess()
       else this.onSignUp()
     } catch (error) {
@@ -74,12 +77,17 @@ class LoginScreen extends PureComponent {
     }
   }
 
+  onDismiss = () => {
+    const {switchTab, previousTabIndex} = this.props
+    switchTab(previousTabIndex)
+  }
+
   onSuccess = () => {
     const {
       updateStackRoot,
-      params: {tabIndex}
+      params: {previousTabIndex}
     } = this.props
-    updateStackRoot({tabIndex})
+    updateStackRoot({tabIndex: previousTabIndex})
   }
 
   onSignUp = () => {
@@ -95,44 +103,16 @@ class LoginScreen extends PureComponent {
     })
   }
 
-  renderLoginButton() {
-    const {
-      params: {notice}
-    } = this.props
-    return (
-      <Fragment>
-        {notice && (
-          <View style={styles.notice}>
-            <Text style={styles.noticeText}>{notice}</Text>
-          </View>
-        )}
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Button testID="login_button" onPress={this.accountKitLogin}>
-            Faça login
-          </Button>
-        </View>
-      </Fragment>
-    )
-  }
-
-  renderActivityIndicator() {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-  }
-
-  renderBody() {
-    if (this.state.akActive || this.state.loading)
-      return this.renderActivityIndicator()
-    return this.renderLoginButton()
-  }
-
   render() {
     return (
       <Shell testID="@auth.Login" bottomTabs>
-        <Body>{this.renderBody()}</Body>
+        <Body>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}
+          >
+            <ActivityIndicator size="large" />
+          </View>
+        </Body>
       </Shell>
     )
   }
@@ -142,7 +122,7 @@ export default composeWithRef(
   withPermission('receiveSms'),
   withSignInMutation,
   connect(
-    null,
-    {updateStackRoot}
+    (state) => ({previousTabIndex: getTabIndexHistory(state)[1]}),
+    {updateStackRoot, switchTab}
   )
 )(LoginScreen)
