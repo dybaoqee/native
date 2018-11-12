@@ -1,11 +1,13 @@
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
+import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withFavoriteListings} from '@/graphql/containers'
+import {switchTab} from '@/screens/modules/navigation'
 import {Shell, Body} from '@/components/layout'
 import Feed from '@/components/listings/Feed/Listing'
-import ListEmpty from './ListEmpty'
+import Empty from './Empty'
 
 import ListingScreen from '@/screens/modules/listing/Listing'
 
@@ -35,15 +37,23 @@ class FavoritesScreen extends PureComponent {
       }
     })
 
+  onExplore = () => {
+    this.props.switchTab(0)
+  }
+
   render() {
-    const {favorites} = this.props
+    const {
+      favorites: {data, loading}
+    } = this.props
     return (
       <Shell bottomTabs>
-        <Body loading={favorites.loading}>
+        <Body loading={loading}>
           <Feed
-            data={favorites.data}
+            data={data}
             onSelect={this.onSelect}
-            ListEmptyComponent={favorites.loading ? undefined : ListEmpty}
+            ListEmptyComponent={
+              <Empty loading={loading} onPress={this.onExplore} />
+            }
           />
         </Body>
       </Shell>
@@ -51,4 +61,10 @@ class FavoritesScreen extends PureComponent {
   }
 }
 
-export default composeWithRef(withFavoriteListings)(FavoritesScreen)
+export default composeWithRef(
+  connect(
+    null,
+    {switchTab}
+  ),
+  withFavoriteListings
+)(FavoritesScreen)

@@ -31,7 +31,7 @@ class UserListingsTab extends PureComponent {
 
   render() {
     const {
-      userListings: {data}
+      userListings: {data, loading}
     } = this.props
     return (
       <Feed
@@ -50,7 +50,9 @@ class UserListingsTab extends PureComponent {
             undefined
           )
         }
-        ListEmptyComponent={<Empty onCreateListing={this.onCreateListing} />}
+        ListEmptyComponent={
+          <Empty loading={loading} onPress={this.onCreateListing} />
+        }
       />
     )
   }
