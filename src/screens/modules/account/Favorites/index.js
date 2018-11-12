@@ -7,7 +7,7 @@ import {withFavoriteListings} from '@/graphql/containers'
 import {switchTab} from '@/screens/modules/navigation'
 import {Shell, Body} from '@/components/layout'
 import Feed from '@/components/listings/Feed/Listing'
-import Empty from './Empty'
+import ListEmpty from '@/components/shared/ListEmpty'
 
 import ListingScreen from '@/screens/modules/listing/Listing'
 
@@ -52,7 +52,17 @@ class FavoritesScreen extends PureComponent {
             data={data}
             onSelect={this.onSelect}
             ListEmptyComponent={
-              <Empty loading={loading} onPress={this.onExplore} />
+              <ListEmpty
+                loading={loading}
+                title="Você ainda não favoritou nenhum imóvel"
+                buttonText="Explorar"
+                image={require('@/assets/img/icons/heart_plus.png')}
+                onPress={this.onExplore}
+              >
+                Navegue pelos nosso imóveis e dê um coração para os que você
+                mais gostar. Esses imóveis ficarão salvos aqui nessa lista para
+                você ver e rever quando quiser.
+              </ListEmpty>
             }
           />
         </Body>

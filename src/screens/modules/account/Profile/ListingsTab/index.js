@@ -6,7 +6,7 @@ import {View, Text} from '@emcasa/ui-native'
 import composeWithRef from '@/lib/composeWithRef'
 import {withUserListings} from '@/graphql/containers'
 import Feed from '@/components/listings/Feed/Listing'
-import Empty from './Empty'
+import ListEmpty from '@/components/shared/ListEmpty'
 
 import {FRONTEND_URL} from '@/config/const'
 import ListingScreen from '@/screens/modules/listing/Listing'
@@ -51,7 +51,17 @@ class UserListingsTab extends PureComponent {
           )
         }
         ListEmptyComponent={
-          <Empty loading={loading} onPress={this.onCreateListing} />
+          <ListEmpty
+            loading={loading}
+            title="Você não tem nenhum imóvel anunciado"
+            buttonText="Começar"
+            image={require('@/assets/img/icons/sad_smartphone.png')}
+            onPress={this.onCreateListing}
+          >
+            Navegue pelos nosso imóveis e dê um coração para os que você mais
+            gostar. Esses imóveis ficarão salvos aqui nessa lista para você ver
+            e rever quando quiser.
+          </ListEmpty>
         }
       />
     )
