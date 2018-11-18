@@ -134,7 +134,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-preset-react-native": "^5.0.2",
     "body-parser": "^1.18.3",
-    "detox": "^8.1.6",
+    "detox": "^9.1.2",
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "graphql-tools": "^3.1.1",
