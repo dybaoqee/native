@@ -1,8 +1,8 @@
 <resources>
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">@color/colorPrimary</item>
-    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorPrimary">@color/pink</item>
+    <item name="colorPrimaryDark">@android:color/white</item>
     <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
     <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
     <item name="android:windowDisablePreview">true</item>
@@ -20,5 +20,23 @@
   <style name="SplashScreen" parent="AppTheme">
     <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     <item name="android:windowBackground">@drawable/splash_screen</item>
+  </style>
+  <style name="LoginTheme" parent="Theme.AccountKit">
+    <item name="com_accountkit_primary_color">@color/pink</item>
+    <item name="com_accountkit_primary_text_color">@android:color/white</item>
+    <item name="com_accountkit_secondary_color">@android:color/white</item>
+    <item name="com_accountkit_secondary_text_color">@color/dark</item>
+    <item name="com_accountkit_status_bar_color">@color/pink</item>
+    <!-- default buttons -->
+    <item name="com_accountkit_button_background_color">@color/pink</item>
+    <item name="com_accountkit_button_border_color">@color/pink</item>
+    <item name="com_accountkit_button_text_color">@android:color/white</item>
+    <!-- disabled buttons -->
+    <item name="com_accountkit_button_disabled_background_color">@color/lightGrey</item>
+    <item name="com_accountkit_button_disabled_border_color">@color/lightGrey</item>
+    <item name="com_accountkit_button_disabled_text_color">@color/disabled</item>
+    <!-- inputs -->
+    <item name="com_accountkit_input_text_color">@color/dark</item>
+    <item name="com_accountkit_input_border_color">@color/blue</item>
   </style>
 </resources>

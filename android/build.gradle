@@ -1,6 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+    ext {
+        buildToolsVersion = "27.0.3"
+        minSdkVersion = 19
+        compileSdkVersion = 26
+        targetSdkVersion = 26
+        supportLibVersion = "27.0.2"
+        googlePlayServicesVersion = "15.0.1"
+    }
     repositories {
         google()
         jcenter()

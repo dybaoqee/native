@@ -1,3 +1,5 @@
+import update from 'immutability-helper'
+
 export const APP_LAUNCHED = 'screens/APP_LAUNCHED'
 export const SCREEN_APPEARED = 'screens/SCREEN_APPEARED'
 export const SCREEN_DISAPPEARED = 'screens/SCREEN_DISAPPEARED'
@@ -39,9 +41,11 @@ export const switchTab = (tabIndex) => ({type: SWITCH_TAB, tabIndex})
 
 const initialState = {
   rootId: undefined,
-  tabIndex: undefined,
+  tabIndexHistory: [],
   screen: {id: undefined, name: undefined}
 }
+
+const HISTORY_LENGTH = 3
 
 export default function screenReducer(state = initialState, action) {
   switch (action.type) {
@@ -50,13 +54,13 @@ export default function screenReducer(state = initialState, action) {
     case TAB_SELECTED:
       return {
         ...state,
-        tabIndex: action.tabIndex
+        tabIndexHistory: tabIndexHistoryReducer(state.tabIndexHistory, action)
       }
     case UPDATE_STACK_ROOT:
       return {
         ...state,
         rootId: action.rootId,
-        tabIndex: action.tabIndex
+        tabIndexHistory: tabIndexHistoryReducer(state.tabIndexHistory, action)
       }
     case SCREEN_APPEARED:
       return {
@@ -66,4 +70,8 @@ export default function screenReducer(state = initialState, action) {
     default:
       return state
   }
+}
+
+function tabIndexHistoryReducer(state = [], action) {
+  return [action.tabIndex, ...state].slice(0, HISTORY_LENGTH)
 }
