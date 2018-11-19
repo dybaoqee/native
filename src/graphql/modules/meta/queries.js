@@ -25,5 +25,4 @@ export const GET_DISTRICTS = gql`
       ${District}
     }
   }
-  ${frag.District}
 `
