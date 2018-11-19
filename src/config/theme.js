@@ -1,4 +1,4 @@
-import {Platform, PixelRatio} from 'react-native'
+import {Platform, StatusBar, PixelRatio} from 'react-native'
 import {fas} from '@fortawesome/pro-solid-svg-icons'
 import {fal} from '@fortawesome/pro-light-svg-icons'
 import {fab} from '@fortawesome/free-brands-svg-icons'
@@ -29,6 +29,14 @@ export default {
     bottomTabsBg: {
       width: 122,
       height: 45
+    }
+  },
+  Dropdown: {
+    offset: {
+      top: Platform.select({
+        android: -StatusBar.currentHeight,
+        ios: 0
+      })
     }
   }
 }
