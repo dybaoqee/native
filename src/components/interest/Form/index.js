@@ -1,11 +1,8 @@
 import {Component} from 'react'
-import {View} from 'react-native'
+import {View, Text, Dropdown} from '@emcasa/ui-native'
 
-import Text from '@/components/shared/Text'
 import Form from '@/components/shared/Form'
-import InterestType from './Fields/InterestType'
 import Fields from './Fields'
-import styles from './styles'
 
 export default class InterestForm extends Component {
   state = {
@@ -15,22 +12,25 @@ export default class InterestForm extends Component {
   onChangeType = (id) => this.setState({activeType: id})
 
   render() {
-    const {types, ...props} = this.props
+    const {interestTypes, ...props} = this.props
     const {activeType} = this.state
 
     return (
       <Form {...props}>
-        <View style={styles.container}>
-          <Text style={styles.text}>
-            Escolha a melhor forma para agendar sua visita
-          </Text>
-          <View style={styles.field}>
-            <InterestType
-              types={types}
-              value={this.state.activeType}
-              onChange={this.onChangeType}
-            />
-          </View>
+        <View p="15px">
+          <Text>Escolha a melhor forma para agendar sua visita</Text>
+          <Dropdown
+            height="tall"
+            selectedValue={this.state.activeType}
+            onChange={this.onChangeType}
+            placeholder="Como fazemos?"
+          >
+            {interestTypes.map(({id, name}) => (
+              <Dropdown.Option key={id} value={id}>
+                {name}
+              </Dropdown.Option>
+            ))}
+          </Dropdown>
           {activeType && <Fields type={activeType} />}
         </View>
       </Form>

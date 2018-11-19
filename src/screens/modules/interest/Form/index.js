@@ -1,15 +1,15 @@
 import _ from 'lodash/fp'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
-import {connect} from 'react-redux'
+import {Button} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {withUserProfile} from '@/graphql/containers'
-import {getInterestTypes} from '@/redux/modules/interest/types/selectors'
-import {isLoading, getError} from '@/redux/modules/interest/form/selectors'
-import {request} from '@/redux/modules/interest/form'
+import {
+  withUserProfile,
+  withInterestTypes,
+  withInterestMutation
+} from '@/graphql/containers'
 import {Shell, Body, Footer} from '@/components/layout'
-import Button from '@/components/shared/Button'
 import Form from '@/components/interest/Form'
 
 import SuccessScreen from '@/screens/modules/shared/Success'
@@ -85,23 +85,28 @@ class InterestFormScreen extends PureComponent {
   }
 
   render() {
-    const {types, loading, error} = this.props
+    const {
+      interestTypes: {data, loading}
+    } = this.props
     const {value} = this.state
 
     return (
       <Shell>
-        <Body scroll>
+        <Body scroll bounces={false}>
           <Form
-            types={types}
-            error={error}
+            interestTypes={data || []}
             value={value}
-            defaultValue={this.defaultValue}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
           />
         </Body>
-        <Footer style={{padding: 15}}>
-          <Button disabled={loading} onPress={this.onSubmit}>
+        <Footer p="15px">
+          <Button
+            active
+            disabled={loading}
+            height="tall"
+            onPress={this.onSubmit}
+          >
             {loading ? 'Enviando...' : 'Enviar'}
           </Button>
         </Footer>
@@ -112,12 +117,6 @@ class InterestFormScreen extends PureComponent {
 
 export default composeWithRef(
   withUserProfile,
-  connect(
-    (state) => ({
-      types: getInterestTypes(state),
-      loading: isLoading(state),
-      error: getError(state)
-    }),
-    {request}
-  )
+  withInterestTypes,
+  withInterestMutation
 )(InterestFormScreen)
