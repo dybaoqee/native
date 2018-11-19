@@ -18,12 +18,7 @@ export default function InterestMutation({children}) {
 export const withInterestMutation = (Target) => (props) => (
   <InterestMutation>
     {(mutation, ctx) => (
-      <Target
-        submitInterest={mutation}
-        {...props}
-        {...ctx}
-        loading={props.loading || ctx.loading}
-      />
+      <Target submitInterest={mutation} {...props} {...ctx} />
     )}
   </InterestMutation>
 )

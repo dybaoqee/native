@@ -25,7 +25,7 @@ export default class InterestForm extends PureComponent {
                 para agendar sua visita
               </Text>
             </View>
-            <Final.Field name="interestType" parse={parseInt}>
+            <Final.Field name="interestTypeId">
               {({input}) => (
                 <Dropdown
                   height="tall"
@@ -37,14 +37,16 @@ export default class InterestForm extends PureComponent {
                   placeholder="Como fazemos?"
                 >
                   {interestTypes.map(({id, name}) => (
-                    <Dropdown.Option key={id} value={parseInt(id)}>
+                    <Dropdown.Option key={id} value={id}>
                       {name}
                     </Dropdown.Option>
                   ))}
                 </Dropdown>
               )}
             </Final.Field>
-            <View mt="20px">{activeType && <Fields type={activeType} />}</View>
+            <View mt="20px">
+              {activeType && <Fields type={parseInt(activeType)} />}
+            </View>
             <Final.FormSpy
               subscription={{values: true, valid: true}}
               onChange={onChange}
