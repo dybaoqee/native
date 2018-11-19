@@ -1225,17 +1225,17 @@
     lodash.mapvalues "^4.6.0"
     slugify "^1.3.1"
 
-"@emcasa/ui-native@^0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.6.8.tgz#437144af8b1e6bac3b7d75e0b6aa0e82e6b22a15"
+"@emcasa/ui-native@^0.6.11":
+  version "0.6.11"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.6.11.tgz#a6ed5eabf4a0a9472ebe698065457126b484c8f8"
   dependencies:
-    "@emcasa/ui" "^0.6.8"
+    "@emcasa/ui" "^0.6.10"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
 
-"@emcasa/ui@^0.6.8":
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.6.8.tgz#b87717a9cc4cbd36b5085e542b027b1e8df49c22"
+"@emcasa/ui@^0.6.10":
+  version "0.6.10"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.6.10.tgz#29dac3b92abaffc487da78e010ebc0f4de6e52b0"
   dependencies:
     "@fortawesome/free-solid-svg-icons" "^5.4.1"
     lodash.toarray "^4.4.0"
@@ -7765,8 +7765,8 @@ react-native-communications@^2.2.1:
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
 
 "react-native-facebook-account-kit@https://github.com/emcasa/react-native-facebook-account-kit.git":
-  version "0.10.1"
-  resolved "https://github.com/emcasa/react-native-facebook-account-kit.git#04bacadcce9e1069e9ba8d4a978e50b63df39658"
+  version "1.0.0"
+  resolved "https://github.com/emcasa/react-native-facebook-account-kit.git#05b5875c3d09015497baaaf742098b7271a3b5d9"
   dependencies:
     prop-types "^15.5.10"
 

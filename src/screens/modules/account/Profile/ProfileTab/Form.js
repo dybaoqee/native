@@ -5,7 +5,7 @@ import composeWithRef from '@/lib/composeWithRef'
 import {withEmailMutation, withProfileMutation} from '@/graphql/containers'
 import ProfileForm from '@/components/account/ProfileForm'
 
-class EditProfileScreen extends PureComponent {
+class ProfileFormContainer extends PureComponent {
   state = {}
 
   constructor(props) {
@@ -56,5 +56,5 @@ class EditProfileScreen extends PureComponent {
 }
 
 export default composeWithRef(withProfileMutation, withEmailMutation)(
-  EditProfileScreen
+  ProfileFormContainer
 )
