@@ -8,11 +8,9 @@ export const updateCity = (city) => ({type: UPDATE_CITY, city})
 export const updateFilters = (filters) => ({type: UPDATE_FILTERS, filters})
 export const clear = () => ({type: CLEAR})
 
-const initialState = {
+export const initialState = {
   city: 'rio-de-janeiro',
-  filters: {
-    types: ['Casa', 'Apartamento', 'Cobertura']
-  }
+  filters: {}
 }
 
 export default function listingsMapScreenReducer(state = initialState, action) {

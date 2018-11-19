@@ -68,14 +68,14 @@ function ListingCard({
   price,
   favorite,
   onFavorite,
-  testUniqueID,
   showImages,
+  index,
   ...props
 }) {
   const innerWidth = parseInt(width) - parseInt(props.ml) - parseInt(props.mr)
   return (
     <View {...props}>
-      <View testID={`listing_card(${testUniqueID})`}>
+      <View testID={`listing_card(${index + 1})`}>
         <Header images={images} width={innerWidth} showImages={showImages}>
           <View style={{position: 'absolute', top: 10, right: 10}}>
             <FavoriteButton

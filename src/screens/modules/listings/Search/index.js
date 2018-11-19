@@ -42,7 +42,6 @@ class ListingSearchScreen extends PureComponent {
   onDismiss = () => Navigation.dismissAllModals()
 
   render() {
-    const {filters} = this.props
     const {initialValues} = this.state
     return (
       <Modal bg="pink" opacity={0.9}>
