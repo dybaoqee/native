@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 import {Fragment} from 'react'
-import {themeGet} from 'styled-system'
+import {themeGet, bottom} from 'styled-system'
 import {connect} from 'react-redux'
 
 import getBottomTabs from '@/config/tabs'
@@ -18,11 +18,13 @@ const Center = styled.View.attrs({
   z-index: 2;
   position: absolute;
   align-items: center;
-  bottom: 17px;
+  bottom: 0;
+  margin-bottom: 17px;
   padding: 10px;
   left: 50%;
   margin-left: ${({theme}) => -(theme.size.bottomTabsBg.width / 2)};
   width: ${themeGet('size.bottomTabsBg.width')};
+  ${bottom};
 `
 
 const BaseBottomTabs = function BottomTabs({
@@ -32,17 +34,18 @@ const BaseBottomTabs = function BottomTabs({
   onChange,
   icon,
   type,
+  bottom,
   onPress
 }) {
   const hasButton = Boolean(icon)
   return (
     <Fragment>
       {hasButton && (
-        <Center>
+        <Center bottom={bottom}>
           <Button icon={icon} type={type} onPress={onPress} />
         </Center>
       )}
-      <Background hasButton={hasButton} testID={testID}>
+      <Background hasButton={hasButton} testID={testID} bottom={bottom}>
         <Tabs
           tabs={tabs}
           tabIndex={tabIndex}

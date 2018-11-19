@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 import {Fragment} from 'react'
 import {Dimensions, Image} from 'react-native'
-import {themeGet, left, right, width} from 'styled-system'
+import {themeGet, left, right, width, bottom} from 'styled-system'
 import {View} from '@emcasa/ui-native'
 
 const bgWidth = ({theme}) =>
@@ -76,4 +76,5 @@ export default styled(function TabBackground({children, hasButton, ...props}) {
   width: 100%;
   bottom: 0;
   height: ${themeGet('size.bottomTabs')};
+  ${bottom};
 `

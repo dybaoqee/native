@@ -20,6 +20,7 @@ export default {
     android: 'OpenSans'
   }),
   size: {
+    topBar: 50,
     bottomTabs: 55,
     bottomTabsBg: {
       width: 122,

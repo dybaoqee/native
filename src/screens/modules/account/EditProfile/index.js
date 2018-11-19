@@ -9,9 +9,6 @@ import {getContext} from '@/screens/modules/context/selectors'
 import {withEmailMutation, withProfileMutation} from '@/graphql/containers'
 import {Shell, Body} from '@/components/layout'
 import ProfileForm from '@/components/account/ProfileForm'
-import EditPasswordScreen from '../EditPassword'
-import EditNotificationsScreen from '../EditNotifications'
-import SubmitButtonScreen from '../SubmitButton'
 
 class EditProfileScreen extends PureComponent {
   static screenName = 'account.EditProfile'
@@ -22,36 +19,14 @@ class EditProfileScreen extends PureComponent {
     }
   }
 
-  state = {value: {}}
-
-  form = React.createRef()
+  state = {}
 
   constructor(props) {
     super(props)
-    this.state.value = _.flow(
+    this.state.initialValues = _.flow(
       _.pick(['name', 'phone', 'email']),
       _.mapValues((value) => value || '')
     )(props.user)
-  }
-
-  componentDidAppear() {
-    const passProps = {onPress: this.onSubmit}
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        ...this.constructor.options.topBar,
-        rightButtons: [
-          {
-            passProps,
-            id: `${this.props.componentId}_submit`,
-            component: {name: SubmitButtonScreen.screenName, passProps}
-          }
-        ]
-      }
-    })
-  }
-
-  componentDidDisappear() {
-    this.props.clearContext()
   }
 
   onSubmit = async () => {
@@ -64,35 +39,18 @@ class EditProfileScreen extends PureComponent {
     setContext({loading: false})
   }
 
-  onChange = (value) => this.setState({value})
-
-  onEditPassword = () => {
-    Navigation.push(this.props.componentId, {
-      component: {name: EditPasswordScreen.screenName}
-    })
-  }
-
-  onEditNotifications = () => {
-    Navigation.push(this.props.componentId, {
-      component: {name: EditNotificationsScreen.screenName}
-    })
-  }
+  onChange = (formState) => this.setState(formState)
 
   render() {
-    const {user} = this.props
-    const {value} = this.state
+    const {initialValues} = this.state
 
     return (
-      <Shell bottomtabs>
-        <Body>
+      <Shell bottomTabs>
+        <Body mb="auto">
           <ProfileForm
-            formRef={this.form}
-            user={user}
-            value={value}
+            initialValues={initialValues}
             onSubmit={this.onSubmit}
             onChange={this.onChange}
-            onEditPassword={this.onEditPassword}
-            onEditNotifications={this.onEditNotifications}
           />
         </Body>
       </Shell>

@@ -1,5 +1,6 @@
 import 'moment/locale/pt-br'
 import moment from 'moment'
+import * as libPhone from 'libphonenumber-js'
 
 import abbrev from 'number-abbreviate'
 
@@ -23,3 +24,6 @@ export const timeElapsed = (a, b = Date.now()) => {
   else if (hours < 48) return 'ontem'
   else return then.format('MM/D')
 }
+
+export const phone = (phoneNumber) =>
+  libPhone.formatNumber(phoneNumber, 'BR', 'National')

@@ -1,13 +1,15 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.emcasa" android:versionCode="1" android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools" package="com.emcasa" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="26" />
-  <application android:name=".MainApplication" android:allowBackup="true" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:theme="@style/SplashScreen">
+  <application tools:replace="android:allowBackup" android:name=".MainApplication" android:allowBackup="false" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:theme="@style/SplashScreen">
     <meta-data android:name="io.fabric.ApiKey" android:value="${fabricApiKey}" />
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleMapsApiKey}" />
-    <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/colorAccent" />
+    <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/pink" />
     <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_launcher" />
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     <meta-data android:name="com.facebook.accountkit.ApplicationName" android:value="@string/app_name" />
     <meta-data android:name="com.facebook.accountkit.ClientToken" android:value="${accountKitClientToken}" />
+    <activity tools:replace="android:theme" android:name="com.facebook.accountkit.ui.AccountKitActivity" android:theme="@style/LoginTheme" />
     <activity android:name=".MainActivity" android:launchMode="singleTop" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="stateHidden|adjustResize" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
