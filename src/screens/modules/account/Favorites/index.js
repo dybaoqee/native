@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 
@@ -19,7 +20,13 @@ class FavoritesScreen extends PureComponent {
   static options = {
     topBar: {
       title: {text: 'Meus imóveis favoritos'},
-      backButton: {title: 'Favoritos'}
+      backButton: {title: 'Favoritos'},
+      leftButtons: [
+        {
+          id: 'account.Favorites#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

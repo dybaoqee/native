@@ -1,5 +1,4 @@
 import theme from './theme'
-import * as colors from '@/assets/colors'
 
 /**
  * react-native-navigation default screen options
@@ -10,19 +9,29 @@ export default {
     backgroundColor: 'white',
     orientation: ['portrait']
   },
+  statusBar: {
+    visible: true,
+    style: 'dark',
+    backgroundColor: 'white'
+  },
   topBar: {
-    buttonColor: colors.blue.medium,
+    buttonColor: theme.colors.pink,
     height: 50,
     elevation: 1,
-    borderColor: colors.gray.light,
-    backButton: {title: ''},
+    borderColor: theme.colors.border,
+    backButton: {
+      icon: require('@/assets/img/icons/back.png'),
+      title: '',
+      color: theme.colors.pink
+    },
     visible: true,
     animate: false,
     title: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: '400',
-      color: colors.gray.dark,
-      fontFamily: theme.fontFamily
+      color: theme.colors.dark,
+      fontFamily: theme.fontFamily,
+      alignment: 'center'
     }
   },
   bottomTabs: {

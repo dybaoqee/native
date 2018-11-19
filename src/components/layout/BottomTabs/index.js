@@ -22,7 +22,7 @@ const Center = styled.View.attrs({
   padding: 10px;
   left: 50%;
   margin-left: ${({theme}) => -(theme.size.bottomTabsBg.width / 2)};
-  width: ${themeGet('size.bottomTabsBg.width')};
+  width: ${themeGet('size.bottomTabsBg.width', '100%')};
 `
 
 const BaseBottomTabs = function BottomTabs({

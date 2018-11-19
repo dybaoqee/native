@@ -1,4 +1,5 @@
 import {chunk} from 'lodash'
+import {get} from 'lodash/fp'
 import styled from 'styled-components/native'
 import {themeGet} from 'styled-system'
 import {TouchableOpacity} from 'react-native'
@@ -41,14 +42,14 @@ Tab.defaultProps = {
 }
 
 const renderTabs = ({tabIndex, onChange}) => (tabs, offset = 0) =>
-  tabs.map(({name, props}, i) => {
+  tabs.map(({key, props, component}, i) => {
     const index = i + offset
     return (
       <Tab
-        key={name}
-        {...props}
-        active={tabIndex == index}
+        key={key}
+        active={component && tabIndex == index}
         onPress={() => onChange(index)}
+        {...props}
       />
     )
   })
@@ -60,7 +61,7 @@ export default styled(function Tabs({hasButton, tabs, ...props}) {
     <View zIndex={2} {...props}>
       {$renderTabs(left)}
       {hasButton && <View width={60} height={1} alignSelf="flex-end" />}
-      {$renderTabs(right, left.length)}
+      {$renderTabs(right, left.filter(get('component')).length)}
     </View>
   )
 })`
@@ -68,5 +69,5 @@ export default styled(function Tabs({hasButton, tabs, ...props}) {
   align-items: stretch;
   justify-content: space-around;
   background-color: transparent;
-  height: ${themeGet('size.bottomTabs')};
+  height: ${themeGet('size.bottomTabs', 0)};
 `

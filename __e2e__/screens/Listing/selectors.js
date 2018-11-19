@@ -6,13 +6,13 @@ export const tourScreen = () => by.id('@listing.Tour')
 
 export const map = () => by.id('listing_map')
 
-export const thumbnail = () => by.id('listing_thumbnail')
+export const header = () => by.id('listing_header')
 
-export const thumbnailGallery = () => by.id('listing_thumbnail_gallery')
+export const headerGallery = () => by.id('listing_header_gallery')
 
-export const galleryButton = () => by.label('Ver imagens')
+export const modalGallery = () => by.id('listing_gallery')
 
-export const tourButton = () => by.label('Ver em tela cheia')
+export const gallerySlide = (index) => by.id(`gallery_slide(${index})`)
 
 export const likeButton = () => by.label('Acidionar aos favoritos')
 

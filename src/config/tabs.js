@@ -2,6 +2,7 @@ import * as listingForm from '@/screens/modules/listingForm/screens'
 import * as listings from '@/screens/modules/listings/screens'
 import * as account from '@/screens/modules/account/screens'
 import * as auth from '@/screens/modules/auth/screens'
+import {Navigation} from 'react-native-navigation'
 
 /**
  * react-native-navigation bottom tabs layout generator.
@@ -12,7 +13,8 @@ import * as auth from '@/screens/modules/auth/screens'
  */
 export default (_, {user}) => [
   {
-    name: listings.Feed.screenName,
+    key: 'search',
+    component: {name: listings.Feed.screenName},
     props: {
       icon: 'search',
       type: 'light',
@@ -21,21 +23,29 @@ export default (_, {user}) => [
     }
   },
   {
-    name: user.id ? listingForm.Address.screenName : auth.Login.screenName,
+    key: 'create_listing',
     props: {
+      onPress: () =>
+        Navigation.showModal({
+          component: {name: listings.Create.screenName}
+        }),
       icon: 'flag',
       label: 'Anunciar'
     }
   },
   {
-    name: account.Favorites.screenName,
+    key: 'favorites',
+    component: {name: account.Favorites.screenName},
     props: {
       icon: 'heart',
       label: 'Favoritos'
     }
   },
   {
-    name: user.id ? account.Menu.screenName : auth.Login.screenName,
+    key: 'account',
+    component: {
+      name: user.id ? account.Menu.screenName : auth.Login.screenName
+    },
     props: {
       icon: 'user',
       label: user.id ? 'Meu Perfil' : 'Login'

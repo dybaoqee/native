@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent, Fragment} from 'react'
 import {View, ActivityIndicator, Platform} from 'react-native'
 import {Navigation} from 'react-native-navigation'
@@ -10,7 +11,6 @@ import {withSignInMutation} from '@/graphql/containers'
 import {updateStackRoot} from '@/screens/modules/navigation'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
-
 import styles from './styles'
 
 const isRegistrationComplete = (user) => Boolean(user.name)
@@ -20,7 +20,13 @@ class LoginScreen extends PureComponent {
 
   static options = {
     topBar: {
-      title: {text: 'Login'}
+      title: {text: 'Login'},
+      leftButtons: [
+        {
+          id: 'auth.Login#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

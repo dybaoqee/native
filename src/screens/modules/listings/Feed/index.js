@@ -2,10 +2,11 @@ import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
 
+import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed} from '@/graphql/containers'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
-import {Shell, Body, Header} from '@/components/layout'
+import {Shell, Body} from '@/components/layout'
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
 import InfiniteScroll from '@/containers/InfiniteScroll'
 import Feed from '@/components/listings/Feed/Listing'
@@ -21,11 +22,20 @@ class ListingsFeedScreen extends PureComponent {
 
   static options = {
     topBar: {
-      visible: false,
-      drawBehind: true,
-      translucent: true,
-      height: 0,
-      backButton: {title: 'Imóveis'}
+      title: {text: 'Explorar'},
+      leftButtons: [
+        {
+          id: 'listings.Feed#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ],
+      rightButtons: [
+        {
+          id: 'listings.Feed#filters',
+          icon: require('@/assets/img/icons/filter.png'),
+          color: theme.colors.grey
+        }
+      ]
     }
   }
 
@@ -40,17 +50,19 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) updateBlacklists()
   }
 
+  navigationButtonPressed({buttonId}) {
+    if (buttonId === 'listings.Feed#filters') {
+      Navigation.showModal({
+        component: {name: SearchFiltersScreen.screenName}
+      })
+    }
+  }
+
   onLoadMore = () => {
     const {
       listingsFeed: {loading, fetchMore}
     } = this.props
     if (!loading) fetchMore()
-  }
-
-  onOpenFilters = () => {
-    Navigation.showModal({
-      component: {name: SearchFiltersScreen.screenName}
-    })
   }
 
   onOpenLocationSearch = () => this.setState({modalActive: true})

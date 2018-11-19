@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
@@ -17,10 +18,13 @@ class AccountMenuScreen extends PureComponent {
 
   static options = {
     topBar: {
-      visible: false,
-      drawBehind: true,
-      height: 0,
-      backButton: {title: 'Perfil'}
+      title: {text: 'Meu Perfil'},
+      leftButtons: [
+        {
+          id: 'account.Menu#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

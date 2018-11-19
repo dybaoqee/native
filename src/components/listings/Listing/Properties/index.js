@@ -7,7 +7,7 @@ import styles, {iconColor} from './styles'
 
 const Property = ({children, icon, width}) => (
   <View style={[styles.property, {width}]}>
-    <Icon name={icon} color={iconColor} style={styles.icon} />
+    <Icon name={icon} type="light" color={iconColor} style={styles.icon} />
     <View style={styles.propertyBody}>
       <Text style={styles.propertyText}>{children}</Text>
     </View>

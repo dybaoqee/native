@@ -19,16 +19,19 @@ class ListingGalleryScreen extends PureComponent {
   render() {
     const {
       listing: {data, loading},
+      index,
       onDismiss
     } = this.props
 
     return (
       <Modal bg="dark" testID="@listing.Gallery">
         <Body loading={loading}>
-          <Modal.Header absolute onDismiss={onDismiss} />
+          <Modal.Header translucent onDismiss={onDismiss} />
           {data && (
             <Gallery
               scalable
+              testID="listing_gallery"
+              initialIndex={index}
               {...pick(Dimensions.get('window'), 'width', 'height')}
             >
               {data.images}

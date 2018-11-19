@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import {TouchableOpacity} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
 import {View} from '@emcasa/ui-native'
 
@@ -8,12 +9,20 @@ import Pagination from './Pagination'
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
+    lazy: true,
+    initialIndex: 0,
     paginationDelta: 2
   }
 
   state = {
-    position: 0,
     dimensions: {}
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      index:
+        typeof state.index === 'undefined' ? props.initialIndex : state.index
+    }
   }
 
   get items() {
@@ -40,10 +49,15 @@ export default class ListingGallery extends PureComponent {
     this.gallery = node
   }
 
-  onChange = (position) => this.setState({position: Math.floor(position)})
+  onChangeIndex = (_index) => {
+    const {onChangeIndex} = this.props
+    const index = Math.floor(_index)
+    this.setState({index})
+    if (onChangeIndex) onChangeIndex(index)
+  }
 
   onLayout = (e) => {
-    const {position} = this.state
+    const {index} = this.state
     const {
       nativeEvent: {layout}
     } = e
@@ -54,33 +68,47 @@ export default class ListingGallery extends PureComponent {
     this.setState({dimensions})
     this.gallery.handleLayout(e)
     this.gallery.scrollViewNode.scrollTo({
-      x: dimensions.width * position,
+      x: dimensions.width * index,
       y: 0,
       animated: false
     })
   }
 
   renderImage = (image, index) => {
-    const {position} = this.state
+    const {lazy, onPressImage} = this.props
+    const {index: currentIndex} = this.state
     const {width, height, ...imageProps} = this.imageProps
     // Placeholder
-    if (Math.abs(index - position) > 2)
-      return <View key={image.filename} width={width} height={height} />
+    if (lazy && Math.abs(index - currentIndex) > 2)
+      return <View key={index} width={width} height={height} />
     return (
-      <Image
-        key={`${index}.${image.filename}`}
-        resolution={imageProps.scalable ? 4.5 : 1}
-        width={width}
-        height={height}
-        {...imageProps}
-        {...image}
-      />
+      <TouchableOpacity
+        accessible
+        testID={`gallery_slide(${index + 1})`}
+        key={index}
+        activeOpacity={0.95}
+        disabled={!onPressImage}
+        onPress={() => onPressImage(index)}
+        style={{width: '100%', height: '100%'}}
+      >
+        {React.isValidElement(image) ? (
+          image
+        ) : (
+          <Image
+            resolution={imageProps.scalable ? 4.5 : 1}
+            width={width}
+            height={height}
+            {...imageProps}
+            {...image}
+          />
+        )}
+      </TouchableOpacity>
     )
   }
 
   render() {
-    const {scalable, style, props} = this.props
-    const {position} = this.state
+    const {scalable, style, testID, ...props} = this.props
+    const {index} = this.state
     return (
       <View
         {...props}
@@ -88,7 +116,10 @@ export default class ListingGallery extends PureComponent {
         onLayout={this.onLayout}
       >
         <SwipeableView
+          testID={testID}
+          keyboardShouldPersistTaps="always"
           ref={this.galleryRef}
+          index={index}
           onLayout={this.onLayout}
           style={{
             flex: 1,
@@ -98,14 +129,14 @@ export default class ListingGallery extends PureComponent {
             justifyContent: 'center',
             alignItems: 'flex-start'
           }}
-          onChangeIndex={this.onChange}
+          onChangeIndex={this.onChangeIndex}
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
         <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
           <Pagination
             displayText={scalable}
-            currentPosition={position}
+            index={index}
             totalPages={this.items.length}
           />
         </View>
