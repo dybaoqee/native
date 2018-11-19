@@ -3,6 +3,7 @@ import {Linking} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import {Text, Row, Button} from '@emcasa/ui-native'
 
+import {FRONTEND_URL} from '@/config/const'
 import {Modal, Body} from '@/components/layout'
 
 export default class createListingScreen extends PureComponent {
@@ -19,7 +20,7 @@ export default class createListingScreen extends PureComponent {
   onDismiss = () => Navigation.dismissAllModals()
 
   onOpenUrl = () => {
-    const url = 'https://emcasa.com/saiba-mais-para-vender'
+    const url = `${FRONTEND_URL}/saiba-mais-para-vender`
     Linking.canOpenURL(url).then((supported) => {
       if (supported) Linking.openURL(url)
     })
