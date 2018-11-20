@@ -106,13 +106,13 @@ def accountKitClientToken = System.getenv("ACCOUNTKIT_CLIENT_TOKEN") ?: ""
 def facebookAppId = System.getenv("FACEBOOK_APP_ID") ?: "246686149385389" // Defaults to debug app id
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "27.0.3"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.emcasa"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -167,7 +167,10 @@ android {
             matchingFallbacks = ['debug']
         }
     }
-    // applicationVariants are e.g. debug, release
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
@@ -179,10 +182,6 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -214,7 +213,9 @@ repositories {
 dependencies {
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-code-push')
-    implementation project(':react-native-facebook-account-kit')
+    implementation(project(':react-native-facebook-account-kit')) {
+            exclude group: 'com.facebook.android', module: 'account-kit-sdk'
+    }
     implementation project(':react-native-check-app-install')
     implementation project(':react-native-fbsdk')
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -225,14 +226,20 @@ dependencies {
     implementation project(':react-native-photo-view')
     implementation project(':react-native-maps')
     implementation(project(':react-native-firebase')) {transitive = false}
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation "com.android.support:appcompat-v7:26.1.0"
-    implementation "com.android.support:support-annotations:26.1.0"
-    implementation "com.android.support:design:26.1.0"
+    implementation"com.facebook.react:react-native:+"  // From node_modules
+    implementation("com.facebook.android:account-kit-sdk:4.36.0") {
+            exclude group: 'com.google.android.gms', module: 'play-services-auth'
+            exclude group: 'com.google.android.gms', module: 'play-services-auth-api-phone'
+    }
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
     implementation 'com.android.support:multidex:1.0.3'
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.android.gms:play-services-basement:15.0.1"
-    implementation "com.google.android.gms:play-services-maps:15.0.1"
+    implementation ("com.google.android.gms:play-services-auth:${rootProject.ext.googlePlayServicesVersion}") {force = true}
+    implementation ("com.google.android.gms:play-services-auth-api-phone:${rootProject.ext.googlePlayServicesVersion}") {force = true}
+    implementation ("com.google.android.gms:play-services-base:${rootProject.ext.googlePlayServicesVersion}") {force = true}
+    implementation ("com.google.android.gms:play-services-basement:${rootProject.ext.googlePlayServicesVersion}") {force = true}
+    implementation ("com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}") {force = true}
     implementation 'com.google.firebase:firebase-core:15.0.2'
     implementation 'com.google.firebase:firebase-messaging:15.0.2'
     // to see latest version available:
@@ -246,6 +253,8 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use

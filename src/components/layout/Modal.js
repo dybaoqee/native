@@ -41,17 +41,18 @@ export default Modal
 
 Modal.Header = styled(function ModalHeader({
   children,
-  iconColor,
+  color,
   onDismiss,
   fontSize,
   fontWeight,
+  textAlign,
   ...props
 }) {
   return (
     <Row {...props}>
       <Col flex={1}>
         {children && (
-          <Text color="white" {...{fontSize, fontWeight}}>
+          <Text color={color} {...{fontSize, fontWeight, textAlign}}>
             {children}
           </Text>
         )}
@@ -63,7 +64,7 @@ Modal.Header = styled(function ModalHeader({
             name="times"
             type="light"
             size={24}
-            color={iconColor}
+            color={color}
             onPress={onDismiss}
             hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
           />
@@ -86,5 +87,5 @@ Modal.Header = styled(function ModalHeader({
 Modal.Header.defaultProps = {
   zIndex: 1,
   fontSize: 'large',
-  iconColor: 'white'
+  color: 'white'
 }

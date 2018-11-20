@@ -6,7 +6,7 @@ export const CLEAR = 'search/CLEAR'
 
 export const updateCity = (city) => ({type: UPDATE_CITY, city})
 export const updateFilters = (filters) => ({type: UPDATE_FILTERS, filters})
-export const clear = () => ({type: CLEAR})
+export const clearFilters = () => ({type: CLEAR})
 
 export const initialState = {
   city: 'rio-de-janeiro',
@@ -20,7 +20,7 @@ export default function listingsMapScreenReducer(state = initialState, action) {
     case UPDATE_FILTERS:
       return {...state, filters: action.filters}
     case CLEAR:
-      return {...initialState, state: state.state}
+      return {...state, filters: initialState.filters}
     default:
       return state
   }

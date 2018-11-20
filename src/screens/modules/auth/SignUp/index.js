@@ -1,11 +1,10 @@
-import React, {PureComponent} from 'react'
+import {PureComponent} from 'react'
+import {Button} from '@emcasa/ui-native'
 
-import {required} from '@/lib/validations'
 import composeWithRef from '@/lib/composeWithRef'
 import {withEmailMutation, withProfileMutation} from '@/graphql/containers'
-import {Modal, Body, Footer} from '@/components/layout'
-import Button from '@/components/shared/Button'
-import Form, {TextInput, Email} from '@/components/shared/Form'
+import {Modal, Body} from '@/components/layout'
+import ProfileForm from '@/components/account/ProfileForm'
 
 class SignUpScreen extends PureComponent {
   static screenName = 'auth.SignUp'
@@ -17,29 +16,21 @@ class SignUpScreen extends PureComponent {
   }
 
   state = {
-    active: false,
     loading: false,
-    value: {}
+    valid: false,
+    values: {}
   }
 
-  form = React.createRef()
-
-  componentDidDisappear() {
-    this.setState({value: undefined, active: false})
-  }
-
-  componentDidAppear() {
-    this.setState({active: true})
-  }
-
-  onChange = (value) => this.setState({value})
+  onChange = (state) => this.setState(state)
 
   onSubmit = async () => {
     const {editUserProfile, changeEmail, onSuccess} = this.props
     const {
-      value: {name, email}
+      values: {name, email},
+      loading,
+      valid
     } = this.state
-    if (this.state.loading || !this.form.current.onValidate()) return
+    if (loading || !valid) return
     this.setState({loading: true, error: undefined})
     try {
       if (email) await changeEmail({email})
@@ -53,39 +44,28 @@ class SignUpScreen extends PureComponent {
   }
 
   render() {
-    const {loading, value} = this.state
-
+    const {loading, valid} = this.state
+    const disabled = Boolean(loading || !valid)
     return (
-      <Modal testID="@auth.SignUp">
-        <Modal.Header inline>Cadastre-se</Modal.Header>
-        <Body loading={loading}>
-          <Form
-            style={{margin: 15}}
-            formRef={this.form}
-            value={value}
+      <Modal testID="@auth.SignUp" bg="white">
+        <Modal.Header color="dark" mt="15px" textAlign="center">
+          Cadastre-se
+        </Modal.Header>
+        <Body loading={loading} m="15px">
+          <ProfileForm
+            fields={{name: true, email: true}}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
+          />
+          <Button
+            disabled={disabled}
+            active={!disabled}
+            height="tall"
+            onPress={disabled ? undefined : this.onSubmit}
           >
-            <TextInput
-              name="name"
-              returnKeyType="next"
-              nextField="email"
-              placeholder="Nome"
-              validations={[required('O nome é obrigatório')]}
-            />
-            <Email
-              name="email"
-              returnKeyType="done"
-              placeholder="Email (opcional)"
-              validations={[required(false)]}
-            />
-          </Form>
-        </Body>
-        <Footer style={{padding: 15}}>
-          <Button disabled={loading} onPress={this.onSubmit}>
-            {loading ? 'Enviando...' : 'Enviar'}
+            {loading ? 'Salvando...' : 'Salvar'}
           </Button>
-        </Footer>
+        </Body>
       </Modal>
     )
   }

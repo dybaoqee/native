@@ -1,4 +1,4 @@
-import {range, isEqual, isArray} from 'lodash'
+import {range, isEqual} from 'lodash'
 import styled, {withTheme} from 'styled-components/native'
 import {View, Text, Button} from '@emcasa/ui-native'
 import * as Final from 'react-final-form'

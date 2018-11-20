@@ -11,6 +11,10 @@ const Tab = styled(function Tab({
   type,
   active,
   strokeWidth,
+  x,
+  y,
+  size,
+  scale,
   ...props
 }) {
   const color = active ? 'pink' : 'dark'
@@ -19,10 +23,10 @@ const Tab = styled(function Tab({
       <Icon
         name={icon}
         type={type}
-        size={16}
         color={color}
         stroke={color}
         strokeWidth={strokeWidth}
+        {...{strokeWidth, x, y, scale, size}}
       />
       <Text fontSize={9} color={color}>
         {label}
@@ -38,7 +42,8 @@ const Tab = styled(function Tab({
 `
 
 Tab.defaultProps = {
-  type: 'solid'
+  type: 'solid',
+  size: 16
 }
 
 const renderTabs = ({tabIndex, onChange}) => (tabs, offset = 0) =>

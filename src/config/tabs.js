@@ -1,4 +1,3 @@
-import * as listingForm from '@/screens/modules/listingForm/screens'
 import * as listings from '@/screens/modules/listings/screens'
 import * as account from '@/screens/modules/account/screens'
 import * as auth from '@/screens/modules/auth/screens'
@@ -18,8 +17,11 @@ export default (_, {user}) => [
     props: {
       icon: 'search',
       type: 'light',
+      label: 'Explorar',
       strokeWidth: 25,
-      label: 'Explorar'
+      size: 17,
+      scale: 0.95,
+      y: 10
     }
   },
   {
@@ -44,7 +46,7 @@ export default (_, {user}) => [
   {
     key: 'account',
     component: {
-      name: user.id ? account.Menu.screenName : auth.Login.screenName
+      name: user.id ? account.Profile.screenName : auth.Login.screenName
     },
     props: {
       icon: 'user',

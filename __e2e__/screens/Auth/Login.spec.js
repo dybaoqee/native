@@ -7,9 +7,12 @@ describe('auth.Login', () => {
 
   it('redirects to the main screen on success', async () => {
     await action.login()
+    await waitFor(element(select.accountKitScreen()))
+      .toBeNotVisible()
+      .withTimeout(500)
     await waitFor(element(select.loginScreen()))
       .toBeNotVisible()
-      .withTimeout(1000)
+      .withTimeout(500)
     await expect(element(listings.feedScreen())).toBeVisible()
   })
 })

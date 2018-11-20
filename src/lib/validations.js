@@ -1,6 +1,14 @@
 import _ from 'lodash/fp'
 import {validate as validateEmail} from 'email-validator'
 
+export default function composeValidations(...validators) {
+  return (value) =>
+    validators.reduce(
+      (error, validator) => error || validator(value),
+      undefined
+    )
+}
+
 const createValidation = (name, fun, defaultMessage = '') => (message) => {
   const validation = (value) => {
     if (message === false) return null

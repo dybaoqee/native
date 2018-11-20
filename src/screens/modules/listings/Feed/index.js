@@ -5,17 +5,18 @@ import {connect} from 'react-redux'
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed} from '@/graphql/containers'
+import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
 import InfiniteScroll from '@/containers/InfiniteScroll'
 import Feed from '@/components/listings/Feed/Listing'
 import SearchLocation from './Location'
-import ListEmpty from './ListEmpty'
 import ListHeader from './ListHeader'
 
 import SearchFiltersScreen from '@/screens/modules/listings/Search'
 import ListingScreen from '@/screens/modules/listing/Listing'
+import ListEmpty from '@/components/shared/ListEmpty'
 
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
@@ -69,6 +70,8 @@ class ListingsFeedScreen extends PureComponent {
 
   onCloseLocationSearch = () => this.setState({modalActive: false})
 
+  onClearFilters = () => this.props.clearFilters()
+
   onSelect = (id) => {
     Navigation.push(this.props.componentId, {
       component: {
@@ -80,7 +83,7 @@ class ListingsFeedScreen extends PureComponent {
 
   render() {
     const {
-      listingsFeed: {loading, data, remainingCount}
+      listingsFeed: {data, loading, remainingCount}
     } = this.props
     const {modalActive} = this.state
     return (
@@ -112,7 +115,16 @@ class ListingsFeedScreen extends PureComponent {
                 onSelect={this.onSelect}
                 ListHeaderComponent={ListHeader}
                 ListEmptyComponent={
-                  loading === false && !data.length ? ListEmpty : undefined
+                  <ListEmpty
+                    loading={loading}
+                    title="Nenhum resultado encontrado"
+                    buttonText="Limpar filtros"
+                    image={require('@/assets/img/icons/sad_smartphone.png')}
+                    onPress={this.onClearFilters}
+                  >
+                    A sua pesquisa não retornou nenhum imóvel. Altere ou limpe
+                    os filtros para ver resultados.
+                  </ListEmpty>
                 }
               />
             </BottomTabsAvoidingScrollView>
@@ -124,7 +136,10 @@ class ListingsFeedScreen extends PureComponent {
 }
 
 export default composeWithRef(
-  connect((state) => ({filters: getSearchFiltersQuery(state)})),
+  connect(
+    (state) => ({filters: getSearchFiltersQuery(state)}),
+    {clearFilters}
+  ),
   withListingsFeed(({filters}) => ({
     filters,
     pageSize: 15,

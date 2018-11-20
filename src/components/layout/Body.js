@@ -5,13 +5,41 @@ import {justifyContent, alignItems} from 'styled-system'
 import {View as BaseView} from '@emcasa/ui-native'
 
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
+import {compose} from 'recompose'
 
 const View = styled(BaseView)`
+  ${({hasBottomTabs, mb, theme}) => {
+    let marginBottom = mb
+    if (mb === 'auto') marginBottom = hasBottomTabs ? theme.size.bottomTabs : 0
+    else if (mb == 'none') marginBottom = 0
+    return {marginBottom}
+  }};
   ${justifyContent};
   ${alignItems};
 `
 
-const ScrollView = View.withComponent(RCTScrollView)
+const withContentContainerStyle = (Target) => styled(({style, ...props}) => (
+  <Target contentContainerStyle={style} {...props} />
+))`
+  ${({height, hasBottomTabs, theme}) =>
+    Boolean(hasBottomTabs && height === 'auto') && {
+      minHeight: theme.dimensions.layout.height - theme.size.bottomTabs
+    }};
+`
+
+const ScrollView = compose(withContentContainerStyle)(styled(
+  BaseView.withComponent(({hasBottomTabs, ...props}) => {
+    let component = <RCTScrollView {...props} />
+    if (hasBottomTabs && props.mb === 'auto')
+      component = (
+        <BottomTabsAvoidingScrollView>{component}</BottomTabsAvoidingScrollView>
+      )
+    return component
+  })
+)`
+  ${({mb}) => ({marginBottom: ['auto', 'none'].includes(mb) ? 0 : mb})};
+  ${({height}) => ({height: height === 'auto' ? undefined : height})};
+`)
 
 const Overlay = styled.View`
   z-index: 1;
@@ -45,11 +73,11 @@ export default class Body extends PureComponent {
   }
 
   render() {
-    const {scroll, loading, testID, hasBottomTabs, ...props} = this.props
+    const {scroll, loading, testID, ...props} = this.props
     const {children} = this.state
     const ViewComponent = scroll ? ScrollView : View
 
-    const component = (
+    return (
       <ViewComponent
         automaticallyAdjustContentInsets={false}
         testID={testID}
@@ -60,10 +88,6 @@ export default class Body extends PureComponent {
         {Boolean(loading && !children) && this.renderOverlay()}
         {children}
       </ViewComponent>
-    )
-    if (!(scroll && hasBottomTabs)) return component
-    return (
-      <BottomTabsAvoidingScrollView>{component}</BottomTabsAvoidingScrollView>
     )
   }
 }
