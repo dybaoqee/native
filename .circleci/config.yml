@@ -317,7 +317,7 @@ jobs:
       - restore_cache: *restore-gradle
       - run: *install-gems
       - run: *install-sdkmanager
-      - run: sudo apt-get install -y -qq imagemagick
+      - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-version-staging
       - run: *configure-release
       - run: *bump-android
@@ -422,7 +422,7 @@ jobs:
       - restore_cache: *restore-gradle
       - run: *install-gems
       - run: *install-sdkmanager
-      - run: sudo apt-get install -y -qq imagemagick
+      - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-release
       - run: *bump-android
       - run: *bundle-android
