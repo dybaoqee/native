@@ -20,11 +20,13 @@ class LoginScreen extends PureComponent {
 
   static options = {
     topBar: {
-      visible: false,
-      drawBehind: true,
-      translucent: true,
-      height: 0,
-      backButton: {title: 'Login'}
+      title: {text: 'Login'},
+      leftButtons: [
+        {
+          id: 'auth.Login#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

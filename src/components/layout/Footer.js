@@ -1,8 +1,9 @@
-import styled from 'styled-components/native'
+import styled from 'styled-components'
 import {themeGet} from 'styled-system'
-import {Col} from '@emcasa/ui-native'
+import {View} from '@emcasa/ui-native'
 
-export default styled(Col)`
-  border-top-width: 0.5px;
-  border-color: ${themeGet('colors.lightGrey')};
+export default styled(View).attrs({elevation: 4})`
+  border-top-color: ${themeGet('colors.lightGrey')};
+  border-top-width: 1px;
+  background-color: white;
 `

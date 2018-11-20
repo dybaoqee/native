@@ -1,20 +1,28 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
-import {View} from 'react-native'
+import React, {PureComponent} from 'react'
+import {TouchableOpacity} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
+import {View} from '@emcasa/ui-native'
 
 import Image from '../Image'
 import Pagination from './Pagination'
-import styles from './styles'
 
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
+    lazy: true,
+    initialIndex: 0,
     paginationDelta: 2
   }
 
   state = {
-    position: 0,
     dimensions: {}
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      index:
+        typeof state.index === 'undefined' ? props.initialIndex : state.index
+    }
   }
 
   get items() {
@@ -27,22 +35,32 @@ export default class ListingGallery extends PureComponent {
     return _.defaults({width, height}, dimensions)
   }
 
-  get imageLayout() {
-    const {inline} = this.props
+  get imageProps() {
+    const {scalable} = this.props
     const layout = this.layout
-    if (!inline) layout.height = layout.width * 0.6
-    return layout
+    if (scalable) layout.height = layout.width * 0.6
+    return {
+      scalable,
+      ...layout
+    }
   }
 
   galleryRef = (node) => {
     this.gallery = node
   }
 
-  onChange = (position) => this.setState({position: Math.floor(position)})
+  onChangeIndex = (_index) => {
+    const {onChangeIndex} = this.props
+    const index = Math.floor(_index)
+    this.setState({index})
+    if (onChangeIndex) onChangeIndex(index)
+  }
 
   onLayout = (e) => {
-    const {position} = this.state
-    const {nativeEvent: {layout}} = e
+    const {index} = this.state
+    const {
+      nativeEvent: {layout}
+    } = e
     const dimensions = {
       width: layout.width,
       height: layout.height
@@ -50,79 +68,75 @@ export default class ListingGallery extends PureComponent {
     this.setState({dimensions})
     this.gallery.handleLayout(e)
     this.gallery.scrollViewNode.scrollTo({
-      x: dimensions.width * position,
+      x: dimensions.width * index,
       y: 0,
       animated: false
     })
   }
 
-  renderPagination = (image, index) => {
-    let {position} = this.state
-    const {paginationDelta} = this.props
-    let right = position + paginationDelta
-    let left = position - paginationDelta
-    if (left < 0) right -= left
-    if (right >= this.items.length)
-      left = this.items.length - paginationDelta * 2 - 1
-    if (index < left || index > right) return null
-    const distanceFromActivePage = Math.min(
-      paginationDelta,
-      Math.abs(index - position)
-    )
-    const size = 12 / (distanceFromActivePage + 1) + 2
-    const opacity = 0.6 / (distanceFromActivePage + 1) + 0.4
-    return (
-      <Icon
-        key={`${index}.${image.filename}`}
-        type="solid"
-        name="circle"
-        color="white"
-        size={size}
-        style={[styles.pageIcon, {opacity}]}
-      />
-    )
-  }
-
   renderImage = (image, index) => {
-    const {scalable} = this.props
-    const {position} = this.state
+    const {lazy, onPressImage} = this.props
+    const {index: currentIndex} = this.state
+    const {width, height, ...imageProps} = this.imageProps
     // Placeholder
-    if (Math.abs(index - position) > 2)
-      return <View key={image.filename} style={this.imageLayout} />
+    if (lazy && Math.abs(index - currentIndex) > 2)
+      return <View key={index} width={width} height={height} />
     return (
-      <Image
-        key={`${index}.${image.filename}`}
-        style={[styles.image]}
-        resolution={scalable ? 4.5 : 1}
-        layout={scalable ? 'scalable' : undefined}
-        {...this.imageLayout}
-        {...image}
-      />
+      <TouchableOpacity
+        accessible
+        testID={`gallery_slide(${index + 1})`}
+        key={index}
+        activeOpacity={0.95}
+        disabled={!onPressImage}
+        onPress={() => onPressImage(index)}
+        style={{width: '100%', height: '100%'}}
+      >
+        {React.isValidElement(image) ? (
+          image
+        ) : (
+          <Image
+            resolution={imageProps.scalable ? 4.5 : 1}
+            width={width}
+            height={height}
+            {...imageProps}
+            {...image}
+          />
+        )}
+      </TouchableOpacity>
     )
   }
 
   render() {
-    const {inline, style, testID} = this.props
-    const {position} = this.state
+    const {scalable, style, testID, ...props} = this.props
+    const {index} = this.state
     return (
       <View
-        style={[styles.container, this.layout, style]}
+        {...props}
+        style={[{flex: 1, position: 'relative'}].concat(style)}
         onLayout={this.onLayout}
-        testID={testID}
       >
         <SwipeableView
+          testID={testID}
+          keyboardShouldPersistTaps="always"
           ref={this.galleryRef}
+          index={index}
           onLayout={this.onLayout}
-          style={styles.gallery}
-          slideStyle={styles.slide}
-          onChangeIndex={this.onChange}
+          style={{
+            flex: 1,
+            width: '100%'
+          }}
+          slideStyle={{
+            justifyContent: 'center',
+            alignItems: 'flex-start'
+          }}
+          onChangeIndex={this.onChangeIndex}
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
-        <View style={styles.pagination}>
+        <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
           <Pagination
-            displayText={!inline}
-            currentPosition={position}
+            displayText={scalable}
+            index={index}
             totalPages={this.items.length}
           />
         </View>

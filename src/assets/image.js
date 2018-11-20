@@ -3,7 +3,12 @@ import {Image} from 'react-native'
 import {CDN_URL} from '@/config/const'
 
 export const withRatio = (dimensions) => (options) => {
-  const style = _.defaults({}, options, {position: 'relative'}, dimensions)
+  const style = _.defaults(
+    {},
+    _.pick(options, ['width', 'height', 'resizeMode']),
+    {position: 'relative'},
+    dimensions
+  )
   const {width, height, resizeMode} = options
   if (width && height) style.resizeMode = resizeMode || 'cover'
   else if (height) style.width = (dimensions.width * height) / dimensions.height

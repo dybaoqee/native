@@ -1,6 +1,5 @@
 import styled from 'styled-components/native'
-import {bgColor, opacity} from 'styled-system'
-import {Platform} from 'react-native'
+import {themeGet, bgColor, opacity} from 'styled-system'
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
 import IconButton from '@/components/shared/IconButton'
@@ -31,7 +30,7 @@ const Modal = styled(function Modal({children, bg, opacity, ...props}) {
     </Shell>
   )
 })`
-  margin-top: ${Platform.select({ios: 20, android: 0})};
+  margin-top: ${themeGet('size.statusBar', 0)};
 `
 
 Modal.defaultProps = {
@@ -77,8 +76,8 @@ Modal.Header = styled(function ModalHeader({
   justify-content: center;
   padding-horizontal: 10px;
   padding-vertical: 5px;
-  ${({absolute}) =>
-    absolute && {
+  ${({translucent}) =>
+    translucent && {
       position: 'absolute',
       top: 0,
       left: 0

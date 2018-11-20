@@ -1,3 +1,4 @@
+import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
@@ -22,7 +23,13 @@ class FavoritesScreen extends PureComponent {
   static options = {
     topBar: {
       title: {text: 'Meus Favoritos'},
-      backButton: {title: 'Favoritos'}
+      backButton: {title: 'Favoritos'},
+      leftButtons: [
+        {
+          id: 'account.Favorites#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 
@@ -54,7 +61,7 @@ class FavoritesScreen extends PureComponent {
             onSelect={this.onSelect}
             ListHeaderComponent={
               data.length ? (
-                <View m="15px" mb="-10px">
+                <View m="15px" mb="0px">
                   <Text fontWeight="500" fontSize={16}>
                     Meus Imóveis favoritos
                   </Text>

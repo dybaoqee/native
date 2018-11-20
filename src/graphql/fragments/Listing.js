@@ -48,6 +48,9 @@ export const ListingFeed = gql`
   fragment ListingFeed on Listing {
     id
     price
+    area
+    rooms
+    suites
     isExclusive
     isRelease
     isActive

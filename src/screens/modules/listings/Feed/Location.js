@@ -10,49 +10,46 @@ import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
   state = {
-    neighborhoodsSlugs: undefined
+    neighborhoods: undefined
   }
 
-  update() {
-    const {neighborhoodsSlugs} = this.state
-    this.props.updateFilters({
-      ...this.props.filters,
-      neighborhoodsSlugs
-    })
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (!state.neighborhoodsSlugs && props.filters)
+  static getDerivedStateFromProps(props) {
+    if (!props.visible && props.filters)
       return {
-        neighborhoodsSlugs: props.filters.neighborhoodsSlugs || []
+        neighborhoods: props.filters.neighborhoods || []
       }
     return null
   }
 
-  componentDidUpdate(prev) {
-    if (!_.isEqual(prev.visible, this.props.visible) && !this.props.visible) {
-      this.update()
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !_.isEqual(prevProps.visible, this.props.visible) &&
+      !this.props.visible
+    ) {
+      this.props.updateFilters({
+        ...this.props.filters,
+        neighborhoods: prevState.neighborhoods || []
+      })
     }
   }
 
   onChangeCity = (citySlug) => {
     const nextState = {}
-    if (citySlug !== this.props.citySlug) nextState.neighborhoodsSlugs = []
+    if (citySlug !== this.props.citySlug) nextState.neighborhoods = []
     this.setState(nextState, () => this.props.updateCity(citySlug))
   }
 
-  onChangeNeighborhoods = (neighborhoodsSlugs) =>
-    this.setState({neighborhoodsSlugs})
+  onChangeNeighborhoods = (neighborhoods) => this.setState({neighborhoods})
 
   render() {
     const {citySlug, districts, ...props} = this.props
-    const {neighborhoodsSlugs} = this.state
+    const {neighborhoods} = this.state
     return (
       <Location
         {...props}
         districts={districts.data || []}
         selectedCity={citySlug}
-        selectedNeighborhoods={neighborhoodsSlugs}
+        selectedNeighborhoods={neighborhoods}
         onChangeCity={this.onChangeCity}
         onChangeNeighborhoods={this.onChangeNeighborhoods}
       />
