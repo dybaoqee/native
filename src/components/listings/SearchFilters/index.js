@@ -44,7 +44,14 @@ const compareArray = (a, b) => isEqual((a || []).sort(), (b || []).sort())
 
 export default function SearchFilters({onChange, initialValues}) {
   return (
-    <Final.Form initialValues={initialValues} onSubmit={() => null}>
+    <Final.Form
+      initialValues={{
+        rooms: null,
+        garageSpots: null,
+        ...initialValues
+      }}
+      onSubmit={() => null}
+    >
       {() => (
         <View pr="20px" pl="20px">
           <Label>Tipo de Imóvel</Label>
@@ -53,7 +60,7 @@ export default function SearchFilters({onChange, initialValues}) {
               <Button.Group
                 strategy="multi"
                 flexDirection="row"
-                selectedValue={input.value}
+                selectedValue={input.value ? [].concat(input.value) : []}
                 {...input}
               >
                 <Option value="Casa">Casa</Option>
