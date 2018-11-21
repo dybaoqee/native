@@ -16,8 +16,8 @@ export default {
     brands: fab
   },
   fontFamily: Platform.select({
-    ios: 'Open Sans',
-    android: 'OpenSans'
+    ios: 'Fakt Soft Pro',
+    android: 'FaktSoftPro'
   }),
   size: {
     statusBar: Platform.select({

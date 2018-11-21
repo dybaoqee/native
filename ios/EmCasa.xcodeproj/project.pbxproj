@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* EmCasaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EmCasaTests.m */; };
-		011B0FBB61A747FF8C96BF81 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -35,19 +34,21 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* EmCasaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EmCasaTests.m */; };
-		3EEAAC4E956E475C99F6FF0C /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */; };
 		53FA17B8F54C4A6B907D089C /* libRNPhotoView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0325E4F318A6456E85013DC4 /* libRNPhotoView.a */; };
-		5CFBFF8ECB7F46339FD1EE04 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */; };
 		771841EFF177410ABD7A8777 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AF0EE749DB426EB358DFCF /* libRNFirebase.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		941FF34BBE1746F7A69E35B1 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E54AFC74544FE99AC265E5 /* libRCTFBSDK.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C314BCDE20EBFDEB00235F22 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C314BCDD20EBFDE100235F22 /* libRNShare.a */; };
 		C314BCDF20EBFDF500235F22 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E6B01A20E759AC0069302D /* libRCTCameraRoll.a */; };
+		C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */; };
+		C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */; };
 		C336DC3F2118B7D100273254 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C336DC352118B7A600273254 /* libReactNativeNavigation.a */; };
 		C33831E920EB0D5E0061F81C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831B720EB0D5D0061F81C /* Social.framework */; };
 		C33831EB20EB0D6B0061F81C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831EA20EB0D6B0061F81C /* MessageUI.framework */; };
 		C347F62B20E5835400C76519 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C347F5FB20E5835400C76519 /* GoogleService-Info.plist */; };
+		C350F25521A5C49B0023D800 /* FaktSoftPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */; };
+		C350F25621A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */; };
 		C39C66D321543BB000F7ED61 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C39C66A121543B9600F7ED61 /* libCodePush.a */; };
 		C39C671E21543D3400F7ED61 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C39C66EB21543D3400F7ED61 /* libz.tbd */; };
 		C3A71AC82176C6A200DDA9B9 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3A71A922176C68400DDA9B9 /* libBVLinearGradient.a */; };
@@ -61,8 +62,6 @@
 		C3F7960D213087AE004C6C8F /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3F795DA213087AE004C6C8F /* AccountKit.framework */; };
 		C3F7960F213087BA004C6C8F /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */; };
 		DD38508A522671808AAB45C4 /* Pods_EmCasa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9B0A2BDB982F6C676D60BC /* Pods_EmCasa.framework */; };
-		E58E3BD668E147E88B11A36E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */; };
-		E85C9CB2634347619F34FCDA /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -484,7 +483,6 @@
 		00E356EE1AD99517003FC87E /* EmCasaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmCasaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EmCasaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmCasaTests.m; sourceTree = "<group>"; };
-		013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		0325E4F318A6456E85013DC4 /* libRNPhotoView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPhotoView.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -495,8 +493,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = EmCasa/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = EmCasa/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		1D4B4DD58C4F4720B09DAD5D /* RNAccountKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAccountKit.xcodeproj; path = "../node_modules/react-native-facebook-account-kit/ios/RNAccountKit.xcodeproj"; sourceTree = "<group>"; };
 		1DC0995126FE247C998EF169 /* Pods-EmCasa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasa.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa.release.xcconfig"; sourceTree = "<group>"; };
 		27AF0EE749DB426EB358DFCF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
@@ -511,7 +507,6 @@
 		75507F174CF7438483601C83 /* RNPhotoView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPhotoView.xcodeproj; path = "../node_modules/react-native-photo-view/ios/RNPhotoView.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBold.ttf"; path = "../src/assets/fonts/OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		AC14AACE2CF950571B460565 /* Pods-EmCasaTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasaTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasaTests/Pods-EmCasaTests.beta.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AE377F8F509E44F996FA4476 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
@@ -519,10 +514,14 @@
 		C30AC4F521388CC50023FEB7 /* EmCasa-release.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "EmCasa-release.entitlements"; path = "EmCasa/EmCasa-release.entitlements"; sourceTree = "<group>"; };
 		C30AC52621388CC50023FEB7 /* EmCasa-beta.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "EmCasa-beta.entitlements"; path = "EmCasa/EmCasa-beta.entitlements"; sourceTree = "<group>"; };
 		C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
+		C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Light.ttf"; path = "../src/assets/fonts/FaktSoftPro-Light.ttf"; sourceTree = "<group>"; };
+		C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Regular.ttf"; path = "../src/assets/fonts/FaktSoftPro-Regular.ttf"; sourceTree = "<group>"; };
 		C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		C33831B720EB0D5D0061F81C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C33831EA20EB0D6B0061F81C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C347F5FB20E5835400C76519 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "EmCasa/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Medium.ttf"; path = "../src/assets/fonts/FaktSoftPro-Medium.ttf"; sourceTree = "<group>"; };
+		C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-UltraLight.ttf"; path = "../src/assets/fonts/FaktSoftPro-UltraLight.ttf"; sourceTree = "<group>"; };
 		C371D9A2212354FA00A2AD36 /* EmCasa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EmCasa.entitlements; path = EmCasa/EmCasa.entitlements; sourceTree = "<group>"; };
 		C39C669A21543B9600F7ED61 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C39C66EB21543D3400F7ED61 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -537,7 +536,6 @@
 		C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AccountKitStrings.bundle; path = "../node_modules/react-native-facebook-account-kit/ios/AccountKitStrings.bundle"; sourceTree = "<group>"; };
 		CE81788E224C1EB049484A2A /* Pods-EmCasaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasaTests/Pods-EmCasaTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA9B0A2BDB982F6C676D60BC /* Pods_EmCasa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmCasa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		EE500972F61F43FDA473F064 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		F72983F049B35542A88E5139 /* Pods-EmCasa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -770,12 +768,11 @@
 		7E4AFE5F5EC34142AAD2E6FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */,
+				C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */,
+				C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */,
+				C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */,
 				C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */,
-				1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */,
-				013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */,
-				1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */,
-				E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */,
-				87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1641,13 +1638,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */,
+				C350F25621A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf in Resources */,
+				C350F25521A5C49B0023D800 /* FaktSoftPro-Medium.ttf in Resources */,
+				C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C347F62B20E5835400C76519 /* GoogleService-Info.plist in Resources */,
-				E58E3BD668E147E88B11A36E /* OpenSans-Bold.ttf in Resources */,
-				011B0FBB61A747FF8C96BF81 /* OpenSans-ExtraBold.ttf in Resources */,
-				3EEAAC4E956E475C99F6FF0C /* OpenSans-Light.ttf in Resources */,
-				E85C9CB2634347619F34FCDA /* OpenSans-Regular.ttf in Resources */,
-				5CFBFF8ECB7F46339FD1EE04 /* OpenSans-SemiBold.ttf in Resources */,
 				C3F7960F213087BA004C6C8F /* AccountKitStrings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
