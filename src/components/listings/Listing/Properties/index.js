@@ -20,24 +20,38 @@ Property.defaultProps = {
   }
 }
 
+const stringifyProp = (
+  singular,
+  plural = singular,
+  empty = String.fromCharCode(0x2500)
+) => (value) => {
+  const toSingular =
+    typeof singular === 'function' ? singular : (x) => `${x} ${singular}`
+  const toPlural =
+    typeof plural === 'function' ? plural : (x) => `${x} ${plural}`
+  if (!value || value == '0') return empty
+  if (isNaN(value)) return value
+  const amount = parseInt(value, 10)
+  if (amount != 1 && toPlural) return toPlural(amount)
+  else return toSingular(amount)
+}
+
+const numericProp = (singular, plural = singular + 's') =>
+  stringifyProp(singular, plural)
+const ordinalProp = (word) => stringifyProp((num) => `${num}° ${word}`)
+
 export default function ListingProperties(props) {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Property icon="bed">
-          {props.rooms} {props.rooms !== 1 ? 'quartos' : 'quarto'}
-        </Property>
+        <Property icon="bed">{numericProp('quarto')(props.rooms)}</Property>
         <Property icon="bath">
-          {props.bathrooms} {props.bathrooms !== 1 ? 'banheiros' : 'banheiro'}
+          {numericProp('banheiro')(props.bathrooms)}
         </Property>
-        <Property icon="car">
-          {props.garageSpots} {props.garageSpots !== 1 ? 'vagas' : 'vaga'}
-        </Property>
+        <Property icon="car">{numericProp('vaga')(props.garageSpots)}</Property>
       </View>
       <View style={styles.row}>
-        <Property icon="building">
-          {props.floor ? `${props.floor}° andar` : String.fromCharCode(0x2500)}
-        </Property>
+        <Property icon="building">{ordinalProp('andar')(props.floor)}</Property>
         <Property icon="cube">{props.area} m²</Property>
         <Property icon="usd-circle">
           {props.price && props.area

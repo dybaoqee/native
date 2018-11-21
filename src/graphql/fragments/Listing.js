@@ -11,6 +11,7 @@ const Listing = gql`
     area
     balconies
     rooms
+    bathrooms
     restrooms
     suites
     dependencies
