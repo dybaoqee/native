@@ -12,7 +12,7 @@ configurations:
   - &macos
     <<: *default
     macos:
-      xcode: "9.4.1"
+      xcode: "10.1.0"
     shell: /bin/bash --login -eo pipefail
 
 aliases:
