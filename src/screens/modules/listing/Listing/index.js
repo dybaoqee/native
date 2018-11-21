@@ -152,6 +152,7 @@ class ListingScreen extends PureComponent {
   render() {
     const {
       listing: {data, loading},
+      params: {id},
       componentId
     } = this.props
     const {bounces, visible} = this.state
@@ -172,7 +173,7 @@ class ListingScreen extends PureComponent {
             statusBar={false}
             color={isActive ? 'white' : 'pink'}
             backButton={componentId}
-            rightButtons={<RightButtons onShare={this.onShare} />}
+            rightButtons={<RightButtons id={id} onShare={this.onShare} />}
           >
             {isActive && `${data.address.neighborhood} (${data.area}m²)`}
           </Header>
