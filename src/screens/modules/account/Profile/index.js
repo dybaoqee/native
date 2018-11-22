@@ -21,7 +21,13 @@ class UserProfileScreen extends PureComponent {
     topBar: {
       title: {text: 'Meu Perfil'},
       elevation: 0,
-      noBorder: true
+      noBorder: true,
+      leftButtons: [
+        {
+          id: 'account.Profile#logo',
+          icon: require('@/assets/img/icons/logo.png')
+        }
+      ]
     }
   }
 

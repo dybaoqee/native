@@ -41,7 +41,7 @@ class UserListingsTab extends PureComponent {
         onSelect={this.onSelect}
         ListHeaderComponent={
           data.length ? (
-            <View m="15px" mb="-10px">
+            <View m="15px" mb="0px">
               <Text fontWeight="500" fontSize={16}>
                 Meus Imóveis
               </Text>
