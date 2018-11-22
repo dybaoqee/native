@@ -1231,18 +1231,18 @@
     lodash.mapvalues "^4.6.0"
     slugify "^1.3.1"
 
-"@emcasa/ui-native@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.7.0.tgz#27cf462d7b21d272d9617efdc79d7385887c6caf"
+"@emcasa/ui-native@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.7.2.tgz#7d062874bb25220139bced65d5b3d2f503d0278f"
   dependencies:
-    "@emcasa/ui" "^0.7.0"
+    "@emcasa/ui" "^0.7.2"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     recompose "^0.30.0"
 
-"@emcasa/ui@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.7.0.tgz#72048a10ded59e87d1a862f455b42a639e55b6ee"
+"@emcasa/ui@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.7.2.tgz#f89a15e33ccefebc7ae86c2c78e7f4b078ec8340"
   dependencies:
     "@fortawesome/free-solid-svg-icons" "^5.4.1"
     lodash.omit "^4.5.0"
