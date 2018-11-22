@@ -26,9 +26,6 @@ aliases:
   - &restore-gradle
     keys:
       - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &restore-cocoapods
-    keys:
-      - v1-cocoapods-{{ checksum "ios/Podfile" }}
   - &restore-homebrew
     keys:
       - v1-brew-{{ arch }}-{{ checksum "/usr/local/Homebrew/.git/refs/heads/master" }}
@@ -46,10 +43,6 @@ aliases:
     paths:
       - ~/.gradle
     key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &cache-cocoapods
-    paths:
-      - ~/.cocoapods
-    key: v1-cocoapods-{{ checksum "ios/Podfile" }}
   - &cache-homebrew
     paths:
       - /usr/local/Homebrew
@@ -65,7 +58,9 @@ aliases:
   - &install-gems
     command: bundle check || bundle install --path vendor/bundle
   - &install-cocoapods
-    command: cd ios && pod install
+    command: |-
+      curl https://cocoapods-specs.circleci.com/fetch-cocoapods-repo-from-s3.sh | bash -s cf
+      cd ios && pod install
   - &install-detox-osx
     command: |-
       brew tap wix/brew
@@ -194,7 +189,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - restore_cache: *restore-homebrew
       - run:
           name: Brew update
@@ -203,7 +197,6 @@ jobs:
             brew upgrade python
       - run: *install-detox-osx
       - run: *install-cocoapods
-      - save_cache: *cache-cocoapods
       - save_cache: *cache-homebrew
       - run:
           name: Boot iPhone simulator
@@ -274,7 +267,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
       - run: *install-cocoapods
       - run: brew install pcre imagemagick
@@ -376,7 +368,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
       - run: *install-cocoapods
       - run: brew install pcre imagemagick
