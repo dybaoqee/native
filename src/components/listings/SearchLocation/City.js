@@ -12,7 +12,7 @@ export default function City({value, cities, onChange}) {
         flexWrap="wrap"
         selectedValue={value}
         mt={15}
-        renderOption={(option) => (
+        renderItem={(option) => (
           <View mb={10} mr={10}>
             {option}
           </View>

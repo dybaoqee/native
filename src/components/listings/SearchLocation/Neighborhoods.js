@@ -34,7 +34,7 @@ export default function Neighborhood({
           flexDirection="row"
           flexWrap="wrap"
           selectedValue={value}
-          renderOption={(option) => (
+          renderItem={(option) => (
             <View mb={10} mr={10}>
               {option}
             </View>
