@@ -17,19 +17,20 @@ export default class Shell extends PureComponent {
 
   keyboardAvoidingView = React.createRef()
 
+  keyboardListeners = []
+
   componentDidMount() {
-    this.keyboardListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.onKeyboardHide
-    )
-    this.keyboardListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this.onKeyboardShow
-    )
+    if (Platform.OS === 'ios') {
+      this.keyboardListeners.push(
+        Keyboard.addListener('keyboardDidHide', this.onKeyboardHide),
+        Keyboard.addListener('keyboardDidShow', this.onKeyboardShow)
+      )
+    }
   }
 
   componentWillUnmount() {
-    this.keyboardListener.remove()
+    this.keyboardListeners.map((listener) => listener.remove())
+    this.keyboardListeners = []
   }
 
   onLayout = ({nativeEvent: {layout}}) =>
@@ -72,7 +73,9 @@ export default class Shell extends PureComponent {
             {React.Children.map(
               children,
               (node) =>
-                isObject(node) ? React.cloneElement(node, layoutInfo) : node
+                React.isValidElement(node)
+                  ? React.cloneElement(node, layoutInfo)
+                  : node
             )}
           </View>
         </KeyboardAvoidingView>
