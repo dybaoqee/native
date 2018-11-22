@@ -2,12 +2,8 @@ import * as shared from '../shared/selectors'
 import * as select from './selectors'
 import * as actions from './interactions'
 
-describe('listing', () => {
+describe('listing.Listing', () => {
   beforeAll(actions.navigate)
-
-  it('has a listing gallery', async () => {
-    await expect(element(select.headerGallery())).toBeVisible()
-  })
 
   describe('3d tour', () => {
     const tourView = () => by.type('RCTWebView')

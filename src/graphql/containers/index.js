@@ -29,3 +29,5 @@ export {
 } from './AuthMutation'
 export {withJwt, withUserProfile} from './CredentialsQuery'
 export {withDistricts} from './DistrictsQuery'
+export {withInterestTypes} from './InterestTypeQuery'
+export {withInterestMutation} from './InterestMutation'

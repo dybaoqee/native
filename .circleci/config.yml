@@ -189,6 +189,8 @@ jobs:
     environment:
       API_URL: http://localhost:4000
       NODE_ENV: e2e
+      DEVICE_NAME: iPhone 6
+      IOS_VERSION: "12.1"
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -203,9 +205,11 @@ jobs:
       - run: *install-cocoapods
       - save_cache: *cache-cocoapods
       - save_cache: *cache-homebrew
-      - run: |-
-          instruments -s devices
-          xcrun instruments -w "iPhone 6 (11.4) [" || true
+      - run:
+          name: Boot iPhone simulator
+          command: |-
+            instruments -s devices
+            xcrun instruments -w "$DEVICE_NAME ($IOS_VERSION) [" || true
       - run:
           name: Start test server
           command: yarn test_server
@@ -216,10 +220,15 @@ jobs:
           background: true
       - run: yarn build_e2e
       - run: |-
-          xcrun simctl boot "iPhone 6"
-          xcrun simctl install "iPhone 6" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
-          xcrun simctl launch "iPhone 6" com.EmCasa.native-debug && sleep 5
-      - run: yarn e2e --artifacts-location tmp/detox/ --take-screenshots all --debug-synchronization 10000
+          xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
+          xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
+      - run: >-
+          yarn e2e
+          --artifacts-location tmp/detox/
+          --take-screenshots all
+          --record-logs all
+          --debug-synchronization 3000
+          -n "$DEVICE_NAME"
       - store_artifacts:
           path: tmp/detox
           destination: e2e

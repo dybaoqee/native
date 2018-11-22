@@ -1,18 +1,18 @@
 import _ from 'lodash/fp'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
-import {connect} from 'react-redux'
+import {Button} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {withUserProfile} from '@/graphql/containers'
-import {getInterestTypes} from '@/redux/modules/interest/types/selectors'
-import {isLoading, getError} from '@/redux/modules/interest/form/selectors'
-import {request} from '@/redux/modules/interest/form'
+import {
+  withUserProfile,
+  withInterestTypes,
+  withInterestMutation
+} from '@/graphql/containers'
 import {Shell, Body, Footer} from '@/components/layout'
-import Button from '@/components/shared/Button'
 import Form from '@/components/interest/Form'
 
-import SuccessScreen from '@/screens/modules/shared/Success'
+import SuccessScreen from '@/screens/modules/interest/Created'
 
 class InterestFormScreen extends PureComponent {
   static screenName = 'interest.Form'
@@ -24,7 +24,7 @@ class InterestFormScreen extends PureComponent {
     }
   }
 
-  state = {value: undefined, interestType: undefined, active: false}
+  state = {values: {}, valid: false}
 
   openSuccessModal = _.once(() => {
     const {componentId} = this.props
@@ -33,19 +33,16 @@ class InterestFormScreen extends PureComponent {
         id: `${componentId}_success`,
         name: SuccessScreen.screenName,
         passProps: {
-          title: 'Agente EmCasa notificado',
-          children:
-            'Entraremos em contato o mais rápido possível para agendarmos uma visita!',
           onDismiss: async () => {
-            await Navigation.dismissModal(`${componentId}_success`)
             await Navigation.pop(componentId)
+            await Navigation.dismissModal(`${componentId}_success`)
           }
         }
       }
     })
   })
 
-  get defaultValue() {
+  get initialValues() {
     const {user} = this.props
     if (user)
       return {
@@ -53,12 +50,6 @@ class InterestFormScreen extends PureComponent {
         email: user.email,
         phone: user.phone
       }
-  }
-
-  componentDidUpdate(prev) {
-    const {loading, error} = this.props
-    const finishedLoading = prev.loading && !loading
-    if (finishedLoading && !error && this.state.active) this.openSuccessModal()
   }
 
   componentDidAppear() {
@@ -69,39 +60,48 @@ class InterestFormScreen extends PureComponent {
     this.setState({active: false})
   }
 
-  onChange = (value) => this.setState({value})
+  onChange = (state) => this.setState(state)
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const {
-      request,
-      loading,
+      submitInterest,
       params: {id}
     } = this.props
-    const {value} = this.state
-    const interestType = value.interest_type_id
-    if (loading) return
-    request(id, value)
-    this.setState({interestType})
+    const {loading, values, valid} = this.state
+    if (!values.interestTypeId || !valid || loading) return
+    this.setState({loading: true, error: undefined})
+    try {
+      await submitInterest({variables: {listingId: id, ...values}})
+      this.openSuccessModal()
+    } catch (error) {
+      this.setState({error})
+    } finally {
+      this.setState({loading: false})
+    }
   }
 
   render() {
-    const {types, loading, error} = this.props
-    const {value} = this.state
+    const {
+      interestTypes: {data}
+    } = this.props
+    const {loading} = this.state
 
     return (
       <Shell>
-        <Body scroll>
+        <Body scroll bounces={false}>
           <Form
-            types={types}
-            error={error}
-            value={value}
-            defaultValue={this.defaultValue}
+            interestTypes={data || []}
+            initialValues={this.initialValues}
             onChange={this.onChange}
             onSubmit={this.onSubmit}
           />
         </Body>
-        <Footer style={{padding: 15}}>
-          <Button disabled={loading} onPress={this.onSubmit}>
+        <Footer p="15px">
+          <Button
+            active
+            height="tall"
+            onPress={loading ? undefined : this.onSubmit}
+          >
             {loading ? 'Enviando...' : 'Enviar'}
           </Button>
         </Footer>
@@ -112,12 +112,6 @@ class InterestFormScreen extends PureComponent {
 
 export default composeWithRef(
   withUserProfile,
-  connect(
-    (state) => ({
-      types: getInterestTypes(state),
-      loading: isLoading(state),
-      error: getError(state)
-    }),
-    {request}
-  )
+  withInterestTypes,
+  withInterestMutation
 )(InterestFormScreen)
