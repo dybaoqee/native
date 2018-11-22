@@ -5,7 +5,7 @@ import AccountKit from 'react-native-facebook-account-kit'
 import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {withSignInMutation} from '@/graphql/containers'
+import {withSignInMutation, withUserProfile} from '@/graphql/containers'
 import {getTabIndexHistory} from '@/screens/modules/navigation/selectors'
 import {updateStackRoot, switchTab} from '@/screens/modules/navigation'
 import {withPermission} from '@/containers/Permission'
@@ -38,23 +38,28 @@ class LoginScreen extends PureComponent {
   }
 
   accountKitLogin = () => {
-    this.setState({akActive: true}, () =>
-      AccountKit.loginWithPhone()
-        .then((response) => {
-          this.setState({akActive: false})
-          if (response) this.onSubmit(response)
-          else this.onDismiss()
-        })
-        .catch(() => this.onDismiss())
-    )
+    this.setState({akActive: true}, async () => {
+      try {
+        const response = await AccountKit.loginWithPhone()
+        if (response) this.onSubmit(response)
+        else this.onDismiss()
+      } catch (e) {
+        this.onDismiss()
+      } finally {
+        this.setState({akActive: false})
+      }
+    })
   }
 
   async componentDidAppear() {
-    const {onRequestPermission, permission} = this.props
+    const {onRequestPermission, permission, user} = this.props
     if (Platform.OS === 'android' && permission === 'undetermined')
       await onRequestPermission()
     if (!this.state.viewActive)
-      this.setState({viewActive: true}, this.accountKitLogin)
+      this.setState(
+        {viewActive: true},
+        user && user.id ? undefined : this.accountKitLogin
+      )
   }
 
   componentDidDisappear() {
@@ -82,7 +87,9 @@ class LoginScreen extends PureComponent {
 
   onDismiss = () => {
     const {switchTab, previousTabIndex} = this.props
-    switchTab(previousTabIndex)
+    this.setState({viewActive: false, akActive: false}, () =>
+      switchTab(previousTabIndex)
+    )
   }
 
   onSuccess = () => {
@@ -125,6 +132,7 @@ class LoginScreen extends PureComponent {
 export default composeWithRef(
   withPermission('receiveSms'),
   withSignInMutation,
+  withUserProfile,
   connect(
     (state) => ({previousTabIndex: getTabIndexHistory(state)[1]}),
     {updateStackRoot, switchTab}
