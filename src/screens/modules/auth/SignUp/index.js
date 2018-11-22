@@ -35,11 +35,9 @@ class SignUpScreen extends PureComponent {
     try {
       if (email) await changeEmail({email})
       await editUserProfile({name})
-      onSuccess()
+      this.setState({loading: false}, onSuccess)
     } catch (error) {
-      this.setState({error})
-    } finally {
-      this.setState({loading: false})
+      this.setState({loading: false, error})
     }
   }
 
