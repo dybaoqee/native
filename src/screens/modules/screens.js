@@ -5,7 +5,6 @@ import {withProvider} from '@/containers/Provider'
 import * as authScreens from './auth/screens'
 import * as accountScreens from './account/screens'
 import * as listingScreens from './listing/screens'
-import * as listingFormScreens from './listingForm/screens'
 import * as listingsScreens from './listings/screens'
 import * as interestScreens from './interest/screens'
 import * as sharedScreens from './shared/screens'
@@ -18,7 +17,6 @@ const screens = _.flow(
   authScreens,
   accountScreens,
   listingScreens,
-  listingFormScreens,
   listingsScreens,
   interestScreens,
   sharedScreens
