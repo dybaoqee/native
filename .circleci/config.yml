@@ -220,10 +220,12 @@ jobs:
       - run:
           name: Build iOS binary
           command: |-
-            if [ ! -f ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
+            if [ ! -d ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
               .circleci/ios/prepare.sh
               yarn build_e2e
             fi
+      - save_cache: *cache-homebrew
+      - save_cache: *cache-ios-build
       - run:
           name: Launch app
           command: |-
@@ -238,8 +240,6 @@ jobs:
             --record-logs all
             --debug-synchronization 3000
             -n "$DEVICE_NAME"
-      - save_cache: *cache-homebrew
-      - save_cache: *cache-ios-build
       - store_artifacts:
           path: tmp/detox
           destination: e2e
