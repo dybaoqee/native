@@ -2,7 +2,7 @@ import {takeLatest, all, fork, call, getContext} from 'redux-saga/effects'
 import Firebase from 'react-native-firebase'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
-import {getScreenByName} from '@/screens/modules/screens'
+import {getScreenByName} from '@/screens'
 import * as navigation from '@/redux/modules/navigation'
 import * as actions from './index'
 import analyticsEventsSaga from './events'

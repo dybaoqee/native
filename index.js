@@ -3,7 +3,7 @@ import moment from 'moment'
 import {YellowBox} from 'react-native'
 import AccountKit from 'react-native-facebook-account-kit'
 
-import initNavigation from '@/screens'
+import {registerScreens} from '@/screens'
 import accountKitConfig from '@/config/accountKit'
 
 AccountKit.configure({
@@ -25,4 +25,4 @@ YellowBox.ignoreWarnings([
 
 moment.locale('pt-br')
 
-initNavigation()
+registerScreens()

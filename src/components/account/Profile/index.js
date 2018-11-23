@@ -1,6 +1,6 @@
 import {Row, Col, Text} from '@emcasa/ui-native'
 
-import * as format from '@/assets/format'
+import * as format from '@/config/formatting'
 
 export default function UserProfile({user}) {
   return (

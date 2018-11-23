@@ -1,5 +1,5 @@
 import * as colors from '@/assets/colors'
-import Icon from '@/components/shared/Icon'
+import {Icon} from '@emcasa/ui-native'
 
 export default function LikeIcon({active, contrast, size, ...props}) {
   const color = contrast ? 'black' : 'rgba(0,0,0,0)'

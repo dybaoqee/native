@@ -1,8 +1,7 @@
 import {Component} from 'react'
-import {View} from 'react-native'
 import {Marker, Callout} from 'react-native-maps'
+import {View, Text} from '@emcasa/ui-native'
 
-import Text from '@/components/shared/Text'
 import styles from './styles'
 
 export default class AggregatorMarker extends Component {

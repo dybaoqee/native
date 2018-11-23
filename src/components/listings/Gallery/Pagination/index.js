@@ -1,9 +1,8 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
-import {View, Animated} from 'react-native'
+import {Animated} from 'react-native'
+import {View, Text, Icon} from '@emcasa/ui-native'
 
-import Text from '@/components/shared/Text'
-import Icon from '@/components/shared/Icon'
 import styles from './styles'
 
 export default class GalleryPagination extends PureComponent {
