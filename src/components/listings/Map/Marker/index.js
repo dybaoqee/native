@@ -2,7 +2,7 @@ import {View} from 'react-native'
 import {Marker, Callout} from 'react-native-maps'
 import {Text} from '@emcasa/ui-native'
 
-import {abbrevPrice} from '@/assets/format'
+import {abbrevPrice} from '@/config/formatting'
 import $styles from './styles'
 
 function ListingMarker({

@@ -1,4 +1,4 @@
-import {abbrevPrice} from '@/assets/format'
+import {abbrevPrice} from '@/config/formatting'
 
 export const garageSpots = ({max}) => {
   if (!max) return 'Sem garagem'

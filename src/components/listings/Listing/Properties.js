@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import {themeGet} from 'styled-system'
 import {View, Row, Col, Text, Icon} from '@emcasa/ui-native'
 
-import {number} from '@/assets/format'
+import {number} from '@/config/formatting'
 
 const Property = ({children, icon}) => (
   <Col width={1 / 3} alignItems="center">

@@ -1,6 +1,6 @@
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
-import * as format from '@/assets/format'
+import * as format from '@/config/formatting'
 
 const Section = ({children, title}) => (
   <Col flex={1}>

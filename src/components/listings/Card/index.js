@@ -5,7 +5,7 @@ import {themeGet} from 'styled-system'
 import {compose} from 'recompose'
 import {View, Row, Text} from '@emcasa/ui-native'
 
-import * as format from '@/assets/format.js'
+import * as format from '@/config/formatting'
 import {withFavoriteMutation} from '@/graphql/containers'
 import {touchable} from '@/components/shared/Touchable'
 import Gallery from '@/components/listings/Gallery'
