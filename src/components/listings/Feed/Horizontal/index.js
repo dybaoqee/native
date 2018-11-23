@@ -2,8 +2,6 @@ import React, {Component} from 'react'
 import {Dimensions} from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 
-import Empty from '../Empty'
-
 const createHandler = (fun, ...args) => fun && (() => fun(...args))
 
 export default class HorizontalFeed extends Component {
@@ -46,7 +44,6 @@ export default class HorizontalFeed extends Component {
         inactiveSlideScale={1}
         activeSlideAlignment={loop ? 'center' : 'start'}
         containerCustomStyle={[{flex: null}, style]}
-        ListEmptyComponent={<Empty {...props} />}
         sliderWidth={width}
         ref={this.slider}
         {...props}
