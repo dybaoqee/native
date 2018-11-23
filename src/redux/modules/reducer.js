@@ -5,7 +5,6 @@ import {reducer as network} from 'react-native-offline'
 
 import {PERSIST_TIMEOUT} from '@/config/const'
 import auth from './auth'
-import relatedListings from './relatedListings'
 import gallery from './gallery'
 import interest from './interest'
 import firebase from './firebase'
@@ -30,7 +29,6 @@ export default combineReducers({
   search: persistent(search, {whitelist: ['city']}),
   auth: persistent(auth, {whitelist: ['user']}),
   firebase: persistent(firebase, {whitelist: ['messaging']}),
-  relatedListings,
   gallery,
   interest,
   neighborhoods
