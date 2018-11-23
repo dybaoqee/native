@@ -161,13 +161,16 @@ jobs:
     steps:
       - checkout
       - run: sudo apt-get -y -qq install awscli md5deep
-      - run: mkdir -p tmp/logs tmp/detox tmp/.secrets
-      - run: md5deep -r ios/ | sort -k2 > tmp/ios.checksum
       - restore_cache: *restore-node-modules
       - restore_cache: *restore-gems
       - run: *install-node-modules
       - run: *install-gems
-      - run: aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets
+      - run:
+          name: Generate temp files
+          command: |-
+            md5deep -r ios/ | sort -k2 > tmp/ios.checksum
+            mkdir -p tmp/logs tmp/detox tmp/.secrets
+            aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets --quiet
       - save_cache: *cache-node-modules
       - save_cache: *cache-gems
       - persist_to_workspace:
@@ -221,16 +224,20 @@ jobs:
               .circleci/ios/prepare.sh
               yarn build_e2e
             fi
-      - run: |-
-          xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
-          xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
-      - run: >-
-          yarn e2e
-          --artifacts-location tmp/detox/
-          --take-screenshots all
-          --record-logs all
-          --debug-synchronization 3000
-          -n "$DEVICE_NAME"
+      - run:
+          name: Launch app
+          command: |-
+            xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
+            xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
+      - run:
+          name: Run tests
+          command: >-
+            yarn e2e
+            --artifacts-location tmp/detox/
+            --take-screenshots all
+            --record-logs all
+            --debug-synchronization 3000
+            -n "$DEVICE_NAME"
       - save_cache: *cache-homebrew
       - save_cache: *cache-ios-build
       - store_artifacts:
@@ -244,7 +251,9 @@ jobs:
           at: ~/emcasa
       - restore_cache: *restore-gradle
       - run: *install-sdkmanager
-      - run: export TERM=xterm && cd android && ./gradlew assembleDebug
+      - run:
+          name: Build android binary
+          command: export TERM=xterm && cd android && ./gradlew assembleDebug
       - save_cache: *cache-gradle
 
   # Staging deploy
