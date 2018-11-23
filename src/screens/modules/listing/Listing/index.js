@@ -8,10 +8,12 @@ import {Button} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
-import {withListing, withViewTourMutation} from '@/graphql/containers'
+import {
+  withListing,
+  withViewTourMutation,
+  withRelatedListings
+} from '@/graphql/containers'
 import {logEvent} from '@/redux/modules/firebase/analytics'
-import {load as loadRelatedListings} from '@/redux/modules/relatedListings'
-import {getRelatedListings} from '@/redux/modules/relatedListings/selectors'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Related'
@@ -63,15 +65,6 @@ class ListingScreen extends PureComponent {
 
   componentDidDisappear() {
     this.setState({visible: false})
-  }
-
-  componentDidMount() {
-    const {
-      relatedListings,
-      loadRelatedListings,
-      params: {id}
-    } = this.props
-    if (_.isEmpty(relatedListings)) loadRelatedListings(id)
   }
 
   navigateTo = (component, params = this.props.params) => () => {
@@ -146,7 +139,7 @@ class ListingScreen extends PureComponent {
 
   renderRelatedListings() {
     const {relatedListings} = this.props
-    return <Feed data={relatedListings} onSelect={this.onSelectListing} />
+    return <Feed data={relatedListings.data} onSelect={this.onSelectListing} />
   }
 
   render() {
@@ -210,11 +203,10 @@ class ListingScreen extends PureComponent {
 
 export default composeWithRef(
   connect(
-    (state, {params}) => ({
-      relatedListings: getRelatedListings(state, params)
-    }),
-    {loadRelatedListings, logEvent}
+    null,
+    {logEvent}
   ),
   withListing(({params: {id}}) => ({id})),
+  withRelatedListings(({params: {id}}) => ({id})),
   withViewTourMutation
 )(ListingScreen)
