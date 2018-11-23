@@ -3,8 +3,7 @@ import Firebase from 'react-native-firebase'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
 import {getScreenByName} from '@/screens/modules/screens'
-import * as navigation from '@/screens/modules/navigation'
-import * as auth from '@/redux/modules/auth'
+import * as navigation from '@/redux/modules/navigation'
 import * as actions from './index'
 import analyticsEventsSaga from './events'
 
@@ -40,7 +39,6 @@ function* initialize() {
 export default function* analyticsSaga() {
   yield all([
     takeLatest(actions.LOG_EVENT, logEvent),
-    takeLatest(auth.SUCCESS, identifySession),
     takeLatest(navigation.SCREEN_APPEARED, logCurrentScreen),
     fork(analyticsEventsSaga),
     fork(initialize)

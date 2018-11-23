@@ -1,35 +1,14 @@
 import _ from 'lodash/fp'
 import {Navigation} from 'react-native-navigation'
-import {delay} from 'redux-saga'
-import {
-  call,
-  all,
-  put,
-  select,
-  race,
-  takeEvery,
-  take,
-  getContext
-} from 'redux-saga/effects'
+import {call, all, put, select, takeEvery, getContext} from 'redux-saga/effects'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
 import getBottomTabs from '@/config/tabs'
 import defaultOptions from '@/config/screen'
 import * as actions from '../index'
 import {getStackRootId, getCurrentTabIndex} from '../selectors'
-import {REHYDRATE} from 'redux-persist'
-
-const authPersisted = (state) => state.auth._persist.rehydrated
-const authPersistedAction = ({type, key}) =>
-  type === REHYDRATE && key === 'auth'
 
 function* initialize() {
-  const ready = yield select(authPersisted)
-  if (!ready)
-    yield race({
-      persist: take(authPersistedAction),
-      timeout: delay(500)
-    })
   Navigation.setDefaultOptions(defaultOptions)
   yield put(actions.updateStackRoot())
 }

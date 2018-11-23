@@ -1,4 +1,3 @@
-import {uniqueId} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
@@ -6,7 +5,7 @@ import {View, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withFavoriteListings} from '@/graphql/containers'
-import {switchTab} from '@/screens/modules/navigation'
+import {switchTab} from '@/redux/modules/navigation'
 import {Shell, Body} from '@/components/layout'
 import Feed from '@/components/listings/Feed/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'

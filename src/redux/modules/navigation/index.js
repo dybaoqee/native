@@ -1,5 +1,3 @@
-import update from 'immutability-helper'
-
 export const APP_LAUNCHED = 'screens/APP_LAUNCHED'
 export const SCREEN_APPEARED = 'screens/SCREEN_APPEARED'
 export const SCREEN_DISAPPEARED = 'screens/SCREEN_DISAPPEARED'

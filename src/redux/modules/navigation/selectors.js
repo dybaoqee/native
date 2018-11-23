@@ -1,4 +1,4 @@
-export const getNavigation = (state) => state.screens.navigation
+export const getNavigation = (state) => state.navigation
 
 export const getStackRootId = (state) => getNavigation(state).rootId
 

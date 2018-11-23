@@ -6,8 +6,8 @@ import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withSignInMutation, withUserProfile} from '@/graphql/containers'
-import {getTabIndexHistory} from '@/screens/modules/navigation/selectors'
-import {updateStackRoot, switchTab} from '@/screens/modules/navigation'
+import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
+import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Tab} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {updateStackRoot} from '@/screens/modules/navigation'
+import {updateStackRoot} from '@/redux/modules/navigation'
 import {
   withUserListings,
   withSignOutMutation,

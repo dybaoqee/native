@@ -1,16 +1,11 @@
 import {AsyncStorage} from 'react-native'
 import {combineReducers} from 'redux'
 import {persistReducer} from 'redux-persist'
-import {reducer as network} from 'react-native-offline'
 
 import {PERSIST_TIMEOUT} from '@/config/const'
-import auth from './auth'
-import gallery from './gallery'
-import interest from './interest'
 import firebase from './firebase'
-import neighborhoods from './neighborhoods'
 import search from './search'
-import screens from '@/screens/modules/reducer'
+import navigation from './navigation'
 
 const persistent = (reducer, options = {}) =>
   persistReducer(
@@ -24,12 +19,7 @@ const persistent = (reducer, options = {}) =>
   )
 
 export default combineReducers({
-  screens,
-  network,
+  navigation,
   search: persistent(search, {whitelist: ['city']}),
-  auth: persistent(auth, {whitelist: ['user']}),
-  firebase: persistent(firebase, {whitelist: ['messaging']}),
-  gallery,
-  interest,
-  neighborhoods
+  firebase: persistent(firebase, {whitelist: ['messaging']})
 })
