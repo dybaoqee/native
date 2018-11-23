@@ -1,5 +1,4 @@
 import {fork, all} from 'redux-saga/effects'
-import {networkEventsListenerSaga} from 'react-native-offline'
 import codePushSaga from 'react-native-code-push-saga'
 import codePush from 'react-native-code-push'
 
@@ -16,10 +15,6 @@ export default function* root() {
       syncOptions: {
         installMode: codePush.InstallMode.ON_NEXT_RESUME
       }
-    }),
-    fork(networkEventsListenerSaga, {
-      timeout: 2000,
-      checkConnectionInterval: 20000
     })
   ])
 }
