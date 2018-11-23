@@ -168,8 +168,8 @@ jobs:
       - run:
           name: Generate temp files
           command: |-
-            md5deep -r ios/ | sort -k2 > tmp/ios.checksum
             mkdir -p tmp/logs tmp/detox tmp/.secrets
+            md5deep -r ios/ | sort -k2 > tmp/ios.checksum
             aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets --quiet
       - save_cache: *cache-node-modules
       - save_cache: *cache-gems
