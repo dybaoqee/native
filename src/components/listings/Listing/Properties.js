@@ -1,18 +1,27 @@
-import {View, Dimensions} from 'react-native'
+import {Dimensions} from 'react-native'
+import styled from 'styled-components/native'
+import {themeGet} from 'styled-system'
+import {View, Row, Col, Text, Icon} from '@emcasa/ui-native'
 
-import Icon from '@/components/shared/Icon'
-import Text from '@/components/shared/Text'
 import {number} from '@/assets/format'
-import styles, {iconColor} from './styles'
 
-const Property = ({children, icon, width}) => (
-  <View style={[styles.property, {width}]}>
-    <Icon name={icon} type="light" color={iconColor} style={styles.icon} />
-    <View style={styles.propertyBody}>
-      <Text style={styles.propertyText}>{children}</Text>
-    </View>
-  </View>
+const Property = ({children, icon}) => (
+  <Col width={1 / 3} alignItems="center">
+    <Icon name={icon} type="light" color="dark" mb="7px" />
+    <Row>
+      <Text fontSize={13} fontWeight="500" color="dark">
+        {children}
+      </Text>
+    </Row>
+  </Col>
 )
+
+const Container = styled(View)`
+  border-top-width: 0.5;
+  border-bottom-width: 0.5;
+  border-color: ${themeGet('colors.lightGrey')};
+  padding-vertical: 5;
+`
 
 Property.defaultProps = {
   get width() {
@@ -42,15 +51,15 @@ const ordinalProp = (word) => stringifyProp((num) => `${num}° ${word}`)
 
 export default function ListingProperties(props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
+    <Container>
+      <Row justifyContent="center" alignItems="flex-start" pt="20px">
         <Property icon="bed">{numericProp('quarto')(props.rooms)}</Property>
         <Property icon="bath">
           {numericProp('banheiro')(props.bathrooms)}
         </Property>
         <Property icon="car">{numericProp('vaga')(props.garageSpots)}</Property>
-      </View>
-      <View style={styles.row}>
+      </Row>
+      <Row justifyContent="center" alignItems="flex-start" pt="25px" pb="20px">
         <Property icon="building">{ordinalProp('andar')(props.floor)}</Property>
         <Property icon="cube">{props.area} m²</Property>
         <Property icon="usd-circle">
@@ -58,7 +67,7 @@ export default function ListingProperties(props) {
             ? `R$${number(Math.floor(props.price / props.area))}/m²`
             : String.fromCharCode(0x2500)}
         </Property>
-      </View>
-    </View>
+      </Row>
+    </Container>
   )
 }
