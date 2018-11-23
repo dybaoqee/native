@@ -26,12 +26,12 @@ aliases:
   - &restore-gradle
     keys:
       - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &restore-cocoapods
+  - &restore-detox-framework
     keys:
-      - v1-cocoapods-{{ checksum "ios/Podfile" }}
-  - &restore-homebrew
+      - v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
+  - &restore-ios-build
     keys:
-      - v1-brew-{{ arch }}-{{ checksum "/usr/local/Homebrew/.git/refs/heads/master" }}
+      - v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
   # save caches
   - &cache-node-modules
@@ -46,14 +46,14 @@ aliases:
     paths:
       - ~/.gradle
     key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &cache-cocoapods
+  - &cache-detox-framework
     paths:
-      - ~/.cocoapods
-    key: v1-cocoapods-{{ checksum "ios/Podfile" }}
-  - &cache-homebrew
+      - ~/Library/Detox
+    key: v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
+  - &cache-ios-build
     paths:
-      - /usr/local/Homebrew
-    key: v1-brew-{{ arch }}-{{ .Branch }}
+      - ios/build/Build
+    key: v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
     # install dependencies
   - &install-sdkmanager
@@ -64,15 +64,12 @@ aliases:
     command: yarn install
   - &install-gems
     command: bundle check || bundle install --path vendor/bundle
-  - &install-cocoapods
-    command: cd ios && pod install
   - &install-detox-osx
     command: |-
       brew tap wix/brew
       brew install --HEAD applesimutils
       brew install watchman
       npm install --global detox-cli
-      detox clean-framework-cache
       detox build-framework-cache
 
   # build configurations
@@ -162,13 +159,17 @@ jobs:
     <<: *nodejs
     steps:
       - checkout
-      - run: sudo apt-get -y -qq install awscli
+      - run: sudo apt-get -y -qq install awscli md5deep
       - restore_cache: *restore-node-modules
       - restore_cache: *restore-gems
       - run: *install-node-modules
       - run: *install-gems
-      - run: mkdir -p tmp/logs tmp/detox tmp/.secrets
-      - run: aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets
+      - run:
+          name: Generate temp files
+          command: |-
+            mkdir -p tmp/logs tmp/detox tmp/.secrets
+            md5deep -r ios/ | sort -k2 > tmp/ios.checksum
+            aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets --quiet
       - save_cache: *cache-node-modules
       - save_cache: *cache-gems
       - persist_to_workspace:
@@ -194,17 +195,18 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
-      - restore_cache: *restore-homebrew
+      - run:
+          name: Generate cache checksum
+          command: xcodebuild -version | md5 > tmp/xcode.checksum
+      - restore_cache: *restore-detox-framework
+      - restore_cache: *restore-ios-build
       - run:
           name: Brew update
           command: |-
             brew update
             brew upgrade python
       - run: *install-detox-osx
-      - run: *install-cocoapods
-      - save_cache: *cache-cocoapods
-      - save_cache: *cache-homebrew
+      - save_cache: *cache-detox-framework
       - run:
           name: Boot iPhone simulator
           command: |-
@@ -218,17 +220,28 @@ jobs:
           name: Start bundler
           command: yarn start
           background: true
-      - run: yarn build_e2e
-      - run: |-
-          xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
-          xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
-      - run: >-
-          yarn e2e
-          --artifacts-location tmp/detox/
-          --take-screenshots all
-          --record-logs all
-          --debug-synchronization 3000
-          -n "$DEVICE_NAME"
+      - run:
+          name: Build iOS binary
+          command: |-
+            if [ ! -d ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
+              .circleci/ios/prepare.sh
+              yarn build_e2e
+            fi
+      - save_cache: *cache-ios-build
+      - run:
+          name: Launch app
+          command: |-
+            xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
+            xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
+      - run:
+          name: Run tests
+          command: >-
+            yarn e2e
+            --artifacts-location tmp/detox/
+            --take-screenshots all
+            --record-logs all
+            --debug-synchronization 3000
+            -n "$DEVICE_NAME"
       - store_artifacts:
           path: tmp/detox
           destination: e2e
@@ -240,7 +253,9 @@ jobs:
           at: ~/emcasa
       - restore_cache: *restore-gradle
       - run: *install-sdkmanager
-      - run: export TERM=xterm && cd android && ./gradlew assembleDebug
+      - run:
+          name: Build android binary
+          command: export TERM=xterm && cd android && ./gradlew assembleDebug
       - save_cache: *cache-gradle
 
   # Staging deploy
@@ -274,9 +289,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
-      - run: *install-cocoapods
+      - run: .circleci/ios/prepare.sh
       - run: brew install pcre imagemagick
       - run: *configure-version-staging
       - run: *configure-release
@@ -376,9 +390,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
-      - run: *install-cocoapods
+      - run: .circleci/ios/prepare.sh
       - run: brew install pcre imagemagick
       - run: *configure-release
       - run: *configure-keychain
