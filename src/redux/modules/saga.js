@@ -5,7 +5,6 @@ import codePush from 'react-native-code-push'
 
 import firebase from './firebase/saga'
 import auth from './auth/saga'
-import relatedListings from './relatedListings/saga'
 import gallery from './gallery/saga'
 import interest from './interest/saga'
 import neighborhoods from './neighborhoods/saga'
@@ -16,7 +15,6 @@ export default function* root() {
     fork(screens),
     fork(firebase),
     fork(auth),
-    fork(relatedListings),
     fork(gallery),
     fork(interest),
     fork(neighborhoods),
