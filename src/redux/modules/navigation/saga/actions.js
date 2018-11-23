@@ -1,6 +1,5 @@
 import _ from 'lodash/fp'
 import {Navigation} from 'react-native-navigation'
-import {delay} from 'redux-saga'
 import {call, all, put, select, takeEvery, getContext} from 'redux-saga/effects'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'

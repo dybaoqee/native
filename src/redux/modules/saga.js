@@ -3,11 +3,11 @@ import codePushSaga from 'react-native-code-push-saga'
 import codePush from 'react-native-code-push'
 
 import firebase from './firebase/saga'
-import screens from '@/screens/modules/saga'
+import navigation from './navigation/saga'
 
 export default function* root() {
   yield all([
-    fork(screens),
+    fork(navigation),
     fork(firebase),
     fork(codePushSaga, {
       syncOnResume: true,

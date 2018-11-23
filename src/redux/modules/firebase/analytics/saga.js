@@ -3,7 +3,7 @@ import Firebase from 'react-native-firebase'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
 import {getScreenByName} from '@/screens/modules/screens'
-import * as navigation from '@/screens/modules/navigation'
+import * as navigation from '@/redux/modules/navigation'
 import * as actions from './index'
 import analyticsEventsSaga from './events'
 
