@@ -4,20 +4,12 @@ import codePushSaga from 'react-native-code-push-saga'
 import codePush from 'react-native-code-push'
 
 import firebase from './firebase/saga'
-import auth from './auth/saga'
-import gallery from './gallery/saga'
-import interest from './interest/saga'
-import neighborhoods from './neighborhoods/saga'
 import screens from '@/screens/modules/saga'
 
 export default function* root() {
   yield all([
     fork(screens),
     fork(firebase),
-    fork(auth),
-    fork(gallery),
-    fork(interest),
-    fork(neighborhoods),
     fork(codePushSaga, {
       syncOnResume: true,
       delayByInterval: 10 * 60, // 10 minutes

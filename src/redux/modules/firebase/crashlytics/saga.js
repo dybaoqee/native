@@ -2,7 +2,6 @@ import {takeLatest, all, call, fork, getContext} from 'redux-saga/effects'
 import Firebase from 'react-native-firebase'
 
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
-import * as auth from '@/redux/modules/auth'
 import * as actions from './index'
 
 const crashlytics = Firebase.crashlytics()
@@ -31,9 +30,5 @@ function* initialize() {
 }
 
 export default function* crashlyticsSaga() {
-  yield all([
-    takeLatest(auth.SUCCESS, identifySession),
-    takeLatest(actions.REPORT_ERROR, reportError),
-    fork(initialize)
-  ])
+  yield all([takeLatest(actions.REPORT_ERROR, reportError), fork(initialize)])
 }
