@@ -26,9 +26,9 @@ aliases:
   - &restore-gradle
     keys:
       - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &restore-homebrew
+  - &restore-detox-framework
     keys:
-      - v1-brew-{{ arch }}-{{ checksum "/usr/local/Homebrew/.git/refs/heads/master" }}
+      - v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
   - &restore-ios-build
     keys:
       - v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
@@ -46,10 +46,10 @@ aliases:
     paths:
       - ~/.gradle
     key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &cache-homebrew
+  - &cache-detox-framework
     paths:
-      - /usr/local/Homebrew
-    key: v1-brew-{{ arch }}-{{ .Branch }}
+      - ~/Library/Detox
+    key: v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
   - &cache-ios-build
     paths:
       - ios/build/Build
@@ -70,7 +70,6 @@ aliases:
       brew install --HEAD applesimutils
       brew install watchman
       npm install --global detox-cli
-      detox clean-framework-cache
       detox build-framework-cache
 
   # build configurations
@@ -196,7 +195,10 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-homebrew
+      - run:
+          name: Generate cache checksum
+          command: xcodebuild -version | md5 > tmp/xcode.checksum
+      - restore_cache: *restore-detox-framework
       - restore_cache: *restore-ios-build
       - run:
           name: Brew update
@@ -204,6 +206,7 @@ jobs:
             brew update
             brew upgrade python
       - run: *install-detox-osx
+      - save_cache: *cache-detox-framework
       - run:
           name: Boot iPhone simulator
           command: |-
@@ -224,7 +227,6 @@ jobs:
               .circleci/ios/prepare.sh
               yarn build_e2e
             fi
-      - save_cache: *cache-homebrew
       - save_cache: *cache-ios-build
       - run:
           name: Launch app
