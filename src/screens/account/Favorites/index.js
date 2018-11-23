@@ -7,7 +7,7 @@ import composeWithRef from '@/lib/composeWithRef'
 import {withFavoriteListings} from '@/graphql/containers'
 import {switchTab} from '@/redux/modules/navigation'
 import {Shell, Body} from '@/components/layout'
-import Feed from '@/components/listings/Feed/Listing'
+import Feed from '@/components/listings/Feed/Vertical'
 import ListEmpty from '@/components/shared/ListEmpty'
 
 import ListingScreen from '@/screens//listing/Listing'

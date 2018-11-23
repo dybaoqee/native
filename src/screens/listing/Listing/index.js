@@ -16,7 +16,7 @@ import {
 import {logEvent} from '@/redux/modules/firebase/analytics'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Listing from '@/components/listings/Listing'
-import Feed from '@/components/listings/Feed/Related'
+import Feed from '@/components/listings/Feed/Horizontal'
 import RightButtons from './RightButtons'
 
 import GalleryScreen from '@/screens//listing/Gallery'
@@ -137,14 +137,10 @@ class ListingScreen extends PureComponent {
 
   onViewTour = _.once(() => this.props.onViewTour())
 
-  renderRelatedListings() {
-    const {relatedListings} = this.props
-    return <Feed data={relatedListings.data} onSelect={this.onSelectListing} />
-  }
-
   render() {
     const {
       listing: {data, loading},
+      relatedListings,
       params: {id},
       componentId
     } = this.props
@@ -179,9 +175,13 @@ class ListingScreen extends PureComponent {
               onOpenTour={this.onOpenTour}
             />
           )}
-          {isActive && (
+          {Boolean(isActive && relatedListings.data.length) && (
             <Section title="Veja Também">
-              {this.renderRelatedListings()}
+              <Feed
+                pl="5px"
+                data={relatedListings.data}
+                onSelect={this.onSelectListing}
+              />
             </Section>
           )}
         </Body>

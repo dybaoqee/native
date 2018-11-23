@@ -1,11 +1,15 @@
 import React, {Component} from 'react'
 import {Dimensions} from 'react-native'
 import Carousel from 'react-native-snap-carousel'
+import {View} from '@emcasa/ui-native'
+
+import Card from '@/components/listings/Card'
 
 const createHandler = (fun, ...args) => fun && (() => fun(...args))
 
-export default class HorizontalFeed extends Component {
+class HorizontalListingFeed extends Component {
   static defaultProps = {
+    Card,
     get itemWidth() {
       return Dimensions.get('window').width / 1.25
     },
@@ -35,8 +39,12 @@ export default class HorizontalFeed extends Component {
 
   render() {
     if (!this.totalCount) return null
-    const {style, loop, width, ...props} = this.props
-    props.renderItem = this.renderer(props.renderItem)
+    const {style, loop, width, itemWidth, Card, ...props} = this.props
+    props.renderItem = this.renderer(
+      props.renderItem
+        ? props.renderItem
+        : (item) => <Card width={itemWidth} showImages={1} {...item} />
+    )
     return (
       <Carousel
         enableMomentum
@@ -46,8 +54,13 @@ export default class HorizontalFeed extends Component {
         containerCustomStyle={[{flex: null}, style]}
         sliderWidth={width}
         ref={this.slider}
+        style={style}
+        slideStyle={{padding: 10}}
+        itemWidth={itemWidth + 20}
         {...props}
       />
     )
   }
 }
+
+export default View.withComponent(HorizontalListingFeed)

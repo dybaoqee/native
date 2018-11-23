@@ -5,7 +5,7 @@ import {View, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withUserListings} from '@/graphql/containers'
-import Feed from '@/components/listings/Feed/Listing'
+import Feed from '@/components/listings/Feed/Vertical'
 import ListEmpty from '@/components/shared/ListEmpty'
 
 import {FRONTEND_URL} from '@/config/const'

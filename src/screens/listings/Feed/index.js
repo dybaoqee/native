@@ -10,7 +10,7 @@ import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
 import InfiniteScroll from '@/containers/InfiniteScroll'
-import Feed from '@/components/listings/Feed/Listing'
+import Feed from '@/components/listings/Feed/Vertical'
 import SearchLocation from './Location'
 import ListHeader from './ListHeader'
 
