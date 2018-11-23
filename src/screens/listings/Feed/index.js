@@ -14,8 +14,8 @@ import Feed from '@/components/listings/Feed/Listing'
 import SearchLocation from './Location'
 import ListHeader from './ListHeader'
 
-import SearchFiltersScreen from '@/screens/modules/listings/Search'
-import ListingScreen from '@/screens/modules/listing/Listing'
+import SearchFiltersScreen from '@/screens//listings/Search'
+import ListingScreen from '@/screens//listing/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
 class ListingsFeedScreen extends PureComponent {

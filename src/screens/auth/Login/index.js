@@ -11,7 +11,7 @@ import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 
-import SignUpScreen from '@/screens/modules/auth/SignUp'
+import SignUpScreen from '@/screens//auth/SignUp'
 
 const isRegistrationComplete = (user) => Boolean(user.name)
 

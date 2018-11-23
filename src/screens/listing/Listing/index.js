@@ -19,9 +19,9 @@ import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Related'
 import RightButtons from './RightButtons'
 
-import GalleryScreen from '@/screens/modules/listing/Gallery'
-import TourScreen from '@/screens/modules/listing/Tour'
-import InterestFormScreen from '@/screens/modules/interest/Form'
+import GalleryScreen from '@/screens//listing/Gallery'
+import TourScreen from '@/screens//listing/Tour'
+import InterestFormScreen from '@/screens//interest/Form'
 
 class ListingScreen extends PureComponent {
   static screenName = 'listing.Listing'

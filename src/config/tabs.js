@@ -1,6 +1,6 @@
-import * as listings from '@/screens/modules/listings/screens'
-import * as account from '@/screens/modules/account/screens'
-import * as auth from '@/screens/modules/auth/screens'
+import * as listings from '@/screens//listings/screens'
+import * as account from '@/screens//account/screens'
+import * as auth from '@/screens//auth/screens'
 import {Navigation} from 'react-native-navigation'
 
 /**

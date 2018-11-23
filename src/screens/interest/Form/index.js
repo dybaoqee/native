@@ -12,7 +12,7 @@ import {
 import {Shell, Body, Footer} from '@/components/layout'
 import Form from '@/components/interest/Form'
 
-import SuccessScreen from '@/screens/modules/interest/Created'
+import SuccessScreen from '@/screens//interest/Created'
 
 class InterestFormScreen extends PureComponent {
   static screenName = 'interest.Form'

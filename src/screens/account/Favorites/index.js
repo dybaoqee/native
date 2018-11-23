@@ -10,7 +10,7 @@ import {Shell, Body} from '@/components/layout'
 import Feed from '@/components/listings/Feed/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
-import ListingScreen from '@/screens/modules/listing/Listing'
+import ListingScreen from '@/screens//listing/Listing'
 
 class FavoritesScreen extends PureComponent {
   static defaultProps = {

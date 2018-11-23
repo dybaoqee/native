@@ -9,7 +9,7 @@ import Feed from '@/components/listings/Feed/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
 import {FRONTEND_URL} from '@/config/const'
-import ListingScreen from '@/screens/modules/listing/Listing'
+import ListingScreen from '@/screens//listing/Listing'
 
 class UserListingsTab extends PureComponent {
   onSelect = (id) => {
