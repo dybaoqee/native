@@ -38,3 +38,18 @@ export const GET_LISTINGS_FEED = gql`
   }
   ${frag.ListingFeed}
 `
+
+export const GET_RELATED_LISTINGS = gql`
+  query relatedListings($id: ID!, $pageSize: Int) {
+    listing(id: $id) {
+      id
+      related(filters: {}, pagination: {pageSize: $pageSize}) {
+        remainingCount
+        listings {
+          ...ListingFeed
+        }
+      }
+    }
+  }
+  ${frag.ListingFeed}
+`
