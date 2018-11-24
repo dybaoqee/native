@@ -45,8 +45,8 @@ class SignUpScreen extends PureComponent {
     const {loading, valid} = this.state
     const disabled = Boolean(loading || !valid)
     return (
-      <Modal testID="@auth.SignUp" bg="white">
-        <Modal.Header color="dark" mt="15px" textAlign="center">
+      <Modal testID="@auth.SignUp">
+        <Modal.Header mt="15px" textAlign="center">
           Cadastre-se
         </Modal.Header>
         <Body loading={loading} m="15px">

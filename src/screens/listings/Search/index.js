@@ -12,6 +12,10 @@ class ListingSearchScreen extends PureComponent {
   static screenName = 'listings.Search'
 
   static options = {
+    statusBar: {
+      style: 'light',
+      drawBehind: true
+    },
     layout: {
       backgroundColor: 'transparent'
     },
@@ -45,7 +49,7 @@ class ListingSearchScreen extends PureComponent {
     const {initialValues} = this.state
     return (
       <Modal bg="pink" opacity={0.9}>
-        <Modal.Header onDismiss={this.onDismiss} />
+        <Modal.Header color="white" onDismiss={this.onDismiss} />
         <Body scroll>
           <SearchFilters
             initialValues={initialValues}

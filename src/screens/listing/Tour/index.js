@@ -26,10 +26,11 @@ class ListingTourScreen extends PureComponent {
     const {layout} = this.state
 
     return (
-      <Modal testID="@listing.Tour">
+      <Modal bg="dark" testID="@listing.Tour">
         <Body loading={loading} onLayout={this.onLayout}>
           <Modal.Header
             translucent
+            color="white"
             style={{marginTop: 60, justifyContent: 'flex-end'}}
             onDismiss={onDismiss}
           />

@@ -6,10 +6,17 @@ import {Body, Modal} from '@/components/layout'
 export default class InterestCreatedModal extends PureComponent {
   static screenName = 'interest.Created'
 
+  static options = {
+    statusBar: {
+      style: 'light',
+      drawBehind: true
+    }
+  }
+
   render() {
     return (
-      <Modal>
-        <Modal.Header onDismiss={this.props.onDismiss} />
+      <Modal bg="pink" opacity={0.9}>
+        <Modal.Header color="white" onDismiss={this.props.onDismiss} />
         <Body flex={1} p="25px">
           <Row mb="25px" justifyContent="center">
             <Text color="white" fontSize={24} textAlign="center">

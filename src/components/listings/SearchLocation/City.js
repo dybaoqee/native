@@ -5,7 +5,9 @@ import GhostButton from '@/components/shared/GhostButton'
 export default function City({value, cities, onChange}) {
   return (
     <View>
-      <Text color="white">Você está procurando um imóvel em qual cidade?</Text>
+      <Text fontSize={16} fontWeight="500" color="white">
+        Você está procurando um imóvel em qual cidade?
+      </Text>
       <Button.Group
         onChange={onChange}
         flexDirection="row"

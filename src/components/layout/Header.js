@@ -40,23 +40,16 @@ const Title = styled(Text)`
     translucent && `text-shadow: 0 1px 4px ${colors.dark}`};
 `
 
-const StatusBar = styled.View`
-  z-index: 1;
-  height: ${themeGet('size.statusBar', 0)};
-  width: 100%;
-  ${bgColor};
-`
-
 const TopBar = styled(View)`
   z-index: 1;
   background-color: white;
   justify-content: center;
   min-height: ${themeGet('size.topBar', 0)};
-  ${({translucent, statusBar, theme}) =>
+  ${({translucent}) =>
     Boolean(translucent) && {
       backgroundColor: 'transparent',
       position: 'absolute',
-      top: statusBar ? theme.size.statusBar : 0,
+      top: 0,
       left: 0,
       right: 0
     }};
@@ -65,12 +58,8 @@ const TopBar = styled(View)`
 
 function Header({children, backButton, rightButtons, ...props}) {
   const childProps = _.pick(props, ['translucent', 'statusBar', 'color'])
-  const statusBarProps =
-    typeof props.statusBar === 'object' ? props.statusBar : {}
-  if (props.translucent) childProps.color = childProps.color || 'white'
   return (
     <Fragment>
-      {Boolean(props.statusBar) && <StatusBar {...statusBarProps} />}
       <TopBar {...props} pointerEvents="box-none">
         <Row
           alignItems="center"
@@ -105,7 +94,5 @@ function Header({children, backButton, rightButtons, ...props}) {
 Header.defaultProps = {
   statusBar: {bg: 'white'}
 }
-
-Header.StatusBar = StatusBar
 
 export default Header

@@ -2,6 +2,22 @@ import {ScrollView} from 'react-native'
 import {View, Row, Col, Text, Button} from '@emcasa/ui-native'
 import IconButton from '@/components/shared/IconButton'
 import GhostButton from '@/components/shared/GhostButton'
+import styled from 'styled-components/native'
+
+const maxHeight = ({theme}) => {
+  const height = theme.dimensions.window.height * 0.45
+  const buttonHeight = theme.buttonHeight[0] + 20
+  return {maxHeight: Math.ceil(height / buttonHeight) * buttonHeight}
+}
+
+const OptionsContainer = styled(ScrollView).attrs({
+  endFillColor: 'white',
+  indicatorStyle: 'white'
+})`
+  ${maxHeight};
+  margin-right: -10;
+  margin-top: 15;
+`
 
 export default function Neighborhood({
   value,
@@ -24,10 +40,12 @@ export default function Neighborhood({
           </Col>
         )}
         <Col flex={1}>
-          <Text color="white">Selecione os bairros desejados</Text>
+          <Text fontSize={16} fontWeight="500" color="white">
+            Selecione os bairros desejados
+          </Text>
         </Col>
       </Row>
-      <ScrollView style={{height: 200, marginRight: -10, marginTop: 15}}>
+      <OptionsContainer>
         <Button.Group
           strategy="multi"
           onChange={onChange}
@@ -46,7 +64,7 @@ export default function Neighborhood({
             </GhostButton>
           ))}
         </Button.Group>
-      </ScrollView>
+      </OptionsContainer>
     </View>
   )
 }

@@ -20,21 +20,21 @@ const Background = styled.View`
 
 const Modal = styled(function Modal({children, bg, opacity, ...props}) {
   return (
-    <Shell {...props}>
-      <View zIndex={1} flex={1}>
+    <View flex={1}>
+      <Shell zIndex={1} {...props}>
         {children}
-      </View>
+      </Shell>
       {Boolean(bg && bg !== 'transparent') && (
         <Background bg={bg} opacity={opacity} />
       )}
-    </Shell>
+    </View>
   )
 })`
   margin-top: ${themeGet('size.statusBar', 0)};
 `
 
 Modal.defaultProps = {
-  bg: 'pink'
+  bg: 'white'
 }
 
 export default Modal
@@ -87,5 +87,5 @@ Modal.Header = styled(function ModalHeader({
 Modal.Header.defaultProps = {
   zIndex: 1,
   fontSize: 'large',
-  color: 'white'
+  color: 'dark'
 }

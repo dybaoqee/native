@@ -1,6 +1,11 @@
-import {isObject} from 'lodash'
 import React, {PureComponent} from 'react'
-import {View, Keyboard, KeyboardAvoidingView, Platform} from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  Platform
+} from 'react-native'
+import {View} from '@emcasa/ui-native'
 
 import BottomTabs from './BottomTabs'
 
@@ -50,43 +55,49 @@ export default class Shell extends PureComponent {
   }
 
   render() {
-    const {style, children, testID, behavior, bottomTabs} = this.props
+    const {style, zIndex, children, testID, behavior, bottomTabs} = this.props
     const {offset, layout, keyboardVisible, keyboardHeight} = this.state
     const bottomTabProps = typeof bottomTabs === 'object' ? bottomTabs : {}
     const layoutInfo = {
       hasBottomTabs: Boolean(bottomTabs)
     }
     return (
-      <View
-        testID={testID}
-        style={[{flex: 1}, layout]}
+      <SafeAreaView
+        style={{zIndex, flex: 1}}
+        forceInset={{top: 'never'}}
         onLayout={this.onLayout}
       >
-        <KeyboardAvoidingView
-          ref={this.keyboardAvoidingView}
-          style={[{flex: 1}, style, !keyboardVisible && layout]}
-          keyboardVerticalOffset={offset}
-          behavior={behavior !== 'none' ? behavior : undefined}
-          enabled={Platform.OS !== 'android' && behavior !== 'none'}
+        <View
+          testID={testID}
+          style={[{flex: 1, overflow: 'hidden'}, layout]}
+          onLayout={this.onLayout}
         >
-          <View style={{flex: 1, display: 'flex'}}>
-            {React.Children.map(
-              children,
-              (node) =>
-                React.isValidElement(node)
-                  ? React.cloneElement(node, layoutInfo)
-                  : node
-            )}
-          </View>
-        </KeyboardAvoidingView>
-        {layoutInfo.hasBottomTabs && (
-          <BottomTabs
-            bottom={keyboardHeight}
-            testID="bottom_tabs"
-            {...bottomTabProps}
-          />
-        )}
-      </View>
+          <KeyboardAvoidingView
+            ref={this.keyboardAvoidingView}
+            style={[{flex: 1}, style, !keyboardVisible && layout]}
+            keyboardVerticalOffset={offset}
+            behavior={behavior !== 'none' ? behavior : undefined}
+            enabled={Platform.OS !== 'android' && behavior !== 'none'}
+          >
+            <View style={{flex: 1, display: 'flex'}}>
+              {React.Children.map(
+                children,
+                (node) =>
+                  React.isValidElement(node)
+                    ? React.cloneElement(node, layoutInfo)
+                    : node
+              )}
+            </View>
+          </KeyboardAvoidingView>
+          {layoutInfo.hasBottomTabs && (
+            <BottomTabs
+              bottom={keyboardHeight}
+              testID="bottom_tabs"
+              {...bottomTabProps}
+            />
+          )}
+        </View>
+      </SafeAreaView>
     )
   }
 }
