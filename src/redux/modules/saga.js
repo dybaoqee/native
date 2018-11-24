@@ -6,15 +6,17 @@ import firebase from './firebase/saga'
 import navigation from './navigation/saga'
 
 export default function* root() {
-  yield all([
-    fork(navigation),
-    fork(firebase),
-    fork(codePushSaga, {
-      syncOnResume: true,
-      delayByInterval: 10 * 60, // 10 minutes
-      syncOptions: {
-        installMode: codePush.InstallMode.ON_NEXT_RESUME
-      }
-    })
-  ])
+  const sagas = [fork(navigation), fork(firebase)]
+  if (!__DEV__) {
+    sagas.push(
+      fork(codePushSaga, {
+        syncOnResume: true,
+        delayByInterval: 10 * 60, // 10 minutes
+        syncOptions: {
+          installMode: codePush.InstallMode.ON_NEXT_RESUME
+        }
+      })
+    )
+  }
+  yield all(sagas)
 }
