@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools" package="com.emcasa" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="26" />
-  <application tools:replace="android:allowBackup" android:name=".MainApplication" android:allowBackup="false" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:theme="@style/SplashScreen">
+  <application tools:replace="android:allowBackup" android:name=".MainApplication" android:allowBackup="false" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme">
     <meta-data android:name="io.fabric.ApiKey" android:value="${fabricApiKey}" />
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="${googleMapsApiKey}" />
     <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/pink" />

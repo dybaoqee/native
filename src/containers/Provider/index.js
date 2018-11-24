@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
+import {StatusBar, Platform} from 'react-native'
 import {Provider} from 'react-redux'
 import {PersistGate} from 'redux-persist/integration/react'
 import {ApolloProvider} from 'react-apollo'
@@ -48,9 +49,26 @@ export const withProvider = (Target) =>
       Navigation.events().bindComponent(this)
     }
 
+    renderStatusBar() {
+      const {
+        statusBar: {visible, style, backgroundColor, drawBehind}
+      } = this.constructor.options
+      if (Platform.OS !== 'ios') return
+      return (
+        <StatusBar
+          animated
+          hidden={!visible}
+          translucent={drawBehind}
+          barStyle={style ? `${style}-content` : undefined}
+          backgroundColor={backgroundColor}
+        />
+      )
+    }
+
     render() {
       return (
         <AppProvider>
+          {this.renderStatusBar()}
           <Target ref={this.screen} {...this.props} />
         </AppProvider>
       )

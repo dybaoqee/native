@@ -9,6 +9,10 @@ class ListingTourScreen extends PureComponent {
   static screenName = 'listing.Tour'
 
   static options = {
+    statusBar: {
+      style: 'light',
+      backgroundColor: 'black'
+    },
     layout: {
       orientation: ['portrait', 'landscape']
     }
@@ -26,7 +30,7 @@ class ListingTourScreen extends PureComponent {
     const {layout} = this.state
 
     return (
-      <Modal bg="dark" testID="@listing.Tour">
+      <Modal bg="black" testID="@listing.Tour">
         <Body loading={loading} onLayout={this.onLayout}>
           <Modal.Header
             translucent

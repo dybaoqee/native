@@ -10,6 +10,10 @@ export default class createListingScreen extends PureComponent {
   static screenName = 'listings.Create'
 
   static options = {
+    statusBar: {
+      style: 'light',
+      backgroundColor: 'transparent'
+    },
     layout: {
       backgroundColor: 'transparent'
     },

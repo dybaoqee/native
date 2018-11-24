@@ -14,7 +14,7 @@ class ListingSearchScreen extends PureComponent {
   static options = {
     statusBar: {
       style: 'light',
-      drawBehind: true
+      backgroundColor: 'transparent'
     },
     layout: {
       backgroundColor: 'transparent'

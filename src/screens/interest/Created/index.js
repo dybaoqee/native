@@ -9,7 +9,7 @@ export default class InterestCreatedModal extends PureComponent {
   static options = {
     statusBar: {
       style: 'light',
-      drawBehind: true
+      backgroundColor: 'transparent'
     }
   }
 

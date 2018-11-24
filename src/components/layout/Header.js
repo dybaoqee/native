@@ -57,7 +57,7 @@ const TopBar = styled(View)`
 `
 
 function Header({children, backButton, rightButtons, ...props}) {
-  const childProps = _.pick(props, ['translucent', 'statusBar', 'color'])
+  const childProps = _.pick(props, ['translucent', 'color'])
   return (
     <Fragment>
       <TopBar {...props} pointerEvents="box-none">
@@ -89,10 +89,6 @@ function Header({children, backButton, rightButtons, ...props}) {
       </TopBar>
     </Fragment>
   )
-}
-
-Header.defaultProps = {
-  statusBar: {bg: 'white'}
 }
 
 export default Header

@@ -1,27 +1,23 @@
 <resources>
   <!-- Base application theme. -->
   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-    <item name="colorPrimary">@color/pink</item>
-    <item name="colorPrimaryDark">@android:color/white</item>
+    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    <item name="android:windowBackground">@drawable/launch_screen</item>
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:colorPrimary">@color/pink</item>
+    <item name="android:colorPrimaryDark">@android:color/white</item>
     <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
     <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+    <item name="android:windowNoTitle">true</item>
     <item name="android:windowDisablePreview">true</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
   </style>
-  <style name="SpinnerItem" parent="Theme.AppCompat.Light">>
+  <style name="SpinnerItem" parent="Theme.AppCompat.Light">
     <item name="android:gravity">center</item>
   </style>
   <style name="SpinnerDropDownItem" parent="Theme.AppCompat.Light">
     <item name="android:textSize">18dp</item>
     <item name="android:gravity">center</item>
-  </style>
-  <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
-    <item name="android:windowExitAnimation">@android:anim/fade_out</item>
-    <item name="android:windowBackground">@drawable/launch_screen</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowActionBar">false</item>
-    <item name="android:windowFullscreen">true</item>
-    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    <item name="android:statusBarColor">@android:color/transparent</item>
   </style>
   <style name="LoginTheme" parent="Theme.AccountKit">
     <item name="com_accountkit_primary_color">@color/pink</item>

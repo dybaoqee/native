@@ -11,6 +11,10 @@ class ListingGalleryScreen extends PureComponent {
   static screenName = 'listing.Gallery'
 
   static options = {
+    statusBar: {
+      style: 'light',
+      backgroundColor: 'black'
+    },
     layout: {
       orientation: ['portrait', 'landscape']
     }
@@ -24,7 +28,7 @@ class ListingGalleryScreen extends PureComponent {
     } = this.props
 
     return (
-      <Modal bg="dark" testID="@listing.Gallery">
+      <Modal bg="black" testID="@listing.Gallery">
         <Body loading={loading}>
           <Modal.Header translucent color="white" onDismiss={onDismiss} />
           {data && (

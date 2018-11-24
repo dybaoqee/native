@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
-import {View} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
@@ -149,7 +148,6 @@ class ListingScreen extends PureComponent {
     const isActive = data && data.isActive
     return (
       <Shell>
-        <Header.StatusBar bg="white" />
         <Body
           scroll={!loading}
           loading={loading}
@@ -159,7 +157,6 @@ class ListingScreen extends PureComponent {
         >
           <Header
             translucent
-            statusBar={false}
             color={isActive ? 'white' : 'pink'}
             backButton={componentId}
             rightButtons={<RightButtons id={id} onShare={this.onShare} />}
