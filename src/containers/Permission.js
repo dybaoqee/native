@@ -70,15 +70,20 @@ export default class PermissionProvider extends PureComponent {
 
   render() {
     return this.props.children({
-      permission: this.state.value,
-      onRequestPermission: this.onRequestPermission,
-      onUpdatePermission: this.onUpdatePermission
+      state: this.state.value,
+      requestPermission: this.onRequestPermission,
+      updatePermission: this.onUpdatePermission
     })
   }
 }
 
 export const withPermission = (permission, options) => (Target) => (props) => (
   <PermissionProvider permission={permission} options={options}>
-    {(ctx) => <Target {...props} {...ctx} />}
+    {(ctx) => (
+      <Target
+        {...props}
+        permissions={{...(props.permissions || {}), [permission]: ctx}}
+      />
+    )}
   </PermissionProvider>
 )

@@ -52,9 +52,19 @@ class LoginScreen extends PureComponent {
   }
 
   async componentDidAppear() {
-    const {onRequestPermission, permission, user} = this.props
-    if (Platform.OS === 'android' && permission === 'undetermined')
-      await onRequestPermission()
+    const {
+      permissions: {receiveSms, readPhoneState},
+      user
+    } = this.props
+    if (Platform.OS === 'android') {
+      const getPermission = async (permission) => {
+        if (permission.state === 'undetermined')
+          return permission.requestPermission()
+        else return permission.state
+      }
+      await getPermission(receiveSms)
+      await getPermission(readPhoneState)
+    }
     if (!this.state.viewActive)
       this.setState(
         {viewActive: true},
@@ -131,6 +141,7 @@ class LoginScreen extends PureComponent {
 
 export default composeWithRef(
   withPermission('receiveSms'),
+  withPermission('readPhoneState'),
   withSignInMutation,
   withUserProfile,
   connect(

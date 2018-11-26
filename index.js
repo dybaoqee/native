@@ -10,6 +10,7 @@ AccountKit.configure({
   responseType: 'token',
   defaultCountry: 'BR',
   receiveSMS: true,
+  initialPhoneCountryPrefix: '+55',
   theme: accountKitConfig
 })
 
