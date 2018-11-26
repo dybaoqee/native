@@ -71,5 +71,6 @@ export default function screenReducer(state = initialState, action) {
 }
 
 function tabIndexHistoryReducer(state = [], action) {
-  return [action.tabIndex, ...state].slice(0, HISTORY_LENGTH)
+  if (action.tabIndex === state[0]) return state
+  else return [action.tabIndex, ...state].slice(0, HISTORY_LENGTH)
 }
