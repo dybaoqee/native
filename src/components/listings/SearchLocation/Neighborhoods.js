@@ -25,6 +25,8 @@ export default function Neighborhood({
   onChange,
   onDismiss
 }) {
+  const allOptions = neighborhoods.map(({name}) => name)
+  const allOptionsSelected = value && value.length === allOptions.length
   return (
     <View>
       <Row alignItems="flex-start">
@@ -58,6 +60,14 @@ export default function Neighborhood({
             </View>
           )}
         >
+          <GhostButton
+            active={allOptionsSelected}
+            onPress={() =>
+              allOptionsSelected ? onChange([]) : onChange(allOptions)
+            }
+          >
+            Todos os bairros
+          </GhostButton>
           {neighborhoods.map(({name, slug}) => (
             <GhostButton key={slug} value={name}>
               {name}
