@@ -11,6 +11,7 @@ import * as parse from './parseFilters'
 import IconButton from '@/components/shared/IconButton'
 
 const Filter = styled(function Filter({children, onPress, ...props}) {
+  if (!children) return null
   return (
     <Row {...props}>
       <Text color="white" fontSize={12}>

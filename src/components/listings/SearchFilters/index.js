@@ -37,7 +37,7 @@ const Field = styled(({style, ...props}) => (
 `
 
 const parseRange = (value) =>
-  value !== null ? {min: value, max: undefined} : undefined
+  value == 0 ? {min: 0, max: 0} : {min: value, max: undefined}
 const formatRange = (value) => (value ? value.min : null)
 
 const compareArray = (a, b) => isEqual((a || []).sort(), (b || []).sort())
