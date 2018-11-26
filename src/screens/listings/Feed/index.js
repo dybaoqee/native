@@ -91,6 +91,7 @@ class ListingsFeedScreen extends PureComponent {
         testID="@listings.Feed"
         bottomTabs={{
           icon: modalActive ? 'check' : 'map-marker-alt',
+          type: modalActive ? 'light' : 'solid',
           onPress: modalActive
             ? this.onCloseLocationSearch
             : this.onOpenLocationSearch

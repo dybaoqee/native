@@ -47,6 +47,8 @@ const Header = styled(function ListingCardHeader({children, ...props}) {
   overflow: hidden;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  border: 1px solid ${themeGet('colors.lightGrey')};
+  border-bottom-width: 0;
 `
 
 const Body = styled.View`

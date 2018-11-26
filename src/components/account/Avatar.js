@@ -1,11 +1,12 @@
+import {first, last} from 'lodash'
 import fp, {__} from 'lodash/fp'
 import {View, Text} from '@emcasa/ui-native'
 import styled from 'styled-components/native'
 
 const initials = (name = '') => {
-  const nameParts = name.split(' ', 2)
+  const nameParts = name.split(' ')
   if (nameParts.length === 1) return name.slice(0, 2).toUpperCase()
-  else return (nameParts[0][0] + nameParts[1][0]).toUpperCase()
+  else return (first(nameParts)[0] + last(nameParts)[0]).toUpperCase()
 }
 
 const Avatar = styled(function Avatar({user, color, fontSize, ...props}) {
