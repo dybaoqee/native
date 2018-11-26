@@ -37,10 +37,34 @@ const Field = styled(({style, ...props}) => (
 `
 
 const parseRange = (value) =>
-  value !== null ? {min: 0, max: value} : undefined
-const formatRange = (value) => (value ? value.max : null)
+  value !== null ? {min: value, max: undefined} : undefined
+const formatRange = (value) => (value ? value.min : null)
 
 const compareArray = (a, b) => isEqual((a || []).sort(), (b || []).sort())
+
+const nullableSelectStrategy = {
+  isSelected: (selectedValue, value) => selectedValue == value,
+  update: (selectedValue, value) => (selectedValue == value ? null : value)
+}
+
+function ButtonRange({value, min = 0, max, emptyLabel = '0', ...props}) {
+  return (
+    <Button.Group
+      strategy={nullableSelectStrategy}
+      flexDirection="row"
+      selectedValue={value}
+      {...props}
+    >
+      {min == 0 && <Option value={0}>{emptyLabel}</Option>}
+      {range(1, max).map((num) => (
+        <Option key={num} value={num}>
+          {num}
+        </Option>
+      ))}
+      <Option value={max}>+</Option>
+    </Button.Group>
+  )
+}
 
 export default function SearchFilters({onChange, initialValues}) {
   return (
@@ -71,19 +95,17 @@ export default function SearchFilters({onChange, initialValues}) {
           </Field>
           <Label>Quartos</Label>
           <Field allowNull name="rooms" parse={parseRange} format={formatRange}>
+            {({input}) => <ButtonRange {...input} min={1} max={5} />}
+          </Field>
+          <Label>Suítes</Label>
+          <Field
+            allowNull
+            name="suites"
+            parse={parseRange}
+            format={formatRange}
+          >
             {({input}) => (
-              <Button.Group
-                flexDirection="row"
-                selectedValue={input.value}
-                {...input}
-              >
-                {range(1, 5).map((num) => (
-                  <Option key={num} value={num}>
-                    {num}
-                  </Option>
-                ))}
-                <Option value={null}>+</Option>
-              </Button.Group>
+              <ButtonRange {...input} min={0} max={4} emptyLabel="Sem suíte" />
             )}
           </Field>
           <Label>Vagas de Garagem</Label>
@@ -94,19 +116,7 @@ export default function SearchFilters({onChange, initialValues}) {
             format={formatRange}
           >
             {({input}) => (
-              <Button.Group
-                flexDirection="row"
-                selectedValue={input.value}
-                {...input}
-              >
-                <Option value={0}>Sem vaga</Option>
-                {range(1, 4).map((num) => (
-                  <Option key={num} value={num}>
-                    {num}
-                  </Option>
-                ))}
-                <Option value={null}>+</Option>
-              </Button.Group>
+              <ButtonRange {...input} min={0} max={4} emptyLabel="Sem vaga" />
             )}
           </Field>
           <Final.FormSpy

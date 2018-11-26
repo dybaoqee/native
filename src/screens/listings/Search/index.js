@@ -2,6 +2,7 @@ import {cloneDeep} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
+import {View, Button} from '@emcasa/ui-native'
 
 import {updateFilters} from '@/redux/modules/search'
 import {getSearchFilters} from '@/redux/modules/search/selectors'
@@ -56,6 +57,11 @@ class ListingSearchScreen extends PureComponent {
             onChange={this.onChange}
           />
         </Body>
+        <View p="15px">
+          <Button height="tall" onPress={this.onDismiss}>
+            Filtrar
+          </Button>
+        </View>
       </Modal>
     )
   }

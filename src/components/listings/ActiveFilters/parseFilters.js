@@ -5,7 +5,7 @@ export const garageSpots = ({max}) => {
   return `Até ${max} vagas`
 }
 
-export const rooms = ({max}) => `Até ${max} quartos`
+export const rooms = ({min}) => `${min}+ quartos`
 
 export const price = ({min, max}) => {
   if (!max) return `R$${abbrevPrice(min)}+`
