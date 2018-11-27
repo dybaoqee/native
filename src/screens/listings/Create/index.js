@@ -32,7 +32,7 @@ export default class createListingScreen extends PureComponent {
 
   render() {
     return (
-      <Modal bg="pink" opacity={0.9}>
+      <Modal bg="pink">
         <Modal.Header color="white" onDismiss={this.onDismiss} />
         <Body
           ml="20px"

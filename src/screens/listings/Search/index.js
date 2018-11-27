@@ -49,7 +49,7 @@ class ListingSearchScreen extends PureComponent {
   render() {
     const {initialValues} = this.state
     return (
-      <Modal bg="pink" opacity={0.9}>
+      <Modal bg="pink">
         <Modal.Header color="white" onDismiss={this.onDismiss} />
         <Body scroll>
           <SearchFilters
