@@ -57,7 +57,7 @@ function* updateStackRoot({rootId, tabIndex, children}) {
           bottomTabs: {
             currentTabIndex: tabIndex,
             visible: false,
-            drarBehind: true
+            drawBehind: true
           }
         },
         children: bottomTabs

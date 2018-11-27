@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import {Tab} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {updateStackRoot} from '@/redux/modules/navigation'
+import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
+import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
 import {
   withUserListings,
   withSignOutMutation,
@@ -35,10 +36,16 @@ class UserProfileScreen extends PureComponent {
     tabIndex: 0
   }
 
+  componentDidMount() {
+    const {jwt, updateStackRoot} = this.props
+    if (!jwt) updateStackRoot()
+  }
+
   onSignOut = async () => {
-    const {signOut, updateStackRoot} = this.props
+    const {previousTabIndex, signOut, switchTab, updateStackRoot} = this.props
     await signOut()
     updateStackRoot()
+    switchTab(previousTabIndex)
   }
 
   onChangeTab = (tabIndex) => this.setState({tabIndex})
@@ -49,7 +56,7 @@ class UserProfileScreen extends PureComponent {
 
     return (
       <Shell bottomTabs>
-        {Boolean(jwt) && (
+        {jwt ? (
           <Body mb="auto" height="auto">
             <Tab.Group
               onChange={this.onChangeTab}
@@ -67,6 +74,8 @@ class UserProfileScreen extends PureComponent {
               </Tab>
             </Tab.Group>
           </Body>
+        ) : (
+          <Body loading height="auto" />
         )}
       </Shell>
     )
@@ -75,8 +84,8 @@ class UserProfileScreen extends PureComponent {
 
 export default composeWithRef(
   connect(
-    null,
-    {updateStackRoot}
+    (state) => ({previousTabIndex: getTabIndexHistory(state)[1]}),
+    {updateStackRoot, switchTab}
   ),
   withSignOutMutation,
   withUserListings,
