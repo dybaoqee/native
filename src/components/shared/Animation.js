@@ -59,8 +59,9 @@ export default class Animation extends PureComponent {
       },
       () => {
         animation.start(() => {
-          this._run(`on${toState}End`)
-          if (!active) this.setState({visible: false})
+          if (!active)
+            this.setState({visible: false}, () => this._run(`on${toState}End`))
+          else this._run(`on${toState}End`)
         })
         this._run(`on${toState}Start`)
       }
