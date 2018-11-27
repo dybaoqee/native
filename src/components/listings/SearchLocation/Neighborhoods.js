@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 
 const maxHeight = ({theme}) => {
   const height = theme.dimensions.window.height * 0.45
-  const buttonHeight = theme.buttonHeight[0] + 20
+  const buttonHeight = theme.buttonHeight[0] + 10
   return {maxHeight: Math.ceil(height / buttonHeight) * buttonHeight}
 }
 

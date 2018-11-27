@@ -41,7 +41,7 @@ class ListingsFeedScreen extends PureComponent {
   }
 
   state = {
-    modalActive: false
+    modalVisible: false
   }
 
   componentDidDisappear() {
@@ -66,9 +66,9 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenLocationSearch = () => this.setState({modalActive: true})
+  onOpenLocationSearch = () => this.setState({modalVisible: true})
 
-  onCloseLocationSearch = () => this.setState({modalActive: false})
+  onCloseLocationSearch = () => this.setState({modalVisible: false})
 
   onClearFilters = () => this.props.clearFilters()
 
@@ -85,23 +85,24 @@ class ListingsFeedScreen extends PureComponent {
     const {
       listingsFeed: {data, loading, remainingCount}
     } = this.props
-    const {modalActive} = this.state
+    const {modalVisible} = this.state
     return (
       <Shell
         testID="@listings.Feed"
         bottomTabs={{
-          icon: modalActive ? 'check' : 'map-marker-alt',
-          type: modalActive ? 'light' : 'solid',
-          onPress: modalActive
+          icon: modalVisible ? 'check' : 'map-marker-alt',
+          type: modalVisible ? 'light' : 'solid',
+          modal: {
+            visible: modalVisible,
+            onDismiss: this.onCloseLocationSearch,
+            onRequestClose: this.onCloseLocationSearch,
+            children: <SearchLocation onDismiss={this.onCloseLocationSearch} />
+          },
+          onPress: modalVisible
             ? this.onCloseLocationSearch
             : this.onOpenLocationSearch
         }}
       >
-        <SearchLocation
-          visible={modalActive}
-          onDismiss={this.onCloseLocationSearch}
-          zIndex={2}
-        />
         <Body loading={loading}>
           <InfiniteScroll
             loading={loading}

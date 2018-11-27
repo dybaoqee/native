@@ -1,6 +1,7 @@
 import styled from 'styled-components/native'
 import {Fragment} from 'react'
 import {themeGet, bottom} from 'styled-system'
+import {compose} from 'recompose'
 import {connect} from 'react-redux'
 
 import getBottomTabs from '@/config/tabs'
@@ -10,7 +11,7 @@ import {withUserProfile} from '@/graphql/containers'
 import Button from './Button'
 import Tabs from './Tabs'
 import Background from './Background'
-import {compose} from 'recompose'
+import Modal from './Modal'
 
 const Center = styled.View.attrs({
   pointerEvents: 'box-none'
@@ -66,6 +67,15 @@ const BottomTabs = compose(
     }),
     {onChange: switchTab}
   )
-)(BaseBottomTabs)
+)(function BottomTabs({modal, ...props}) {
+  return (
+    <Fragment>
+      <BaseBottomTabs {...props} />
+      {Boolean(modal) && (
+        <Modal {...modal} bottomTabs={<BottomTabs {...props} />} />
+      )}
+    </Fragment>
+  )
+})
 
 export default BottomTabs

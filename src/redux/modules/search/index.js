@@ -13,7 +13,7 @@ export const initialState = {
   filters: {}
 }
 
-export default function listingsMapScreenReducer(state = initialState, action) {
+export default function listingsSearchReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_CITY:
       return {...state, city: action.city}
