@@ -18,7 +18,7 @@
     "log-ios": "react-native log-ios",
     "test": "jest --config __test__/jest.config.js",
     "build_e2e": "NODE_ENV=e2e scripts/env detox build -c ios.debug",
-    "test_server": "babel-node __e2e__/server/run.js",
+    "test_server": "emcasa-mock-server",
     "e2e": "detox test -c ios.debug --platform ios",
     "e2e:artifacts": "yarn e2e --artifacts-location tmp/detox --record-logs all --take-screenshots all --record-videos failing"
   },
@@ -121,7 +121,7 @@
     "@babel/plugin-proposal-decorators": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.54",
     "@babel/preset-flow": "^7.0.0-rc.1",
-    "@emcasa/mock-server": "^0.1.0",
+    "@emcasa/mock-server": "^0.2.0",
     "apollo-link-logger": "^1.2.2",
     "apollo-server-express": "^2.0.0",
     "babel-core": "^7.0.0-bridge.0",

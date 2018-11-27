@@ -1,6 +1,7 @@
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {Row, Col, Button} from '@emcasa/ui-native'
+import {encodeAccessToken} from '@emcasa/mock-server/lib/helpers/jwt'
 import {withProvider} from '@/containers/Provider'
 
 class AccountKitScreen extends PureComponent {
@@ -20,7 +21,15 @@ class AccountKitScreen extends PureComponent {
             accessible
             fluid
             height="tall"
-            onPress={() => resolve({token: 'test'})}
+            onPress={() =>
+              resolve({
+                token: encodeAccessToken({
+                  name: 'John Doe',
+                  email: 'johndoe@example.com',
+                  phone: '+552199999999'
+                })
+              })
+            }
           >
             Login
           </Button>
@@ -30,7 +39,15 @@ class AccountKitScreen extends PureComponent {
             accessible
             fluid
             height="tall"
-            onPress={() => resolve({token: undefined})}
+            onPress={() =>
+              resolve({
+                token: encodeAccessToken({
+                  name: '',
+                  email: '',
+                  phone: '+552199999999'
+                })
+              })
+            }
           >
             Sign Up
           </Button>
