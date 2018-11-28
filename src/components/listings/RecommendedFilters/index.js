@@ -87,7 +87,7 @@ export default class RecommendedNeighborhoods extends PureComponent {
   }
 
   render() {
-    const {style, width, data} = this.props
+    const {width, data} = this.props
     const {itemWidth, itemHeight} = this.state
     return (
       <View>
@@ -96,8 +96,9 @@ export default class RecommendedNeighborhoods extends PureComponent {
           enableMomentum
           inactiveSlideOpacity={0.8}
           inactiveSlideScale={1}
-          activeSlideAlignment={'start'}
+          activeSlideAlignment="start"
           containerCustomStyle={{paddingLeft: 15}}
+          contentContainerCustomStyle={{paddingRight: width - itemWidth * 2}}
           sliderWidth={width}
           renderItem={this.renderItem}
           itemWidth={itemWidth}
