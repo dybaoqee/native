@@ -37,6 +37,7 @@ aliases:
   - &cache-node-modules
     paths:
       - node_modules
+      - ~/.npmrc
     key: v3-node-modules-{{ checksum "package.json" }}
   - &cache-gems
     paths:
@@ -162,6 +163,11 @@ jobs:
       - run: sudo apt-get -y -qq install awscli md5deep
       - restore_cache: *restore-node-modules
       - restore_cache: *restore-gems
+      - run:
+          name: Configure npmrc
+          command: |-
+            touch ~/.npmrc
+            echo "@fortawesome:registry=https://npm.fontawesome.com/$FONTAWESOME_TOKEN" > ~/.npmrc
       - run: *install-node-modules
       - run: *install-gems
       - run:
