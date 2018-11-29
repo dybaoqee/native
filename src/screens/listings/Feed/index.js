@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
-import {withListingsFeed} from '@/graphql/containers'
+import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
@@ -83,7 +83,8 @@ class ListingsFeedScreen extends PureComponent {
 
   render() {
     const {
-      listingsFeed: {data, loading, remainingCount}
+      listingsFeed: {data, loading, remainingCount},
+      districts
     } = this.props
     const {modalVisible} = this.state
     return (
@@ -96,7 +97,12 @@ class ListingsFeedScreen extends PureComponent {
             visible: modalVisible,
             onDismiss: this.onCloseLocationSearch,
             onRequestClose: this.onCloseLocationSearch,
-            children: <SearchLocation onDismiss={this.onCloseLocationSearch} />
+            children: (
+              <SearchLocation
+                districts={districts}
+                onDismiss={this.onCloseLocationSearch}
+              />
+            )
           },
           onPress: modalVisible
             ? this.onCloseLocationSearch
@@ -146,5 +152,6 @@ export default composeWithRef(
     filters,
     pageSize: 15,
     fetchPolicy: 'network-only'
-  }))
+  })),
+  withDistricts()
 )(ListingsFeedScreen)

@@ -14,6 +14,7 @@ const IMAGE_PADDING_BOTTOM = 10
 const IMAGE_PADDING_TOP = 5
 
 const Neighborhood = styled(function NeighborhoodCard({
+  disabled,
   style,
   source,
   label,
@@ -23,7 +24,11 @@ const Neighborhood = styled(function NeighborhoodCard({
   const width = parseInt(props.width) - 10
   const height = parseInt(props.height) - 10
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={onPress}
+      activeOpacity={0.85}
+    >
       <View
         style={{borderRadius: 5, width, height}}
         elevation={5}

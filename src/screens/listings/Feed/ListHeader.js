@@ -20,17 +20,17 @@ function ListHeader({hasFilters, filters, city, updateFilters}) {
       <View mb="15px">
         {hasFilters ? (
           <ActiveFilters filters={filters} onChange={onChange} />
-        ) : (
+        ) : city ? (
           <Fragment>
             <Text fontWeight="500">Bairros mais buscados</Text>
             <View mr="-15px" ml="-15px">
               <RecommendedFilters
                 onChange={onChange}
-                data={neighborhoods[city]}
+                data={neighborhoods[city] || []}
               />
             </View>
           </Fragment>
-        )}
+        ) : null}
       </View>
       <Text fontWeight="500">
         {hasFilters ? 'Resultados da busca' : 'Imóveis no Rio de Janeiro'}

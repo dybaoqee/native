@@ -51,9 +51,6 @@ export default class LocationSearchForm extends PureComponent {
     this.switchView('neighborhoods')
   }
 
-  onChangeNeighborhoods = (value) =>
-    this.props.onChangeNeighborhoods && this.props.onChangeNeighborhoods(value)
-
   render() {
     const {selectedCity, selectedNeighborhoods} = this.props
     const {selectedView, districts} = this.state
@@ -72,7 +69,7 @@ export default class LocationSearchForm extends PureComponent {
           <Neighborhoods
             neighborhoods={districts.neighborhoods[selectedCity] || []}
             value={selectedNeighborhoods}
-            onChange={this.onChangeNeighborhoods}
+            onChange={this.props.onChangeNeighborhoods}
             onDismiss={
               districts.cities.length > 1 && (() => this.switchView('city'))
             }

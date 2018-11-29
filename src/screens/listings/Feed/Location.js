@@ -2,7 +2,6 @@ import _ from 'lodash'
 import {PureComponent} from 'react'
 import {compose} from 'recompose'
 import {connect} from 'react-redux'
-import {withDistricts} from '@/graphql/containers'
 import Location from '@/components/listings/SearchLocation'
 
 import {updateCity, updateFilters} from '@/redux/modules/search'
@@ -13,8 +12,8 @@ class LocationContainer extends PureComponent {
     neighborhoods: undefined
   }
 
-  static getDerivedStateFromProps(props) {
-    if (!props.visible && props.filters)
+  static getDerivedStateFromProps(props, state) {
+    if (props.filters && !state.neighborhoods)
       return {
         neighborhoods: props.filters.neighborhoods || []
       }
@@ -39,7 +38,9 @@ class LocationContainer extends PureComponent {
     this.setState(nextState, () => this.props.updateCity(citySlug))
   }
 
-  onChangeNeighborhoods = (neighborhoods) => this.setState({neighborhoods})
+  onChangeNeighborhoods = (neighborhoods) => {
+    this.setState({neighborhoods})
+  }
 
   render() {
     const {citySlug, districts, ...props} = this.props
@@ -67,6 +68,5 @@ export default compose(
       updateCity,
       updateFilters
     }
-  ),
-  withDistricts()
+  )
 )(LocationContainer)
