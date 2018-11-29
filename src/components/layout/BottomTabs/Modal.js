@@ -1,11 +1,12 @@
 import React, {PureComponent} from 'react'
-import {Modal} from 'react-native'
+import {Modal, Animated, Easing, Dimensions} from 'react-native'
+import SafeAreaView from 'react-native-safe-area-view'
 import styled from 'styled-components'
-import {Animated, Easing, Dimensions} from 'react-native'
+import {View} from '@emcasa/ui-native'
 
 import {withAnimation} from '@/components/shared/Animation'
 
-const Background = withAnimation(
+const Body = withAnimation(
   {
     lazy: true,
     useNativeDriver: true,
@@ -14,7 +15,6 @@ const Background = withAnimation(
   },
   ({value}) => ({
     style: {
-      opacity: value,
       transform: [
         {
           translateY: value.interpolate({
@@ -27,7 +27,10 @@ const Background = withAnimation(
   })
 )(styled(Animated.View)`
   z-index: 0;
+  width: 100%;
+  height: 100%;
   top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   flex: 1;
@@ -60,17 +63,22 @@ export default class BottomTabsModal extends PureComponent {
       <Modal
         transparent
         presentationStyle="overFullScreen"
-        animationType="none"
+        animationType="fade"
         {...props}
         visible={modalVisible}
+        style={{width: '100%', height: '100%'}}
       >
-        <Background in={bodyVisible} onExitEnd={this.onExitEnd}>
-          {children}
-        </Background>
-        {React.cloneElement(bottomTabs, {
-          shadow: true,
-          zIndex: 1
-        })}
+        <SafeAreaView style={{flex: 1}}>
+          <View style={{position: 'relative', flex: 1}}>
+            <Body in={bodyVisible} onExitEnd={this.onExitEnd}>
+              {children}
+            </Body>
+            {React.cloneElement(bottomTabs, {
+              shadow: true,
+              zIndex: 1
+            })}
+          </View>
+        </SafeAreaView>
       </Modal>
     )
   }
