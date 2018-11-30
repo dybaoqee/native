@@ -20,16 +20,11 @@ class LocationContainer extends PureComponent {
     return null
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      !_.isEqual(prevProps.visible, this.props.visible) &&
-      !this.props.visible
-    ) {
-      this.props.updateFilters({
-        ...this.props.filters,
-        neighborhoods: prevState.neighborhoods || []
-      })
-    }
+  componentWillUnmount() {
+    this.props.updateFilters({
+      ...this.props.filters,
+      neighborhoods: this.state.neighborhoods || []
+    })
   }
 
   onChangeCity = (citySlug) => {
