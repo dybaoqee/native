@@ -8,7 +8,7 @@ module.exports = (api) => {
   if (process.env.NODE_ENV === 'e2e')
     moduleResolverOptions.root.push('./__mocks__')
   return {
-    presets: ['@babel/preset-flow', 'react-native'],
+    presets: ['module:metro-react-native-babel-preset'],
     plugins: [
       'lodash',
       'react-require',
