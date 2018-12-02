@@ -1,1 +1,1 @@
-export {default as BottomTabsModal} from './BottomTabsModal'
+export {default as Modal} from './Modal'

@@ -29,8 +29,8 @@ const fadeOutAnimation = {
   }
 }
 
-export default class BottomTabsModal extends PureComponent {
-  static screenName = 'shared.BottomTabsModal'
+export default class ModalScreen extends PureComponent {
+  static screenName = 'shared.Modal'
 
   static defaultProps = {
     bottomTabs: {},
@@ -69,7 +69,10 @@ export default class BottomTabsModal extends PureComponent {
     Navigation.dismissModal(id)
   }
 
-  onDismiss = () => Navigation.dismissAllModals()
+  componentDidDisappear() {
+    const {onDismissed} = this.props
+    if (onDismissed) onDismissed()
+  }
 
   render() {
     const {children, bg, opacity, bottomTabs} = this.props

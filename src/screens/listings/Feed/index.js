@@ -18,7 +18,7 @@ import SearchFiltersScreen from '@/screens//listings/Search'
 import ListingScreen from '@/screens//listing/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
-import BottomTabsModal from '@/screens/shared/BottomTabsModal'
+import Modal from '@/screens/shared/Modal'
 
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
@@ -42,6 +42,8 @@ class ListingsFeedScreen extends PureComponent {
     }
   }
 
+  state = {modalVisible: false}
+
   componentDidDisappear() {
     const {
       listingsFeed: {loading, updateBlacklists}
@@ -49,13 +51,17 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) updateBlacklists()
   }
 
-  getBottomTabsProps(visible = false) {
+  get bottomTabsProps() {
+    const {modalVisible} = this.state
     return {
-      icon: visible ? 'check' : 'map-marker-alt',
-      type: visible ? 'light' : 'solid',
-      onPress: visible ? this.onCloseLocationSearch : this.onOpenLocationSearch
+      icon: modalVisible ? 'check' : 'map-marker-alt',
+      type: modalVisible ? 'light' : 'solid',
+      onPress: modalVisible
+        ? this.onCloseLocationSearch
+        : this.onOpenLocationSearch
     }
   }
+
   navigationButtonPressed({buttonId}) {
     if (buttonId === 'listings.Feed#filters') {
       Navigation.showModal({
@@ -71,21 +77,26 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenLocationSearch = () => {
-    BottomTabsModal.show({
-      passProps: {
-        bottomTabs: this.getBottomTabsProps(true),
-        children: (
-          <SearchLocation
-            districts={this.props.districts}
-            onDismiss={this.onCloseLocationSearch}
-          />
-        )
-      }
-    })
-  }
+  onOpenLocationSearch = () =>
+    this.setState({modalVisible: true}, () =>
+      Modal.show({
+        passProps: {
+          onDismissed: () => this.setState({modalVisible: false}),
+          bottomTabs: {
+            ...this.bottomTabsProps,
+            onSwitchTab: this.onCloseLocationSearch
+          },
+          children: (
+            <SearchLocation
+              districts={this.props.districts}
+              onDismiss={this.onCloseLocationSearch}
+            />
+          )
+        }
+      })
+    )
 
-  onCloseLocationSearch = () => BottomTabsModal.hide()
+  onCloseLocationSearch = () => Modal.hide()
 
   onClearFilters = () => this.props.clearFilters()
 
@@ -103,7 +114,7 @@ class ListingsFeedScreen extends PureComponent {
       listingsFeed: {data, loading, remainingCount}
     } = this.props
     return (
-      <Shell testID="@listings.Feed" bottomTabs={this.getBottomTabsProps()}>
+      <Shell testID="@listings.Feed" bottomTabs={this.bottomTabsProps}>
         <Body loading={loading}>
           <InfiniteScroll
             loading={loading}

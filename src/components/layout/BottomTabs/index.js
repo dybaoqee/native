@@ -31,10 +31,11 @@ const BaseBottomTabs = function BottomTabs({
   testID,
   tabs,
   tabIndex,
-  onChange,
   icon,
   type,
   bottom,
+  switchTab,
+  onSwitchTab,
   onPress
 }) {
   const hasButton = Boolean(icon)
@@ -50,7 +51,10 @@ const BaseBottomTabs = function BottomTabs({
           tabs={tabs}
           tabIndex={tabIndex}
           hasButton={hasButton}
-          onChange={onChange}
+          onChange={(tabIndex) => {
+            if (onSwitchTab) onSwitchTab(tabIndex)
+            switchTab(tabIndex)
+          }}
         />
       </Background>
     </Fragment>
@@ -64,7 +68,7 @@ const BottomTabs = compose(
       tabs: getBottomTabs(state, {user: user || {}}),
       tabIndex: getCurrentTabIndex(state)
     }),
-    {onChange: switchTab}
+    {switchTab}
   )
 )(BaseBottomTabs)
 

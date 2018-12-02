@@ -23,7 +23,7 @@ export default class LocationSearch extends PureComponent {
   }
 
   render() {
-    const {onDismiss, ...props} = this.props
+    const {onDismiss} = this.props
     return (
       <Body>
         <View alignItems="flex-end" mt={-10} mr={-10}>
