@@ -11,7 +11,6 @@ import {withUserProfile} from '@/graphql/containers'
 import Button from './Button'
 import Tabs from './Tabs'
 import Background from './Background'
-import Modal from './Modal'
 
 const Center = styled.View.attrs({
   pointerEvents: 'box-none'
@@ -32,10 +31,11 @@ const BaseBottomTabs = function BottomTabs({
   testID,
   tabs,
   tabIndex,
-  onChange,
   icon,
   type,
   bottom,
+  switchTab,
+  onSwitchTab,
   onPress
 }) {
   const hasButton = Boolean(icon)
@@ -51,7 +51,10 @@ const BaseBottomTabs = function BottomTabs({
           tabs={tabs}
           tabIndex={tabIndex}
           hasButton={hasButton}
-          onChange={onChange}
+          onChange={(tabIndex) => {
+            if (onSwitchTab) onSwitchTab(tabIndex)
+            switchTab(tabIndex)
+          }}
         />
       </Background>
     </Fragment>
@@ -65,17 +68,8 @@ const BottomTabs = compose(
       tabs: getBottomTabs(state, {user: user || {}}),
       tabIndex: getCurrentTabIndex(state)
     }),
-    {onChange: switchTab}
+    {switchTab}
   )
-)(function BottomTabs({modal, ...props}) {
-  return (
-    <Fragment>
-      <BaseBottomTabs {...props} />
-      {Boolean(modal) && (
-        <Modal {...modal} bottomTabs={<BottomTabs {...props} />} />
-      )}
-    </Fragment>
-  )
-})
+)(BaseBottomTabs)
 
 export default BottomTabs

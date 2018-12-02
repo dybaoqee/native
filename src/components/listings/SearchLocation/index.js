@@ -17,38 +17,25 @@ const Body = styled(View)`
   background-color: rgba(60, 72, 88, 0.9);
 `
 
-const Background = styled(View)`
-  position: absolute;
-  overflow: hidden;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.8);
-`
-
 export default class LocationSearch extends PureComponent {
   state = {
     value: {}
   }
 
   render() {
-    const {onDismiss, ...props} = this.props
+    const {onDismiss} = this.props
     return (
-      <Background {...props}>
-        <Body>
-          <View alignItems="flex-end" mt={-10} mr={-10}>
-            <IconButton
-              name="times"
-              type="light"
-              color="white"
-              onPress={onDismiss}
-            />
-          </View>
-          <Form {...this.props} />
-        </Body>
-      </Background>
+      <Body>
+        <View alignItems="flex-end" mt={-10} mr={-10}>
+          <IconButton
+            name="times"
+            type="light"
+            color="white"
+            onPress={onDismiss}
+          />
+        </View>
+        <Form {...this.props} />
+      </Body>
     )
   }
 }

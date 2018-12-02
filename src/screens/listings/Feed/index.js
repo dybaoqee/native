@@ -18,6 +18,8 @@ import SearchFiltersScreen from '@/screens//listings/Search'
 import ListingScreen from '@/screens//listing/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
+import Modal from '@/screens/shared/Modal'
+
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
 
@@ -40,15 +42,24 @@ class ListingsFeedScreen extends PureComponent {
     }
   }
 
-  state = {
-    modalVisible: false
-  }
+  state = {modalVisible: false}
 
   componentDidDisappear() {
     const {
       listingsFeed: {loading, updateBlacklists}
     } = this.props
     if (!loading) updateBlacklists()
+  }
+
+  get bottomTabsProps() {
+    const {modalVisible} = this.state
+    return {
+      icon: modalVisible ? 'check' : 'map-marker-alt',
+      type: modalVisible ? 'light' : 'solid',
+      onPress: modalVisible
+        ? this.onCloseLocationSearch
+        : this.onOpenLocationSearch
+    }
   }
 
   navigationButtonPressed({buttonId}) {
@@ -66,9 +77,26 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenLocationSearch = () => this.setState({modalVisible: true})
+  onOpenLocationSearch = () =>
+    this.setState({modalVisible: true}, () =>
+      Modal.show({
+        passProps: {
+          onDismissed: () => this.setState({modalVisible: false}),
+          bottomTabs: {
+            ...this.bottomTabsProps,
+            onSwitchTab: this.onCloseLocationSearch
+          },
+          children: (
+            <SearchLocation
+              districts={this.props.districts}
+              onDismiss={this.onCloseLocationSearch}
+            />
+          )
+        }
+      })
+    )
 
-  onCloseLocationSearch = () => this.setState({modalVisible: false})
+  onCloseLocationSearch = () => Modal.hide()
 
   onClearFilters = () => this.props.clearFilters()
 
@@ -83,32 +111,10 @@ class ListingsFeedScreen extends PureComponent {
 
   render() {
     const {
-      listingsFeed: {data, loading, remainingCount},
-      districts
+      listingsFeed: {data, loading, remainingCount}
     } = this.props
-    const {modalVisible} = this.state
     return (
-      <Shell
-        testID="@listings.Feed"
-        bottomTabs={{
-          icon: modalVisible ? 'check' : 'map-marker-alt',
-          type: modalVisible ? 'light' : 'solid',
-          modal: {
-            visible: modalVisible,
-            onDismiss: this.onCloseLocationSearch,
-            onRequestClose: this.onCloseLocationSearch,
-            children: (
-              <SearchLocation
-                districts={districts}
-                onDismiss={this.onCloseLocationSearch}
-              />
-            )
-          },
-          onPress: modalVisible
-            ? this.onCloseLocationSearch
-            : this.onOpenLocationSearch
-        }}
-      >
+      <Shell testID="@listings.Feed" bottomTabs={this.bottomTabsProps}>
         <Body loading={loading}>
           <InfiniteScroll
             loading={loading}
