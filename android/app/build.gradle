@@ -118,7 +118,7 @@ android {
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         missingDimensionStrategy "minReactNative", "minReactNative46"
-        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative56"
+        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative57"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
