@@ -1,10 +1,11 @@
 import {PureComponent} from 'react'
-import {ScrollView as RCTScrollView, ActivityIndicator} from 'react-native'
+import {ScrollView as RCTScrollView} from 'react-native'
 import styled from 'styled-components/native'
 import {justifyContent, alignItems} from 'styled-system'
 import {View as BaseView} from '@emcasa/ui-native'
 
 import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
+import Spinner from '@/components/shared/Spinner'
 import {compose} from 'recompose'
 
 const View = styled(BaseView)`
@@ -67,7 +68,7 @@ export default class Body extends PureComponent {
   renderOverlay() {
     return (
       <Overlay>
-        <ActivityIndicator size="large" />
+        <Spinner />
       </Overlay>
     )
   }

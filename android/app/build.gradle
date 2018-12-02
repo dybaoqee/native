@@ -211,6 +211,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-spinkit')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-code-push')
     implementation(project(':react-native-facebook-account-kit')) {

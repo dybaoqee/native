@@ -1,5 +1,5 @@
 import {PureComponent} from 'react'
-import {View, ActivityIndicator, Platform} from 'react-native'
+import {View, Platform} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import AccountKit from 'react-native-facebook-account-kit'
 import {connect} from 'react-redux'
@@ -10,6 +10,7 @@ import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
 import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
+import Spinner from '@/components/shared/Spinner'
 
 import SignUpScreen from '@/screens//auth/SignUp'
 
@@ -131,7 +132,7 @@ class LoginScreen extends PureComponent {
           <View
             style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}
           >
-            <ActivityIndicator size="large" />
+            <Spinner />
           </View>
         </Body>
       </Shell>
