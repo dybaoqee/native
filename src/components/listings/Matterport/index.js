@@ -10,7 +10,8 @@ export default class Matterport extends PureComponent {
   static defaultProps = {
     q: {},
     width: '100%',
-    height: '100%'
+    height: '100%',
+    useWebKit: true
   }
 
   render() {

@@ -6,7 +6,7 @@ describe('listing.Listing', () => {
   beforeAll(actions.navigate)
 
   describe('3d tour', () => {
-    const tourView = () => by.type('RCTWebView')
+    const tourView = () => by.type('RCTWKWebView')
     const galleryTour = () => tourView().withAncestor(select.gallerySlide(1))
 
     it('has a 3d tour', async () => {
