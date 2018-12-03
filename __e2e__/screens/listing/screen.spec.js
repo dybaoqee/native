@@ -10,7 +10,7 @@ describe('listing.Listing', () => {
     const galleryTour = () => tourView().withAncestor(select.gallerySlide(1))
 
     it('has a 3d tour', async () => {
-      await expect(element(galleryTour())).toBeVisible()
+      await expect(element(galleryTour())).toExist()
     })
 
     it('opens tour modal', async () => {

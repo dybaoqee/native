@@ -128,12 +128,8 @@ class LoginScreen extends PureComponent {
   render() {
     return (
       <Shell testID="@auth.Login" bottomTabs>
-        <Body>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignContent: 'center'}}
-          >
-            <Spinner />
-          </View>
+        <Body flex={1} alignItems="center" justifyContent="center">
+          <Spinner />
         </Body>
       </Shell>
     )
