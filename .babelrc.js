@@ -12,7 +12,8 @@ module.exports = (api) => {
     plugins: [
       'lodash',
       'react-require',
-      '@babel/plugin-proposal-class-properties',
+      '@babel/plugin-transform-flow-strip-types',
+      ['@babel/plugin-proposal-class-properties', {loose: true}],
       ['@babel/plugin-syntax-decorators', {legacy: true}],
       ['module-resolver', moduleResolverOptions],
       [
