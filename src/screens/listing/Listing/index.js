@@ -3,7 +3,7 @@ import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
-import {Button} from '@emcasa/ui-native'
+import {View, Row, Button, Text} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
@@ -18,6 +18,7 @@ import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Horizontal'
 import RightButtons from './RightButtons'
 
+import * as format from '@/config/formatting'
 import GalleryScreen from '@/screens//listing/Gallery'
 import TourScreen from '@/screens//listing/Tour'
 import InterestFormScreen from '@/screens//interest/Form'
@@ -184,6 +185,28 @@ class ListingScreen extends PureComponent {
         </Body>
         {!loading && (
           <Footer p="15px">
+            {data.price && (
+              <Row mb="5px" justifyContent="center" alignItems="baseline">
+                <Text
+                  color="pink"
+                  textAlign="center"
+                  fontWeight="500"
+                  fontSize="22px"
+                >
+                  R$
+                  {format.number(data.price)}
+                </Text>
+                <Text
+                  style={{marginLeft: 5}}
+                  color="grey"
+                  fontWeight="500"
+                  fontSize="12px"
+                  lineHeight="22px"
+                >
+                  VENDA
+                </Text>
+              </Row>
+            )}
             <Button
               active
               height="tall"
