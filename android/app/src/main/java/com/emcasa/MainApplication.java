@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import android.content.Context;
 
 import com.facebook.react.ReactApplication;
+import io.sentry.RNSentryPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.microsoft.codepush.react.CodePush;
@@ -71,6 +72,7 @@ public class MainApplication extends NavigationApplication implements ShareAppli
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+      new RNSentryPackage(),
       new RNSpinkitPackage(),
       new LinearGradientPackage(),
       new CodePush(

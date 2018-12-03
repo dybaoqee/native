@@ -104,6 +104,11 @@ def googleMapsApiKey = System.getenv("GOOGLE_MAPS_API_KEY") ?: ""
 def codePushKey = System.getenv("CODEPUSH_DEPLOYMENT_KEY") ?: ""
 def accountKitClientToken = System.getenv("ACCOUNTKIT_CLIENT_TOKEN") ?: ""
 def facebookAppId = System.getenv("FACEBOOK_APP_ID") ?: "246686149385389" // Defaults to debug app id
+def sentryProperties = System.getenv("SENTRY_PROPERTIES") ?: "../sentry.properties"
+
+if (sentryProperties && file(sentryProperties).exists()) {
+  apply from: "../../node_modules/react-native-sentry/sentry.gradle"
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -211,6 +216,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-sentry')
     implementation project(':react-native-spinkit')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-code-push')

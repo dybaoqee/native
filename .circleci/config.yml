@@ -83,6 +83,7 @@ aliases:
       ALPHA_TESTERS: product,dev
       RELEASE_PROFILE: staging
     command: |-
+      echo "export RELEASE_PROFILE=$RELEASE_PROFILE" >> $BASH_ENV
       echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM+100))" >> $BASH_ENV
       echo "export VERSION_NAME=$(.circleci/version.sh ${VERSION_TAG:-})" >> $BASH_ENV
       echo "export TESTER_GROUPS=$([ $CIRCLE_BRANCH != \"master\" ] && echo $ALPHA_TESTERS || echo $BETA_TESTERS)" >> $BASH_ENV

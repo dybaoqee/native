@@ -100,6 +100,7 @@
     "react-native-permissions": "^1.1.1",
     "react-native-photo-view": "^1.5.2",
     "react-native-safe-area-view": "^0.11.0",
+    "react-native-sentry": "^0.39.1",
     "react-native-share": "^1.0.27",
     "react-native-snap-carousel": "^3.7.2",
     "react-native-sortable-list": "^0.0.22",
