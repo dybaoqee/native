@@ -297,7 +297,7 @@ jobs:
           at: ~/emcasa
       - run: *install-gems
       - run: .circleci/ios/prepare.sh
-      - run: brew install pcre imagemagick
+      - run: brew install pcre imagemagick watchman
       - run: *configure-version-staging
       - run: *configure-release
       - run: *configure-keychain
@@ -398,7 +398,7 @@ jobs:
           at: ~/emcasa
       - run: *install-gems
       - run: .circleci/ios/prepare.sh
-      - run: brew install pcre imagemagick
+      - run: brew install pcre imagemagick watchman
       - run: *configure-release
       - run: *configure-keychain
       - run: *bump-ios
