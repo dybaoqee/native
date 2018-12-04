@@ -186,12 +186,12 @@ class ListingScreen extends PureComponent {
         {!loading && (
           <Footer p="15px">
             {data.price && (
-              <Row mb="5px" justifyContent="center" alignItems="baseline">
+              <Row mb="5px" justifyContent="flex-start" alignItems="baseline">
                 <Text
                   color="pink"
                   textAlign="center"
                   fontWeight="500"
-                  fontSize="22px"
+                  fontSize="30px"
                 >
                   R$
                   {format.number(data.price)}
@@ -201,7 +201,7 @@ class ListingScreen extends PureComponent {
                   color="grey"
                   fontWeight="500"
                   fontSize="12px"
-                  lineHeight="22px"
+                  lineHeight="30px"
                 >
                   VENDA
                 </Text>
