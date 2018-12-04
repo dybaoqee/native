@@ -99,11 +99,12 @@ export default class RecommendedNeighborhoods extends PureComponent {
         <GradientOverlay />
         <Carousel
           enableMomentum
-          inactiveSlideOpacity={0.8}
+          enableSnap={false}
+          inactiveSlideOpacity={1}
           inactiveSlideScale={1}
           activeSlideAlignment="start"
           containerCustomStyle={{paddingLeft: 15}}
-          contentContainerCustomStyle={{paddingRight: width - itemWidth * 2}}
+          contentContainerCustomStyle={{paddingRight: 25}}
           sliderWidth={width}
           renderItem={this.renderItem}
           itemWidth={itemWidth}
