@@ -40,9 +40,13 @@ configurations:
   - &env-ios
     PLATFORM: ios
     CODEPUSH_APP_NAME: EmCasa/EmCasa-ios
+    SENTRY_PROPERTIES: ios/sentry.properties
+    SENTRY_DNS: https://369a9b98380f40beb25cc2da73b79711:5238dcdd6c8f4078a290f48ed92f7da0@sentry.io/1253456
   - &env-android
     PLATFORM: android
     CODEPUSH_APP_NAME: EmCasa/EmCasa-android
+    SENTRY_PROPERTIES: android/sentry.properties
+    SENTRY_DNS: https://298cdfa94d71444ebc691ee446dc0bef:c46fd5e7a26841b590a9748cbc267c86@sentry.io/1336041
 
 aliases:
   # restore caches
@@ -129,6 +133,7 @@ aliases:
     command: |-
       node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
       echo "export CODEPUSH_DEPLOYNENT_KEY=$(.circleci/codepush_deployment_key.sh)" >> $BASH_ENV
+      cp ~/emcasa/tmp/.secrets/$PLATFORM/sentry.properties $SENTRY_PROPERTIES
   - &configure-keychain
     name: Setup build keychain
     command: |-
@@ -179,12 +184,14 @@ aliases:
   # deploy scripts
   - &codepush-deploy
     name: Deploy to CodePush
-    command: >-
-      node_modules/.bin/code-push release-react
-      $CODEPUSH_APP_NAME $PLATFORM
-      --deploymentName $CODEPUSH_DEPLOYMENT_TARGET
-      --targetBinaryVersion $VERSION_NAME
-      $CODEPUSH_FLAGS
+    command: |-
+      node_modules/.bin/code-push release-react \
+        $CODEPUSH_APP_NAME $PLATFORM \
+        --deploymentName $CODEPUSH_DEPLOYMENT_TARGET \
+        --targetBinaryVersion $VERSION_NAME \
+        --outputDir build/ \
+        $CODEPUSH_FLAGS
+      sentry-cli react-native appcenter $CODEPUSH_APP_NAME $PLATFORM ./build/codePush
 
 version: 2
 jobs:

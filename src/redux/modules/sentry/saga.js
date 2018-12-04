@@ -1,21 +1,33 @@
 import {all, call, fork, take, takeEvery, getContext} from 'redux-saga/effects'
 import {Sentry, SentryLog} from 'react-native-sentry'
+import CodePush from 'react-native-code-push'
 
 import {READY} from '@/lib/client'
-import {SENTRY_DNS, RELEASE_PROFILE, VERSION_FULL_NAME} from '@/config/const'
+import {
+  SENTRY_DNS,
+  SENTRY_ENABLED,
+  CODEPUSH_ENABLED,
+  RELEASE_PROFILE,
+  VERSION_FULL_NAME
+} from '@/config/const'
 import {OPERATION_COMPLETED} from '@/graphql/containers/ConnectedMutation'
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
 import {AK_SIGN_IN, SIGN_UP, SIGN_OUT} from '@/graphql/modules/user/mutations'
 import {SCREEN_APPEARED} from '../navigation'
 
-function initializeSentry() {
+function* initializeSentry() {
   Sentry.config(SENTRY_DNS, {
     logLevel: SentryLog.Debug
   }).install()
-  Sentry.setVersion(VERSION_FULL_NAME)
   Sentry.setTagsContext({
     environment: RELEASE_PROFILE
   })
+  Sentry.setVersion(VERSION_FULL_NAME)
+  if (CODEPUSH_ENABLED) {
+    const update = yield call(CodePush.getUpdateMetadata)
+    if (update)
+      Sentry.setVersion(update.appVersion + '-codepush:' + update.label)
+  }
 }
 
 function* getUserProfile() {
@@ -62,7 +74,7 @@ const signedOutAction = ({type, operation}) =>
   type == OPERATION_COMPLETED && operation == SIGN_OUT
 
 export default function* sentrySaga() {
-  if (!SENTRY_DNS) return
+  if (!SENTRY_ENABLED) return
   yield call(initializeSentry)
   yield take(READY)
   yield all([
