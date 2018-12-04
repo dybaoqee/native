@@ -21,11 +21,11 @@ const stringifyProps = ({area, rooms, suites}) => {
 const ListingImages = ({images, width, showImages}) => {
   const visibleImages = images.slice(0, showImages)
   let imageProps = {
-    width,
+    width: width - 2,
     height: width * 0.64
   }
   if (visibleImages.length > 1)
-    return <Gallery width={width}>{visibleImages}</Gallery>
+    return <Gallery width={imageProps.width}>{visibleImages}</Gallery>
   if (visibleImages.length === 0) return <Image thumbnail {...imageProps} />
   else return <Image thumbnail {...imageProps} {...images[0]} />
 }

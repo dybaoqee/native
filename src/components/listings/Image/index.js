@@ -7,12 +7,13 @@ import * as image from '@/assets/image'
 
 const px = PixelRatio.getPixelSizeForLayoutSize
 
-const url = (filename = 'default_w4ki8j.jpg', {thumbnail, width, height}) => {
+const url = (filename, {thumbnail, width, height}) => {
+  if (!filename) return require('@/assets/img/no-image.jpg')
   let options
   if (width && height) options = {width, height}
   else if (thumbnail) options = {width: px(400), height: px(200)}
   else options = {width: px(600), height: px(400)}
-  return image.url(filename, options)
+  return {uri: image.url(filename, options)}
 }
 
 const ListingImage = styled(function ListingImage({
@@ -25,19 +26,18 @@ const ListingImage = styled(function ListingImage({
   ...props
 }) {
   delete props.position
-  const source = {
-    uri: url(filename, {
-      thumbnail,
-      width: px(width) * resolution,
-      height: px(height) * resolution
-    })
-  }
+  const source = url(filename, {
+    thumbnail,
+    width: px(width) * resolution,
+    height: px(height) * resolution
+  })
   if (scalable)
     return <PhotoView source={source} resizeMode="cover" {...props} />
   else return <Image source={source} {...props} />
 })`
   justify-content: center;
   align-items: center;
+  resize-mode: center;
   ${cond([
     [not(get('scalable')), image.withRatio({width: 400, height: 200})],
     [stubTrue, () => ({position: 'relative', width: '100%', height: '100%'})]
