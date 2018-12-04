@@ -13,6 +13,17 @@ import {
 import ActiveFilters from '@/components/listings/ActiveFilters'
 import RecommendedFilters from '@/components/listings/RecommendedFilters'
 
+const feedTitle = (citySlug) => {
+  switch (citySlug) {
+    case 'rio-de-janeiro':
+      return 'Imóveis no Rio de Janeiro'
+    case 'sao-paulo':
+      return 'Imóveis em São Paulo'
+    default:
+      return 'Imóveis à venda'
+  }
+}
+
 function ListHeader({hasFilters, filters, city, updateFilters}) {
   const onChange = (nextValue) => updateFilters({...filters, ...nextValue})
   return (
@@ -33,7 +44,7 @@ function ListHeader({hasFilters, filters, city, updateFilters}) {
         ) : null}
       </View>
       <Text fontWeight="500">
-        {hasFilters ? 'Resultados da busca' : 'Imóveis no Rio de Janeiro'}
+        {hasFilters ? 'Resultados da busca' : feedTitle(city)}
       </Text>
     </View>
   )
