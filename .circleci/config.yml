@@ -156,6 +156,7 @@ aliases:
 
   # build scripts
   - &bundle-android
+    name: Bump version (Android)
     command: >-
       node_modules/.bin/react-native bundle
       --dev false
@@ -164,6 +165,7 @@ aliases:
       --assets-dest android/app/src/main/res/
       --bundle-output android/app/src/main/assets/index.android.bundle
   - &bump-ios
+    name: Bump version (iOS)
     command: |-
       cd ios
       agvtool new-marketing-version $VERSION_NAME
@@ -173,13 +175,16 @@ aliases:
       sed -i'' -re "s/(versionCode) ([[:digit:]]*)/\1 $BUILD_NUMBER/" android/app/build.gradle
       sed -i'' -re "s/(versionName) \"(.*)\"/\1 \"$VERSION_NAME\"/" android/app/build.gradle
   - &generate-assets
+    name: Generate app icons
     command: |-
-      node_modules/.bin/app-icon generate -i "~/emcasa/src/assets/img/icon-$PLATFORM-$RELEASE_PROFILE.png" --platforms $PLATFORM
+      node_modules/.bin/app-icon generate -i src/assets/app_icons/$PLATFORM.$RELEASE_PROFILE.png --platforms $PLATFORM
   - &build-ios
+    name: Build app
     command: |-
       .circleci/ios/build.sh
       tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
   - &sign-ios
+    name: Code sign app
     command: .circleci/ios/sign.sh
   # deploy scripts
   - &codepush-deploy
@@ -335,8 +340,8 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *configure-keychain
-      - run: *bump-ios
       - run: *generate-assets
+      - run: *bump-ios
       - run: *build-ios
       - run: *sign-ios
       - run: >-
@@ -378,9 +383,9 @@ jobs:
       - run: *configure-version-staging
       - run: *configure-release
       - run: *configure-codepush
+      - run: *generate-assets
       - run: *bump-android
       - run: *bundle-android
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-android-staging.png --platforms android
       - run: export TERM=xterm && cd android && ./gradlew assembleStaging
       - run: >-
           bundle exec fastlane run crashlytics
@@ -420,8 +425,8 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *configure-keychain
-      - run: *bump-ios
       - run: *generate-assets
+      - run: *bump-ios
       - run: *build-ios
       - run: *sign-ios
       - run: >-
@@ -463,9 +468,9 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-release
       - run: *configure-codepush
+      - run: *generate-assets
       - run: *bump-android
       - run: *bundle-android
-      - run: *generate-assets
       - run: export TERM=xterm && cd android && ./gradlew assembleRelease
       - run: export TERM=xterm && cd android && ./gradlew publishApkRelease -x bundleReleaseJsAndAssets
       - store_artifacts:
