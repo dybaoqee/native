@@ -13,6 +13,26 @@ import {View, Text} from '@emcasa/ui-native'
 const IMAGE_PADDING_BOTTOM = 10
 const IMAGE_PADDING_TOP = 5
 
+const ComingSoon = styled(function ComingSoon({style}) {
+  return (
+    <View style={style} bg="pink">
+      <Text color="white" fontSize="9px">
+        Em breve
+      </Text>
+    </View>
+  )
+})`
+  z-index: 1;
+  flex: 1;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 10px;
+  border-radius: 4px;
+  padding-vertical: 2px;
+  padding-horizontal: 5px;
+`
+
 const Neighborhood = styled(function NeighborhoodCard({
   disabled,
   style,
@@ -37,6 +57,7 @@ const Neighborhood = styled(function NeighborhoodCard({
         bg="pink"
       >
         <ImageBackground source={source} style={[style, {width, height}]}>
+          {disabled && <ComingSoon />}
           <Text color="white" fontSize={14}>
             {label}
           </Text>
