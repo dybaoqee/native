@@ -8596,6 +8596,12 @@ react-lifecycles-compat@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.2.tgz#7279047275bd727a912e25f734c0559527e84eff"
 
+react-native-amplitude-analytics@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-amplitude-analytics/-/react-native-amplitude-analytics-0.2.6.tgz#e603dba405d6a9b029cbcc7ef21f2fb378ab2768"
+  dependencies:
+    fbjs "^0.8.5"
+
 react-native-check-app-install@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/react-native-check-app-install/-/react-native-check-app-install-0.0.4.tgz#336b842e9816c9af373498fe397072ec9c54ed40"

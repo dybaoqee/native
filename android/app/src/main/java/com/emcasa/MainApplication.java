@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import android.content.Context;
 
 import com.facebook.react.ReactApplication;
+import com.sudoplz.reactnativeamplitudeanalytics.RNAmplitudeSDKPackage;
 import io.sentry.RNSentryPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -72,6 +73,7 @@ public class MainApplication extends NavigationApplication implements ShareAppli
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+      new RNAmplitudeSDKPackage(MainApplication.this),
       new RNSentryPackage(),
       new RNSpinkitPackage(),
       new LinearGradientPackage(),
