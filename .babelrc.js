@@ -28,6 +28,8 @@ module.exports = (api) => {
             'RELEASE_PROFILE',
             'COMMIT_SHA1',
             'CODEPUSH_DEPLOYMENT_KEY',
+            'CODEPUSH_ENABLED',
+            'SENTRY_ENABLED',
             'API_URL',
             'IOS_API_URL',
             'ANDROID_API_URL',
@@ -39,7 +41,10 @@ module.exports = (api) => {
             'ANDROID_APOLLO_ENGINE_URL',
             'WEB_SOCKET_URL',
             'IOS_WEB_SOCKET_URL',
-            'ANDROID_WEB_SOCKET_URL'
+            'ANDROID_WEB_SOCKET_URL',
+            'SENTRY_DNS',
+            'IOS_SENTRY_DNS',
+            'ANDROID_SENTRY_DNS'
           ]
         }
       ]

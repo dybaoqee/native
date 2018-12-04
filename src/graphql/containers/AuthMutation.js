@@ -49,8 +49,8 @@ export const withSignInMutation = withAuthMutation('signIn', SignInMutation)
 
 export function SignOutMutation({children}) {
   return (
-    <ConnectedMutation ignoreResults mutation={SIGN_OUT}>
-      {(signOut, state) => children(async () => signOut(), state)}
+    <ConnectedMutation mutation={SIGN_OUT}>
+      {(signOut, state) => children(signOut, state)}
     </ConnectedMutation>
   )
 }

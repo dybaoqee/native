@@ -1,6 +1,11 @@
 import {Platform} from 'react-native'
 import pkg from '@package.json'
 
+function boolVal(value, defaultValue = false) {
+  if (!value) return Boolean(defaultValue)
+  return !/^no?|false|0$/i.test(value)
+}
+
 export const CDN_URL =
   process.env.CDN_URL || 'https://res.cloudinary.com/emcasa/image/upload'
 
@@ -39,9 +44,14 @@ export const WEB_SOCKET_URL =
 
 export const SENTRY_DNS =
   Platform.select({
-    ios: process.env.SENTRY_DNS_IOS,
-    android: process.env.SENTRY_DNS_ANDROID
+    ios: process.env.IOS_SENTRY_DNS,
+    android: process.env.ANDROID_SENTRY_DNS
   }) || process.env.SENTRY_DNS
+
+export const SENTRY_ENABLED = boolVal(
+  process.env.SENTRY_ENABLED,
+  SENTRY_DNS && !__DEV__
+)
 
 export const MESSENGER_RECEIVER_ID = process.env.MESSENGER_RECEIVER_ID
 
@@ -49,8 +59,10 @@ export const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 
 export const CODEPUSH_DEPLOYMENT_KEY = process.env.CODEPUSH_DEPLOYMENT_KEY
 
-export const CODEPUSH_ENABLED =
-  process.env.CODEPUSH_ENABLED || (CODEPUSH_DEPLOYMENT_KEY && !__DEV__)
+export const CODEPUSH_ENABLED = boolVal(
+  process.env.CODEPUSH_ENABLED,
+  CODEPUSH_DEPLOYMENT_KEY && !__DEV__
+)
 
 export const PERSIST_TIMEOUT =
   Platform.OS === 'android' && __DEV__ ? 100000 : 5000
