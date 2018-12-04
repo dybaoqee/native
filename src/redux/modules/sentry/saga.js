@@ -22,12 +22,15 @@ function* initializeSentry() {
   Sentry.setTagsContext({
     environment: RELEASE_PROFILE
   })
-  Sentry.setVersion(VERSION_FULL_NAME)
+  let version = VERSION_FULL_NAME
   if (CODEPUSH_ENABLED) {
-    const update = yield call(CodePush.getUpdateMetadata)
-    if (update)
-      Sentry.setVersion(update.appVersion + '-codepush:' + update.label)
+    const update = yield call(
+      CodePush.getUpdateMetadata,
+      CodePush.UpdateState.RUNNING
+    )
+    if (update) version = update.appVersion + '-codepush:' + update.label
   }
+  Sentry.setVersion(version)
 }
 
 function* getUserProfile() {

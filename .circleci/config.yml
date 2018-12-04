@@ -196,7 +196,7 @@ aliases:
         --targetBinaryVersion $VERSION_NAME \
         --outputDir build/ \
         $CODEPUSH_FLAGS
-      sentry-cli react-native appcenter $CODEPUSH_APP_NAME $PLATFORM ./build/codePush
+      node_modules/.bin/sentry-cli react-native appcenter $CODEPUSH_APP_NAME $PLATFORM ./build/codePush
 
 version: 2
 jobs:
