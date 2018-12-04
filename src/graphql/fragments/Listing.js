@@ -52,6 +52,7 @@ export const ListingFeed = gql`
     area
     rooms
     suites
+    bathrooms
     isExclusive
     isRelease
     isActive

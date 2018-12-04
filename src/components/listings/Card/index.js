@@ -12,9 +12,11 @@ import Gallery from '@/components/listings/Gallery'
 import Image from '@/components/listings/Image'
 import FavoriteButton from '../FavoriteButton'
 
-const stringifyProps = ({area, rooms, suites}) => {
-  let result = `${area}m² - ${rooms} quartos`
-  if (suites) result += ` - ${suites} suites`
+const stringifyProps = ({area, rooms, suites, bathrooms}) => {
+  let result = `${area}m² - ${rooms} quarto${rooms != 1 ? 's' : ''}`
+  if (suites) result += ` - ${suites} suíte${suites != 1 ? 's' : ''}`
+  if (bathrooms)
+    result += ` - ${bathrooms} banheiro${bathrooms != 1 ? 's' : ''}`
   return result
 }
 
