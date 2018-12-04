@@ -3,7 +3,7 @@ module.exports = (api) => {
   const moduleResolverOptions = {
     root: [],
     extensions: ['.js', '.ios.js', '.android.js'],
-    alias: {'@': './src/'}
+    alias: {'@': './src/', '@package.json': './package.json'}
   }
   if (process.env.NODE_ENV === 'e2e')
     moduleResolverOptions.root.push('./__mocks__')
@@ -25,7 +25,9 @@ module.exports = (api) => {
             'MESSENGER_RECEIVER_ID',
             'BUILD_NUMBER',
             'VERSION_NAME',
-            'DEPLOY_TARGET',
+            'RELEASE_PROFILE',
+            'COMMIT_SHA1',
+            'CODEPUSH_DEPLOYMENT_KEY',
             'API_URL',
             'IOS_API_URL',
             'ANDROID_API_URL',

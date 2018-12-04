@@ -1,4 +1,4 @@
-configurations:
+environments:
   - &default
     working_directory: ~/emcasa
   - &nodejs
@@ -14,6 +14,35 @@ configurations:
     macos:
       xcode: "10.1.0"
     shell: /bin/bash --login -eo pipefail
+
+configurations:
+  - &env-staging
+    API_URL: https://em-casa-backend-staging.herokuapp.com
+    APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
+    MESSENGER_RECEIVER_ID: 16
+    NODE_ENV: production
+    RELEASE_PROFILE: staging
+    CODESIGN_PROFILE: ad-hoc
+    BUILD_CONFIGURATION: Beta
+    BUNDLE_IDENTIFIER_SUFFIX: -beta
+    CODEPUSH_DEPLOYMENT_TARGET: Staging
+  - &env-production
+    API_URL: https://em-casa-backend.herokuapp.com
+    APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
+    FRONTEND_URL: https://www.emcasa.com
+    MESSENGER_RECEIVER_ID: 212
+    NODE_ENV: production
+    RELEASE_PROFILE: production
+    CODESIGN_PROFILE: app-store
+    BUILD_CONFIGURATION: Release
+    CODEPUSH_DEPLOYMENT_TARGET: Production
+    CODEPUSH_FLAGS: -x # Production releases have to be manually enabled
+  - &env-ios
+    PLATFORM: ios
+    CODEPUSH_APP_NAME: EmCasa/EmCasa-ios
+  - &env-android
+    PLATFORM: android
+    CODEPUSH_APP_NAME: EmCasa/EmCasa-android
 
 aliases:
   # restore caches
@@ -83,6 +112,7 @@ aliases:
       ALPHA_TESTERS: product,dev
       RELEASE_PROFILE: staging
     command: |-
+      echo "export COMMIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
       echo "export RELEASE_PROFILE=$RELEASE_PROFILE" >> $BASH_ENV
       echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM+100))" >> $BASH_ENV
       echo "export VERSION_NAME=$(.circleci/version.sh ${VERSION_TAG:-})" >> $BASH_ENV
@@ -94,6 +124,11 @@ aliases:
       echo "export IOS_PROVISIONING_FILE=$PWD/tmp/.secrets/ios/${CODESIGN_PROFILE:-ad-hoc}.mobileprovision" >> $BASH_ENV
       cp ~/emcasa/tmp/.secrets/ios/GoogleService-Info.${RELEASE_PROFILE}.plist ~/emcasa/ios/EmCasa/GoogleService-Info.plist
       cp ~/emcasa/tmp/.secrets/android/google-services.${RELEASE_PROFILE}.json ~/emcasa/android/app/google-services.json
+  - &configure-codepush
+    name: Configure CodePush
+    command: |-
+      node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
+      echo "export CODEPUSH_DEPLOYNENT_KEY=$(.circleci/codepush_deployment_key.sh)" >> $BASH_ENV
   - &configure-keychain
     name: Setup build keychain
     command: |-
@@ -132,24 +167,22 @@ aliases:
     command: |-
       sed -i'' -re "s/(versionCode) ([[:digit:]]*)/\1 $BUILD_NUMBER/" android/app/build.gradle
       sed -i'' -re "s/(versionName) \"(.*)\"/\1 \"$VERSION_NAME\"/" android/app/build.gradle
+  - &generate-assets
+    command: |-
+      node_modules/.bin/app-icon generate -i "~/emcasa/src/assets/img/icon-$PLATFORM-$RELEASE_PROFILE.png" --platforms $PLATFORM
+  - &build-ios
+    command: |-
+      .circleci/ios/build.sh
+      tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
+  - &sign-ios
+    command: .circleci/ios/sign.sh
   # deploy scripts
-  - &codepush-login
-    name: Login to CodePush
-    command: node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
-  - &codepush-deploy-android
-    name: Deploy to CodePush (Android)
+  - &codepush-deploy
+    name: Deploy to CodePush
     command: >-
       node_modules/.bin/code-push release-react
-      EmCasa/EmCasa-android android
-      --deploymentName ${DEPLOY_TARGET:-Staging}
-      --targetBinaryVersion $VERSION_NAME
-      $CODEPUSH_FLAGS
-  - &codepush-deploy-ios
-    name: Deploy to CodePush (iOS)
-    command: >-
-      node_modules/.bin/code-push release-react
-      EmCasa/EmCasa-ios ios
-      --deploymentName ${DEPLOY_TARGET:-Staging}
+      $CODEPUSH_APP_NAME $PLATFORM
+      --deploymentName $CODEPUSH_DEPLOYMENT_TARGET
       --targetBinaryVersion $VERSION_NAME
       $CODEPUSH_FLAGS
 
@@ -270,29 +303,21 @@ jobs:
   deploy_staging_codepush_ios:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Staging
+      <<: *env-ios
+      <<: *env-staging
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-version-staging
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-ios
+      - run: *configure-codepush
+      - run: *codepush-deploy
 
   deploy_staging_binary_ios:
     <<: *macos
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      RELEASE_PROFILE: staging
-      CODESIGN_PROFILE: ad-hoc
-      BUNDLE_IDENTIFIER_SUFFIX: -beta
+      <<: *env-ios
+      <<: *env-staging
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -301,12 +326,12 @@ jobs:
       - run: brew install pcre imagemagick watchman
       - run: *configure-version-staging
       - run: *configure-release
+      - run: *configure-codepush
       - run: *configure-keychain
       - run: *bump-ios
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-ios-staging.png --platforms ios
-      - run: BUILD_CONFIGURATION=Beta .circleci/ios/build.sh
-      - run: tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
-      - run: .circleci/ios/sign.sh
+      - run: *generate-assets
+      - run: *build-ios
+      - run: *sign-ios
       - run: >-
           bundle exec fastlane run crashlytics
           ipa_path:"$PWD/ios/build/EmCasa-Beta.ipa"
@@ -321,27 +346,21 @@ jobs:
   deploy_staging_codepush_android:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Staging
+      <<: *env-android
+      <<: *env-staging
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-version-staging
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-android
+      - run: *configure-codepush
+      - run: *codepush-deploy
 
   deploy_staging_binary_android:
     <<: *android
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      RELEASE_PROFILE: staging
+      <<: *env-android
+      <<: *env-staging
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -351,6 +370,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-version-staging
       - run: *configure-release
+      - run: *configure-codepush
       - run: *bump-android
       - run: *bundle-android
       - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-android-staging.png --platforms android
@@ -370,30 +390,20 @@ jobs:
   deploy_production_codepush_ios:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Production
-      CODEPUSH_FLAGS: -x
+      <<: *env-ios
+      <<: *env-production
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-ios
+      - run: *configure-codepush
+      - run: *codepush-deploy
 
   deploy_production_binary_ios:
     <<: *macos
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      RELEASE_PROFILE: production
-      CODESIGN_PROFILE: app-store
+      <<: *env-ios
+      <<: *env-production
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -401,12 +411,12 @@ jobs:
       - run: .circleci/ios/prepare.sh
       - run: brew install pcre imagemagick watchman
       - run: *configure-release
+      - run: *configure-codepush
       - run: *configure-keychain
       - run: *bump-ios
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-ios.png --platforms ios
-      - run: BUILD_CONFIGURATION=Release .circleci/ios/build.sh
-      - run: tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
-      - run: .circleci/ios/sign.sh
+      - run: *generate-assets
+      - run: *build-ios
+      - run: *sign-ios
       - run: >-
           bundle exec fastlane deliver
           --skip_metadata --skip_screenshots
@@ -423,29 +433,20 @@ jobs:
   deploy_production_codepush_android:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Production
-      CODEPUSH_FLAGS: -x
+      <<: *env-android
+      <<: *env-production
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-android
+      - run: *configure-codepush
+      - run: *codepush-deploy
 
   deploy_production_binary_android:
     <<: *android
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      RELEASE_PROFILE: production
+      <<: *env-android
+      <<: *env-production
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -454,9 +455,10 @@ jobs:
       - run: *install-sdkmanager
       - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-release
+      - run: *configure-codepush
       - run: *bump-android
       - run: *bundle-android
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-android.png --platforms android
+      - run: *generate-assets
       - run: export TERM=xterm && cd android && ./gradlew assembleRelease
       - run: export TERM=xterm && cd android && ./gradlew publishApkRelease -x bundleReleaseJsAndAssets
       - store_artifacts:
