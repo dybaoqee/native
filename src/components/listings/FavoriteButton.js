@@ -2,6 +2,10 @@ import IconButton from '@/components/shared/IconButton'
 import {mapProps} from 'recompose'
 
 const FavoriteButton = mapProps(({active, size, hitSlop, ...props}) => ({
+  accessible: true,
+  accessibilityLabel: active
+    ? 'Remover dos favoritos'
+    : 'Adicionar aos favoritos',
   ...props,
   size,
   name: 'heart',

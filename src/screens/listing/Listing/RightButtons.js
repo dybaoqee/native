@@ -10,7 +10,11 @@ function LeftButtons({favorite, onFavorite, onShare}) {
   return (
     <Row>
       <Col mr="20px">
-        <FavoriteButton active={favorite} onPress={onFavorite} />
+        <FavoriteButton
+          testID="favorite_button"
+          active={favorite}
+          onPress={onFavorite}
+        />
       </Col>
       <Col>
         <IconButton name="share-alt" color="white" onPress={onShare} />

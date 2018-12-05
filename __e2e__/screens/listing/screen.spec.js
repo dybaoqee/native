@@ -1,4 +1,5 @@
 import * as shared from '../shared/selectors'
+import * as listings from '../listings/selectors'
 import * as select from './selectors'
 import * as actions from './interactions'
 
@@ -53,6 +54,26 @@ describe('listing.Listing', () => {
       await element(shared.modalCloseButton()).tap()
       await waitFor(element(select.galleryScreen())).toBeNotVisible()
       await expect(element(select.galleryScreen())).toBeNotVisible()
+    })
+  })
+
+  describe('action bar', () => {
+    it('saves to favorites', async () => {
+      const likeButton = element(select.likeButton())
+      await expect(likeButton).toBeVisible()
+      await expect(likeButton).toHaveLabel('Adicionar aos favoritos')
+      await likeButton.tap()
+      await expect(likeButton).toHaveLabel('Remover dos favoritos')
+      await likeButton.tap()
+      await expect(likeButton).toHaveLabel('Adicionar aos favoritos')
+    })
+
+    it('returns to the previous screen', async () => {
+      const backButton = element(select.backButton())
+      await expect(backButton).toBeVisible()
+      await backButton.tap()
+      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await expect(element(listings.feedScreen())).toBeVisible()
     })
   })
 })

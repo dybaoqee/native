@@ -14,6 +14,6 @@ export const modalGallery = () => by.id('listing_gallery')
 
 export const gallerySlide = (index) => by.id(`gallery_slide(${index})`)
 
-export const likeButton = () => by.label('Acidionar aos favoritos')
+export const likeButton = () => by.id('favorite_button')
 
-export const unlikeButton = () => by.label('Remover dos favoritos')
+export const backButton = () => by.id('header_back_button')
