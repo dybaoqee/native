@@ -210,7 +210,7 @@ aliases:
       node_modules/.bin/sentry-cli releases set-commits $RELEASE_NAME --auto
       node_modules/.bin/sentry-cli releases files $RELEASE_NAME upload-sourcemaps \
         --validate --rewrite \
-        $(dirname SOURCE_MAPS_PATH)
+        $(dirname $SOURCE_MAPS_PATH)
       node_modules/.bin/sentry-cli releases finalize $RELEASE_NAME
 
 version: 2
