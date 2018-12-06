@@ -121,6 +121,7 @@ aliases:
       ALPHA_TESTERS: product,dev
       RELEASE_PROFILE: staging
     command: |-
+      echo 'export PATH="$PATH:~/emcasa/node_modules/.bin"' >> $BASH_ENV
       echo "export COMMIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
       echo "export RELEASE_PROFILE=$RELEASE_PROFILE" >> $BASH_ENV
       echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM+100))" >> $BASH_ENV
@@ -206,12 +207,12 @@ aliases:
     name: Deploy to Setry
     command: |-
       RELEASE_NAME="$BUNDLE_IDENTIFIER$BUNDLE_IDENTIFIER_SUFFIX-$VERSION_NAME+$BUILD_NUMBER"
-      node_modules/.bin/sentry-cli releases new $RELEASE_NAME
-      node_modules/.bin/sentry-cli releases set-commits $RELEASE_NAME --auto
-      node_modules/.bin/sentry-cli releases files $RELEASE_NAME upload-sourcemaps \
+      sentry-cli releases new $RELEASE_NAME
+      sentry-cli releases set-commits $RELEASE_NAME --auto
+      sentry-cli releases files $RELEASE_NAME upload-sourcemaps \
         --validate --rewrite \
         $(dirname $SOURCE_MAPS_PATH)
-      node_modules/.bin/sentry-cli releases finalize $RELEASE_NAME
+      sentry-cli releases finalize $RELEASE_NAME
 
 version: 2
 jobs:
@@ -357,7 +358,7 @@ jobs:
           at: ~/emcasa
       - run: *install-gems
       - run: .circleci/ios/prepare.sh
-      - run: brew install pcre imagemagick watchman
+      - run: brew install pcre imagemagick watchman getsentry/tools/sentry-cli
       - run: *configure-version-staging
       - run: *configure-release
       - run: *configure-codepush
@@ -458,7 +459,7 @@ jobs:
           at: ~/emcasa
       - run: *install-gems
       - run: .circleci/ios/prepare.sh
-      - run: brew install pcre imagemagick watchman
+      - run: brew install pcre imagemagick watchman getsentry/tools/sentry-cli
       - run: *configure-release
       - run: *configure-codepush
       - run: *configure-keychain
