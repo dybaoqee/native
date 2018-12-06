@@ -42,6 +42,10 @@ export const WEB_SOCKET_URL =
   process.env.WEB_SOCKET_URL ||
   `${API_URL.replace(/^http/, 'ws')}/socket`
 
+export const MESSENGER_RECEIVER_ID = process.env.MESSENGER_RECEIVER_ID
+
+export const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
+
 export const SENTRY_DNS =
   Platform.select({
     ios: process.env.IOS_SENTRY_DNS,
@@ -53,9 +57,12 @@ export const SENTRY_ENABLED = boolVal(
   SENTRY_DNS && !__DEV__
 )
 
-export const MESSENGER_RECEIVER_ID = process.env.MESSENGER_RECEIVER_ID
+export const AMPLITUDE_API_KEY = process.env.AMPLITUDE_API_KEY
 
-export const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
+export const AMPLITUDE_ENABLED = boolVal(
+  process.env.AMPLITUDE_ENABLED,
+  AMPLITUDE_ENABLED && !__DEV__
+)
 
 export const CODEPUSH_DEPLOYMENT_KEY = process.env.CODEPUSH_DEPLOYMENT_KEY
 
