@@ -3,7 +3,7 @@ import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
-import {View, Row, Button, Text} from '@emcasa/ui-native'
+import {Row, Button, Text} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
@@ -12,7 +12,7 @@ import {
   withViewTourMutation,
   withRelatedListings
 } from '@/graphql/containers'
-import {logEvent} from '@/redux/modules/firebase/analytics'
+import {logEvent} from '@/redux/modules/amplitude'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Horizontal'
@@ -121,7 +121,7 @@ class ListingScreen extends PureComponent {
     } = this.props
     try {
       const {app} = await Share.open(this.shareOptions)
-      logEvent('share_listing', {id, app})
+      logEvent('listing-shared', {id, app})
     } catch (error) {
       /* User closed modal */
     }

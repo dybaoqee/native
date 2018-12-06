@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {BLACKLIST, WHITELIST} from '@/graphql/modules/listings/mutations'
 import {GET_BLACKLISTED_LISTINGS_IDS} from '@/graphql/modules/user/queries'
-import {logEvent} from '@/redux/modules/firebase/analytics'
+import {logEvent} from '@/redux/modules/amplitude'
 import {withBlacklistedListingByID} from './BlacklistQuery'
 
 const BlacklistMutation = connect(
@@ -18,7 +18,7 @@ const BlacklistMutation = connect(
       variables={{id}}
       refetchQueries={[{query: GET_BLACKLISTED_LISTINGS_IDS}]}
       update={() =>
-        logEvent(blacklisted ? 'whitelisted_listing' : 'blacklisted_listing', {
+        logEvent(blacklisted ? 'listing-whitelisted' : 'listing-blacklisted', {
           id
         })
       }
