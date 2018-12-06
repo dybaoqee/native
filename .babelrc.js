@@ -22,12 +22,14 @@ module.exports = (api) => {
         {
           include: [
             'NODE_ENV',
-            'GOOGLE_PLACES_API_KEY',
             'MESSENGER_RECEIVER_ID',
             'BUILD_NUMBER',
             'VERSION_NAME',
             'RELEASE_PROFILE',
             'COMMIT_SHA1',
+            'GOOGLE_PLACES_API_KEY',
+            'AMPLITUDE_API_KEY',
+            'AMPLITUDE_ENABLED',
             'CODEPUSH_DEPLOYMENT_KEY',
             'CODEPUSH_ENABLED',
             'SENTRY_ENABLED',

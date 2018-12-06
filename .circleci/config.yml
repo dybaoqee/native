@@ -132,6 +132,9 @@ aliases:
       echo "export IOS_XCCONFIG_FILE=$PWD/tmp/.secrets/ios/${RELEASE_PROFILE}.xcconfig" >> $BASH_ENV
       echo "export IOS_CERTIFICATE_FILE=$PWD/tmp/.secrets/ios/app.p12" >> $BASH_ENV
       echo "export IOS_PROVISIONING_FILE=$PWD/tmp/.secrets/ios/${CODESIGN_PROFILE:-ad-hoc}.mobileprovision" >> $BASH_ENV
+      if [ $RELEASE_PROFILE == "production" ];
+      then echo "export AMPLITUDE_API_KEY=$AMPLITUDE_API_KEY_PRODUCTION" >> $BASH_ENV;
+      else echo "export AMPLITUDE_API_KEY=$AMPLITUDE_API_KEY_STATING" >> $BASH_ENV; fi
       cp ~/emcasa/tmp/.secrets/ios/GoogleService-Info.${RELEASE_PROFILE}.plist ~/emcasa/ios/EmCasa/GoogleService-Info.plist
       cp ~/emcasa/tmp/.secrets/android/google-services.${RELEASE_PROFILE}.json ~/emcasa/android/app/google-services.json
       cp ~/emcasa/tmp/.secrets/$PLATFORM/sentry.properties $SENTRY_PROPERTIES

@@ -43,6 +43,7 @@
 		C314BCDF20EBFDF500235F22 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E6B01A20E759AC0069302D /* libRCTCameraRoll.a */; };
 		C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */; };
 		C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */; };
+		C335733021B65E5800A22811 /* libRNAmplitudeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */; };
 		C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3357D0E21B4FD8600D150AE /* libRNSentry.a */; };
 		C336DC3F2118B7D100273254 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C336DC352118B7A600273254 /* libReactNativeNavigation.a */; };
 		C33831E920EB0D5E0061F81C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831B720EB0D5D0061F81C /* Social.framework */; };
@@ -312,6 +313,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNPhotoView;
 		};
+		C335732521B65E4C00A22811 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNAmplitudeSDK;
+		};
 		C3357D0D21B4FD8600D150AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */;
@@ -539,6 +547,7 @@
 		C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Light.ttf"; path = "../src/assets/fonts/FaktSoftPro-Light.ttf"; sourceTree = "<group>"; };
 		C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Regular.ttf"; path = "../src/assets/fonts/FaktSoftPro-Regular.ttf"; sourceTree = "<group>"; };
+		C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAmplitudeSDK.xcodeproj; path = "../node_modules/react-native-amplitude-analytics/ios/RNAmplitudeSDK.xcodeproj"; sourceTree = "<group>"; };
 		C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
 		C3357D0F21B4FDE400D150AE /* Sentry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sentry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
@@ -580,6 +589,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C335733021B65E5800A22811 /* libRNAmplitudeSDK.a in Frameworks */,
 				C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */,
 				C3A1923A21B451A200A2F0B6 /* libRNSpinkit.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -809,6 +819,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */,
 				C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */,
 				C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */,
 				C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */,
@@ -938,6 +949,14 @@
 			isa = PBXGroup;
 			children = (
 				C33522C22063422100AF766A /* libRNPhotoView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C33572F221B65E4C00A22811 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1256,6 +1275,10 @@
 					ProjectRef = 1D4B4DD58C4F4720B09DAD5D /* RNAccountKit.xcodeproj */;
 				},
 				{
+					ProductGroup = C33572F221B65E4C00A22811 /* Products */;
+					ProjectRef = C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = C3F868CD20E5DF9E00030741 /* Products */;
 					ProjectRef = AE377F8F509E44F996FA4476 /* RNFirebase.xcodeproj */;
 				},
@@ -1517,6 +1540,13 @@
 			fileType = archive.ar;
 			path = libRNPhotoView.a;
 			remoteRef = C33522C12063422100AF766A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNAmplitudeSDK.a;
+			remoteRef = C335732521B65E4C00A22811 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C3357D0E21B4FD8600D150AE /* libRNSentry.a */ = {
@@ -1829,6 +1859,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Amplitude-iOS/Amplitude_iOS.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -1839,6 +1870,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Amplitude_iOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",

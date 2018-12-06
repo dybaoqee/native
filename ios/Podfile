@@ -12,6 +12,7 @@ target 'EmCasa' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
+  pod 'Amplitude-iOS', '~> 4.3.1'
 
   target 'EmCasaTests' do
     inherit! :search_paths

@@ -216,6 +216,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':react-native-amplitude-analytics')
     implementation project(':react-native-sentry')
     implementation project(':react-native-spinkit')
     implementation project(':react-native-linear-gradient')
@@ -253,6 +254,7 @@ dependencies {
     // https://maven.fabric.io/public/com/crashlytics/sdk/android/crashlytics/maven-metadata.xml
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {transitive = true}
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
+    implementation 'com.amplitude:android-sdk:2.19.1'
     androidTestImplementation(project(path: ":detox"))
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

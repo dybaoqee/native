@@ -80,6 +80,7 @@
     "react-apollo": "^2.1.11",
     "react-final-form": "^3.6.7",
     "react-native": "0.57.7",
+    "react-native-amplitude-analytics": "^0.2.6",
     "react-native-check-app-install": "^0.0.4",
     "react-native-code-push": "^5.4.2",
     "react-native-code-push-saga": "^1.0.1",
