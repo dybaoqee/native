@@ -36,9 +36,13 @@ class UserProfileScreen extends PureComponent {
     tabIndex: 0
   }
 
+  get isValidUser() {
+    const {jwt, user} = this.props
+    return jwt && user && user.id
+  }
+
   componentDidMount() {
-    const {jwt, updateStackRoot} = this.props
-    if (!jwt) updateStackRoot()
+    if (!this.isValidUser) this.onSignOut()
   }
 
   onSignOut = async () => {
@@ -51,12 +55,12 @@ class UserProfileScreen extends PureComponent {
   onChangeTab = (tabIndex) => this.setState({tabIndex})
 
   render() {
-    const {user, jwt} = this.props
+    const {user} = this.props
     const tabIndex = this.state
 
     return (
       <Shell bottomTabs>
-        {jwt ? (
+        {this.isValidUser ? (
           <Body mb="auto" height="auto">
             <Tab.Group
               onChange={this.onChangeTab}

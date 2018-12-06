@@ -13,7 +13,7 @@ const Avatar = styled(function Avatar({user, color, fontSize, ...props}) {
   return (
     <View {...props}>
       <Text fontSize={fontSize} color={color}>
-        {initials(user.name)}
+        {user.name ? initials(user.name) : '?'}
       </Text>
     </View>
   )
