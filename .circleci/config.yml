@@ -133,13 +133,12 @@ aliases:
       echo "export IOS_PROVISIONING_FILE=$PWD/tmp/.secrets/ios/${CODESIGN_PROFILE:-ad-hoc}.mobileprovision" >> $BASH_ENV
       cp ~/emcasa/tmp/.secrets/ios/GoogleService-Info.${RELEASE_PROFILE}.plist ~/emcasa/ios/EmCasa/GoogleService-Info.plist
       cp ~/emcasa/tmp/.secrets/android/google-services.${RELEASE_PROFILE}.json ~/emcasa/android/app/google-services.json
+      cp ~/emcasa/tmp/.secrets/$PLATFORM/sentry.properties $SENTRY_PROPERTIES
   - &configure-codepush
     name: Configure CodePush
     command: |-
       node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
-      node_modules/.bin/appcenter login --token $CODEPUSH_ACCESS_KEY --quiet --disable-telemetry
       echo "export CODEPUSH_DEPLOYNENT_KEY=$(.circleci/codepush_deployment_key.sh)" >> $BASH_ENV
-      cp ~/emcasa/tmp/.secrets/$PLATFORM/sentry.properties $SENTRY_PROPERTIES
   - &configure-keychain
     name: Setup build keychain
     command: |-
@@ -206,11 +205,13 @@ aliases:
   - &sentry-deploy
     name: Deploy to Setry
     command: |-
-      SENTRY_VERSION="$VERSION_NAME+$BUILD_NUMBER"
-      node_modules/.bin/sentry-cli releases new $SENTRY_VERSION
-      node_modules/.bin/sentry-cli releases set-commits $SENTRY_VERSION --auto
-      node_modules/.bin/sentry-cli releases files $SENTRY_VERSION upload-sourcemaps $SOURCE_MAPS_PATH --rewrite
-      node_modules/.bin/sentry-cli releases finalize $SENTRY_VERSION
+      RELEASE_NAME="$BUNDLE_IDENTIFIER$BUNDLE_IDENTIFIER_SUFFIX-$VERSION_NAME+$BUILD_NUMBER"
+      node_modules/.bin/sentry-cli releases new $RELEASE_NAME
+      node_modules/.bin/sentry-cli releases set-commits $RELEASE_NAME --auto
+      node_modules/.bin/sentry-cli releases files $RELEASE_NAME upload-sourcemaps \
+        --validate --rewrite \
+        $(dirname SOURCE_MAPS_PATH)
+      node_modules/.bin/sentry-cli releases finalize $RELEASE_NAME
 
 version: 2
 jobs:
@@ -304,10 +305,10 @@ jobs:
           command: >-
             yarn e2e
             --artifacts-location tmp/detox/
+            --take-screenshots all
             --record-logs all
-            --loglevel trace
+            --loglevel info
             --debug-synchronization 1000
-            --workers 3
       - store_artifacts:
           path: tmp/detox
           destination: e2e
@@ -331,6 +332,7 @@ jobs:
     environment:
       <<: *env-ios
       <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: -beta
       SOURCE_MAPS_PATH: build/CodePush/main.jsbundle.map
     steps:
       - attach_workspace:
@@ -382,6 +384,7 @@ jobs:
     environment:
       <<: *env-android
       <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: .beta
       SOURCE_MAPS_PATH: build/CodePush/index.android.bundle.map
     steps:
       - attach_workspace:
@@ -397,6 +400,7 @@ jobs:
     environment:
       <<: *env-android
       <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: .beta
       BUNDLE_ASSETS_PATH: android/app/src/main/res/
       JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
       SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
