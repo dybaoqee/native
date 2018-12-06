@@ -110,9 +110,11 @@ function ListingCard({
             </Text>
           </Row>
           <Row>
-            <Text fontSize="20px" fontWeight="500">{`R$ ${format.number(
-              price
-            )}`}</Text>
+            <Text fontSize="20px" fontWeight="500">
+              {price
+                ? `R$ ${format.number(price)}`
+                : String.fromCharCode(0x2500)}
+            </Text>
           </Row>
         </Body>
       </View>
