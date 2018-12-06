@@ -77,5 +77,5 @@ export const BUILD_NUMBER = process.env.BUILD_NUMBER
 export const COMMIT_SHA1 = process.env.COMMIT_SHA1
 
 export const VERSION_FULL_NAME = `${VERSION_NAME}${
-  BUILD_NUMBER ? ` (${BUILD_NUMBER})` : ''
+  BUILD_NUMBER ? `+${BUILD_NUMBER}` : ''
 }`

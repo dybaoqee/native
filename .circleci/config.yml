@@ -157,15 +157,16 @@ aliases:
       security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD $KEYCHAIN_NAME
 
   # build scripts
-  - &bundle-android
-    name: Bump version (Android)
+  - &bundle-js
+    name: Build JS bundle
     command: >-
       node_modules/.bin/react-native bundle
       --dev false
-      --platform android
+      --platform $PLATFORM
       --entry-file index.js
-      --assets-dest android/app/src/main/res/
-      --bundle-output android/app/src/main/assets/index.android.bundle
+      --assets-dest $BUNDLE_ASSETS_PATH
+      --bundle-output $JS_BUNDLE_PATH
+      --sourcemap-output $SOURCE_MAPS_PATH
   - &bump-ios
     name: Bump version (iOS)
     command: |-
@@ -198,11 +199,14 @@ aliases:
         --targetBinaryVersion $VERSION_NAME \
         --outputDir build/ \
         $CODEPUSH_FLAGS
-      node_modules/.bin/sentry-cli react-native appcenter \
-        $CODEPUSH_APP_NAME $PLATFORM \
-        --deployment $CODEPUSH_DEPLOYMENT_TARGET \
-        --bundle-id "$BUNDLE_IDENTIFIER$BUNDLE_IDENTIFIER_SUFFIX" \
-        ./build/CodePush
+  - &sentry-deploy
+    name: Deploy to Setry
+    command: |-
+      SENTRY_VERSION="$VERSION_NAME+$BUILD_NUMBER"
+      node_modules/.bin/sentry-cli releases new $SENTRY_VERSION
+      node_modules/.bin/sentry-cli releases set-commits $SENTRY_VERSION --auto
+      node_modules/.bin/sentry-cli releases files $SENTRY_VERSION upload-sourcemaps $SOURCE_MAPS_PATH --rewrite
+      node_modules/.bin/sentry-cli releases finalize $SENTRY_VERSION
 
 version: 2
 jobs:
@@ -323,7 +327,7 @@ jobs:
     environment:
       <<: *env-ios
       <<: *env-staging
-      BUNDLE_IDENTIFIER_SUFFIX: -beta
+      SOURCE_MAPS_PATH: build/CodePush/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -331,6 +335,7 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_staging_binary_ios:
     <<: *macos
@@ -338,6 +343,9 @@ jobs:
       <<: *env-ios
       <<: *env-staging
       BUNDLE_IDENTIFIER_SUFFIX: -beta
+      BUNDLE_ASSETS_PATH: ios/
+      JS_BUNDLE_PATH: ios/main.jsbundle
+      SOURCE_MAPS_PATH: ios/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -349,6 +357,7 @@ jobs:
       - run: *configure-codepush
       - run: *configure-keychain
       - run: *generate-assets
+      - run: *bundle-js
       - run: *bump-ios
       - run: *build-ios
       - run: *sign-ios
@@ -358,6 +367,7 @@ jobs:
           api_token:"$FABRIC_API_KEY"
           build_secret:"$FABRIC_BUILD_SECRET"
           groups:"$TESTER_GROUPS"
+      - run: *sentry-deploy
       - store_artifacts:
           path: ios/build/EmCasa.xcarchive.tar.gz
           destination: build/EmCasa.xcarchive.tar.gz
@@ -368,7 +378,7 @@ jobs:
     environment:
       <<: *env-android
       <<: *env-staging
-      BUNDLE_IDENTIFIER_SUFFIX: .beta
+      SOURCE_MAPS_PATH: build/CodePush/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -376,13 +386,16 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_staging_binary_android:
     <<: *android
     environment:
       <<: *env-android
       <<: *env-staging
-      BUNDLE_IDENTIFIER_SUFFIX: .beta
+      BUNDLE_ASSETS_PATH: android/app/src/main/res/
+      JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
+      SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -395,7 +408,7 @@ jobs:
       - run: *configure-codepush
       - run: *generate-assets
       - run: *bump-android
-      - run: *bundle-android
+      - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleStaging
       - run: >-
           bundle exec fastlane run crashlytics
@@ -403,6 +416,7 @@ jobs:
           api_token:"$FABRIC_API_KEY"
           build_secret:"$FABRIC_BUILD_SECRET"
           groups:"$TESTER_GROUPS"
+      - run: *sentry-deploy
       - store_artifacts:
           path: android/app/build/outputs/apk/staging
           destination: build
@@ -414,18 +428,23 @@ jobs:
     environment:
       <<: *env-ios
       <<: *env-production
+      SOURCE_MAPS_PATH: build/CodePush/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
       - run: *configure-codepush
       - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_production_binary_ios:
     <<: *macos
     environment:
       <<: *env-ios
       <<: *env-production
+      BUNDLE_ASSETS_PATH: ios/
+      JS_BUNDLE_PATH: ios/main.jsbundle
+      SOURCE_MAPS_PATH: ios/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -436,6 +455,7 @@ jobs:
       - run: *configure-codepush
       - run: *configure-keychain
       - run: *generate-assets
+      - run: *bundle-js
       - run: *bump-ios
       - run: *build-ios
       - run: *sign-ios
@@ -447,6 +467,7 @@ jobs:
           --username $APPLE_ID
           --app_version $VERSION_NAME
           --app_identifier com.EmCasa.native
+      - run: *sentry-deploy
       - store_artifacts:
           path: ios/build/EmCasa.xcarchive.tar.gz
           destination: build/EmCasa.xcarchive.tar.gz
@@ -457,18 +478,23 @@ jobs:
     environment:
       <<: *env-android
       <<: *env-production
+      SOURCE_MAPS_PATH: build/CodePush/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
       - run: *configure-codepush
       - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_production_binary_android:
     <<: *android
     environment:
       <<: *env-android
       <<: *env-production
+      BUNDLE_ASSETS_PATH: android/app/src/main/res/
+      JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
+      SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
@@ -480,9 +506,10 @@ jobs:
       - run: *configure-codepush
       - run: *generate-assets
       - run: *bump-android
-      - run: *bundle-android
+      - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleRelease
       - run: export TERM=xterm && cd android && ./gradlew publishApkRelease -x bundleReleaseJsAndAssets
+      - run: *sentry-deploy
       - store_artifacts:
           path: android/app/build/outputs/apk/release
           destination: build

@@ -6,31 +6,23 @@ import {READY} from '@/lib/client'
 import {
   SENTRY_DNS,
   SENTRY_ENABLED,
-  CODEPUSH_ENABLED,
   RELEASE_PROFILE,
-  VERSION_FULL_NAME
+  VERSION_FULL_NAME,
+  COMMIT_SHA1
 } from '@/config/const'
 import {OPERATION_COMPLETED} from '@/graphql/containers/ConnectedMutation'
 import {GET_USER_PROFILE} from '@/graphql/modules/user/queries'
 import {AK_SIGN_IN, SIGN_UP, SIGN_OUT} from '@/graphql/modules/user/mutations'
 import {SCREEN_APPEARED} from '../navigation'
 
-function* initializeSentry() {
+function initializeSentry() {
   Sentry.config(SENTRY_DNS, {
     logLevel: SentryLog.Debug
   }).install()
   Sentry.setTagsContext({
     environment: RELEASE_PROFILE
   })
-  let version = VERSION_FULL_NAME
-  if (CODEPUSH_ENABLED) {
-    const update = yield call(
-      CodePush.getUpdateMetadata,
-      CodePush.UpdateState.RUNNING
-    )
-    if (update) version = update.appVersion + '-codepush:' + update.label
-  }
-  Sentry.setVersion(version)
+  Sentry.setVersion(VERSION_FULL_NAME)
 }
 
 function* getUserProfile() {
