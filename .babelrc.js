@@ -15,6 +15,7 @@ module.exports = (api) => {
       '@babel/plugin-transform-flow-strip-types',
       ['@babel/plugin-proposal-class-properties', {loose: true}],
       ['@babel/plugin-syntax-decorators', {legacy: true}],
+      ['babel-plugin-styled-components', {ssr: false, pure: true}],
       ['module-resolver', moduleResolverOptions],
       [
         'transform-inline-environment-variables',
