@@ -4,7 +4,7 @@ import detoxAdapter from 'detox/runners/jest/adapter'
 
 import pkg from '../package.json'
 
-jest.setTimeout(180000)
+jest.setTimeout(240000)
 jasmine.getEnv().addReporter(detoxAdapter)
 
 beforeAll(() => detox.init(pkg.detox))

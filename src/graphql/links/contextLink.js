@@ -20,7 +20,6 @@ export default ({client}) =>
       } catch (err) {
         /* ... */
       }
-      console.log('jwt:', jwt)
       return {
         authenticated: Boolean(jwt),
         headers: {

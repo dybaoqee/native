@@ -84,14 +84,10 @@ function ListingCard({
           <View style={{position: 'absolute', top: 10, right: 10}}>
             <FavoriteButton
               contrast
-              accessible
               testID="favorite_button"
               hitSlop={15}
               active={favorite}
               onPress={onFavorite}
-              accessibilityLabel={
-                favorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
-              }
             />
           </View>
         </Header>

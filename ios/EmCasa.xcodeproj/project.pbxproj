@@ -43,6 +43,7 @@
 		C314BCDF20EBFDF500235F22 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E6B01A20E759AC0069302D /* libRCTCameraRoll.a */; };
 		C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */; };
 		C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */; };
+		C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3357D0E21B4FD8600D150AE /* libRNSentry.a */; };
 		C336DC3F2118B7D100273254 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C336DC352118B7A600273254 /* libReactNativeNavigation.a */; };
 		C33831E920EB0D5E0061F81C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831B720EB0D5D0061F81C /* Social.framework */; };
 		C33831EB20EB0D6B0061F81C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831EA20EB0D6B0061F81C /* MessageUI.framework */; };
@@ -311,6 +312,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNPhotoView;
 		};
+		C3357D0D21B4FD8600D150AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSentry;
+		};
 		C336DC342118B7A600273254 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */;
@@ -531,6 +539,8 @@
 		C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Light.ttf"; path = "../src/assets/fonts/FaktSoftPro-Light.ttf"; sourceTree = "<group>"; };
 		C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Regular.ttf"; path = "../src/assets/fonts/FaktSoftPro-Regular.ttf"; sourceTree = "<group>"; };
+		C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		C3357D0F21B4FDE400D150AE /* Sentry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sentry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		C33831B720EB0D5D0061F81C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C33831EA20EB0D6B0061F81C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -570,6 +580,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */,
 				C3A1923A21B451A200A2F0B6 /* libRNSpinkit.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				C3A71AC82176C6A200DDA9B9 /* libBVLinearGradient.a in Frameworks */,
@@ -752,6 +763,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C3357D0F21B4FDE400D150AE /* Sentry.framework */,
 				C39C66EB21543D3400F7ED61 /* libz.tbd */,
 				C3F795DA213087AE004C6C8F /* AccountKit.framework */,
 				C3F79576213078C6004C6C8F /* Accounts.framework */,
@@ -797,6 +809,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */,
 				C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */,
 				C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */,
 				C39C669A21543B9600F7ED61 /* CodePush.xcodeproj */,
@@ -925,6 +938,14 @@
 			isa = PBXGroup;
 			children = (
 				C33522C22063422100AF766A /* libRNPhotoView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3357D0921B4FD8500D150AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3357D0E21B4FD8600D150AE /* libRNSentry.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1247,6 +1268,10 @@
 					ProjectRef = 75507F174CF7438483601C83 /* RNPhotoView.xcodeproj */;
 				},
 				{
+					ProductGroup = C3357D0921B4FD8500D150AE /* Products */;
+					ProjectRef = C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */;
+				},
+				{
 					ProductGroup = C314BCD920EBFDE000235F22 /* Products */;
 					ProjectRef = C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */;
 				},
@@ -1494,6 +1519,13 @@
 			remoteRef = C33522C12063422100AF766A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C3357D0E21B4FD8600D150AE /* libRNSentry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSentry.a;
+			remoteRef = C3357D0D21B4FD8600D150AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C336DC352118B7A600273254 /* libReactNativeNavigation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1723,7 +1755,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\nexport SENTRY_PROERTIES=\"${SENTRY_PROPERTIES}\"\nif [[ -f \"$SENTRY_PROERTIES\" ]]; then\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode;\nfi\n../node_modules/react-native/scripts/react-native-xcode.sh\n\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1787,7 +1819,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -n \"${FABRIC_API_KEY}\" ]]; then\n    \"${PODS_ROOT}/Fabric/run\" \"${FABRIC_API_KEY}\" \"${FABRIC_BUILD_SECRET}\";\nfi";
+			shellScript = "if [[ -n \"${FABRIC_API_KEY}\" ]]; then\n    \"${PODS_ROOT}/Fabric/run\" \"${FABRIC_API_KEY}\" \"${FABRIC_BUILD_SECRET}\";\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E45F80C427AFF34207272398 /* [CP] Embed Pods Frameworks */ = {
@@ -1998,6 +2030,7 @@
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2056,6 +2089,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmCasa.native;
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2357,6 +2391,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmCasa.native;
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Beta;

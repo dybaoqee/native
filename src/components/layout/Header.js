@@ -69,7 +69,13 @@ function Header({children, backButton, rightButtons, ...props}) {
         >
           {Boolean(backButton) && (
             <Col zIndex={1} ml="15px" pointerEvents="box-none">
-              <BackButton componentId={backButton} {...childProps} />
+              <BackButton
+                accessible
+                accessibilityLabel="Voltar para a tela anterior"
+                testID="header_back_button"
+                componentId={backButton}
+                {...childProps}
+              />
             </Col>
           )}
           {Boolean(rightButtons) && (

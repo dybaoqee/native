@@ -40,7 +40,6 @@ export async function storeCredentials(_, {jwt, user}, {cache, graphql}) {
     __typename: 'Credentials',
     jwt
   }
-  console.log('write jwt:', jwt)
   await cache.writeQuery({
     query: GET_CREDENTIALS,
     data: {credentials}

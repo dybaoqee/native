@@ -1,4 +1,10 @@
 import {Platform} from 'react-native'
+import pkg from '@package.json'
+
+function boolVal(value, defaultValue = false) {
+  if (!value) return Boolean(defaultValue)
+  return !/^no?|false|0$/i.test(value)
+}
 
 export const CDN_URL =
   process.env.CDN_URL || 'https://res.cloudinary.com/emcasa/image/upload'
@@ -36,9 +42,40 @@ export const WEB_SOCKET_URL =
   process.env.WEB_SOCKET_URL ||
   `${API_URL.replace(/^http/, 'ws')}/socket`
 
+export const SENTRY_DNS =
+  Platform.select({
+    ios: process.env.IOS_SENTRY_DNS,
+    android: process.env.ANDROID_SENTRY_DNS
+  }) || process.env.SENTRY_DNS
+
+export const SENTRY_ENABLED = boolVal(
+  process.env.SENTRY_ENABLED,
+  SENTRY_DNS && !__DEV__
+)
+
 export const MESSENGER_RECEIVER_ID = process.env.MESSENGER_RECEIVER_ID
 
 export const GOOGLE_PLACES_API_KEY = process.env.GOOGLE_PLACES_API_KEY
 
+export const CODEPUSH_DEPLOYMENT_KEY = process.env.CODEPUSH_DEPLOYMENT_KEY
+
+export const CODEPUSH_ENABLED = boolVal(
+  process.env.CODEPUSH_ENABLED,
+  CODEPUSH_DEPLOYMENT_KEY && !__DEV__
+)
+
 export const PERSIST_TIMEOUT =
   Platform.OS === 'android' && __DEV__ ? 100000 : 5000
+
+/* Release configuration */
+export const RELEASE_PROFILE = process.env.RELEASE_PROFILE || 'development'
+
+export const VERSION_NAME = process.env.VERSION_NAME || pkg.version
+
+export const BUILD_NUMBER = process.env.BUILD_NUMBER
+
+export const COMMIT_SHA1 = process.env.COMMIT_SHA1
+
+export const VERSION_FULL_NAME = `${VERSION_NAME}${
+  BUILD_NUMBER ? `+${BUILD_NUMBER}` : ''
+}`

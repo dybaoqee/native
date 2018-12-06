@@ -8,7 +8,7 @@ export async function navigateToLogin() {
   await element(shared.bottomTabButton('Login')).tap()
   await waitFor(element(select.accountKitScreen()))
     .toBeVisible()
-    .withTimeout(1000)
+    .withTimeout(3000)
 }
 
 export async function login() {

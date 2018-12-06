@@ -183,7 +183,7 @@ class ListingScreen extends PureComponent {
             </Section>
           )}
         </Body>
-        {!loading && (
+        {data && (
           <Footer p="15px">
             {data.price && (
               <Row mb="5px" justifyContent="flex-start" alignItems="baseline">

@@ -87,7 +87,7 @@ export const SIGN_UP = gql`
 
 export const SIGN_OUT = gql`
   mutation signOut {
-    storeCredentials(jwt: null, user: null) @client {
+    storeCredentials(jwt: "", user: "") @client {
       jwt
     }
   }

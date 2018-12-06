@@ -39,6 +39,7 @@ DerivedData
 *.xcuserstate
 *.xcconfig
 project.xcworkspace
+IDEWorkspaceChecks.plist
 
 # android
 .idea
@@ -57,3 +58,6 @@ report.xml
 
 # cocoapods
 /ios/Pods
+
+# misc configurations
+sentry.properties
