@@ -6,8 +6,12 @@ import abbrev from 'number-abbreviate'
 
 moment.locale('pt-br')
 
-export const number = (num) =>
-  num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+export const number = (num) => {
+  let [int, dec] = num.toString().split('.', 2)
+  let result = int.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  if (dec) result += `,${dec}`
+  return result
+}
 
 export const abbrevPrice = (num, length = 2) =>
   abbrev(num, length)

@@ -151,7 +151,7 @@ export default class ListingHeader extends PureComponent {
             <Image width={width} height={height} />
           )}
         </GalleryContainer>
-        <Row pt="25px" pb="15px" pl="15px" pr="15px">
+        <Row pt="25px" pl="15px" pr="15px">
           <Text fontSize={18}>{addressDescription(this.props)}</Text>
         </Row>
       </Fragment>
