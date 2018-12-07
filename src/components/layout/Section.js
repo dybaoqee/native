@@ -1,12 +1,10 @@
 import {View, Text} from '@emcasa/ui-native'
 
-export default function Section({title, children}) {
+export default function Section({title, children, ...props}) {
   return (
-    <View bg="#f0f0f0" pt="25px" pb="40px">
-      <View ml="15px" mr="15px" mb="15px">
-        <Text fontWeight="500" fontSize={13}>
-          {title.toUpperCase()}
-        </Text>
+    <View pt="25px" pb="40px" {...props}>
+      <View ml="15px" mr="15px" mb="10px">
+        <Text color="grey">{title.toUpperCase()}</Text>
       </View>
       {children}
     </View>

@@ -4,24 +4,40 @@ import * as format from '@/config/formatting'
 
 const Section = ({children, title}) => (
   <Col flex={1}>
-    <View mb="10px">
-      <Text color="dark" fontWeight="500">
-        {title.toUpperCase()}
-      </Text>
+    <View mb="5px">
+      <Text color="grey">{title.toUpperCase()}</Text>
     </View>
     {children}
   </Col>
 )
 
-const formatPrice = (price) =>
-  price ? `R$ ${format.number(price)}` : String.fromCharCode(0x2500)
-export default function ListingDescription(props) {
-  const {maintenanceFee, propertyTax} = props
+const formatPrice = (price, suffix = '') =>
+  price
+    ? `R$ ${format.number(price.toFixed(2))} ${suffix}`
+    : String.fromCharCode(0x2500)
+
+export default function ListingDescription({
+  id,
+  type,
+  area,
+  price,
+  description,
+  propertyTax,
+  maintenanceFee
+}) {
+  const tableRows = [{label: 'Tipo do imóvel', value: type}]
+  if (maintenanceFee)
+    tableRows.push({label: 'Condomínio', value: formatPrice(maintenanceFee)})
+  if (propertyTax)
+    tableRows.push({label: 'IPTU/ano', value: formatPrice(propertyTax)})
+  if (price && area)
+    tableRows.push({label: 'Preço/m²', value: formatPrice(price / area)})
+
   return (
-    <View pr="15px" pl="15px" mt="20px">
+    <View pr="15px" pl="15px" mt="20px" mb="10px">
       <Row mb="15px">
         <Section title="O Imóvel">
-          <Text>{props.description}</Text>
+          <Text>{description || String.fromCharCode(0x2500)}</Text>
         </Section>
       </Row>
       <Row mb="20px">
@@ -34,28 +50,23 @@ export default function ListingDescription(props) {
           pl="10px"
         >
           <Text fontSize={13} color="grey">
-            Cód. imóvel #{props.id}
+            Cód. imóvel #{id}
           </Text>
         </View>
       </Row>
-      <Row mb="20px">
-        <Section title="Tipo do Imóvel">
-          <Text>{props.type}</Text>
-        </Section>
-      </Row>
-      {Boolean(maintenanceFee || propertyTax) && (
-        <Row mb="20px">
-          <Section title="Condomínio">
-            <Text fontSize={16} fontWeight="500">
-              {formatPrice(maintenanceFee)}
-            </Text>
-          </Section>
-          <Section title="IPTU">
-            <Text fontSize={16} fontWeight="500">
-              {formatPrice(propertyTax)}
-            </Text>
-          </Section>
-        </Row>
+      {Boolean(tableRows.length) && (
+        <Col mb="20px" pb="15px" bg="white" elevation={4} borderRadius={4}>
+          {tableRows.map(({label, value}) => (
+            <Row key={label} flex={1} p="20px" pb="0">
+              <Col flex={1}>
+                <Text color="dark">{label}</Text>
+              </Col>
+              <Col>
+                <Text color="dark">{value}</Text>
+              </Col>
+            </Row>
+          ))}
+        </Col>
       )}
     </View>
   )
