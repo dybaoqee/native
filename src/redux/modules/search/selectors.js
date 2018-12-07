@@ -32,14 +32,16 @@ const parseRange = (name, {min, max}) => ({
 
 export const getSearchFiltersQuery = createSelector(
   getSearchFilters,
-  _.flow(
-    ({price, area, rooms, garageSpots, ...filters}) =>
+  getSearchCity,
+  _.flow.convert({cap: false})(
+    ({price, area, rooms, garageSpots, suites, ...filters}, citySlug) =>
       Object.assign(
-        {},
+        {citiesSlug: citySlug ? [citySlug] : undefined},
         filters,
         price && parseRange('price', price),
         area && parseRange('area', area),
         rooms && parseRange('rooms', rooms),
+        suites && parseRange('suites', suites),
         garageSpots && parseRange('garageSpots', garageSpots)
       ),
     _.pickBy(_.identity)
