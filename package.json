@@ -87,7 +87,7 @@
     "react-native-communications": "^2.2.1",
     "react-native-facebook-account-kit": "https://github.com/emcasa/react-native-facebook-account-kit.git",
     "react-native-fbsdk": "^0.8.0",
-    "react-native-firebase": "4.2.0",
+    "react-native-firebase": "5.1.0",
     "react-native-fontawesome-pro": "^1.0.12",
     "react-native-google-places-autocomplete": "^1.3.9",
     "react-native-image-picker": "^0.26.10",

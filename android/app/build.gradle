@@ -248,8 +248,9 @@ dependencies {
     implementation ("com.google.android.gms:play-services-base:${rootProject.ext.googlePlayServicesVersion}") {force = true}
     implementation ("com.google.android.gms:play-services-basement:${rootProject.ext.googlePlayServicesVersion}") {force = true}
     implementation ("com.google.android.gms:play-services-maps:${rootProject.ext.googlePlayServicesVersion}") {force = true}
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-config:16.1.0'
     // to see latest version available:
     // https://maven.fabric.io/public/com/crashlytics/sdk/android/crashlytics/maven-metadata.xml
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {transitive = true}

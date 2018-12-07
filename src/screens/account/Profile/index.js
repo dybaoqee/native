@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {Tab} from '@emcasa/ui-native'
@@ -45,12 +46,12 @@ class UserProfileScreen extends PureComponent {
     if (!this.isValidUser) this.onSignOut()
   }
 
-  onSignOut = async () => {
+  onSignOut = _.once(async () => {
     const {previousTabIndex, signOut, switchTab, updateStackRoot} = this.props
     await signOut()
     updateStackRoot()
     switchTab(previousTabIndex)
-  }
+  })
 
   onChangeTab = (tabIndex) => this.setState({tabIndex})
 
