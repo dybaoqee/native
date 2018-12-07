@@ -1,4 +1,4 @@
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
 import {View, Text} from '@emcasa/ui-native'
@@ -33,8 +33,21 @@ class FavoritesScreen extends PureComponent {
     }
   }
 
+  list = React.createRef()
+
   componentDidMount() {
     Navigation.mergeOptions(this.props.componentId, this.constructor.options)
+  }
+
+  navigationButtonPressed({buttonId}) {
+    if (buttonId === 'account.Favorites#logo') {
+      this.resetScrollPosition()
+    }
+  }
+
+  resetScrollPosition = () => {
+    if (!this.list.current) return
+    this.list.current.scrollToOffset({animated: true, offset: 0})
   }
 
   onSelect = (id) =>
