@@ -1,4 +1,5 @@
-import {PureComponent} from 'react'
+import _ from 'lodash'
+import React, {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
 
@@ -44,11 +45,18 @@ class ListingsFeedScreen extends PureComponent {
 
   state = {modalVisible: false}
 
+  list = React.createRef()
+
   componentDidDisappear() {
     const {
       listingsFeed: {loading, updateBlacklists}
     } = this.props
     if (!loading) updateBlacklists()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.filters, this.props.filters))
+      this.resetScrollPosition()
   }
 
   get bottomTabsProps() {
@@ -63,11 +71,21 @@ class ListingsFeedScreen extends PureComponent {
   }
 
   navigationButtonPressed({buttonId}) {
-    if (buttonId === 'listings.Feed#filters') {
-      Navigation.showModal({
-        component: {name: SearchFiltersScreen.screenName}
-      })
+    switch (buttonId) {
+      case 'listings.Feed#filters':
+        Navigation.showModal({
+          component: {name: SearchFiltersScreen.screenName}
+        })
+        break
+      case 'listings.Feed#logo':
+        this.resetScrollPosition()
+        break
     }
+  }
+
+  resetScrollPosition = () => {
+    if (!this.list.current) return
+    this.list.current.scrollToOffset({animated: true, offset: 0})
   }
 
   onLoadMore = () => {
@@ -123,6 +141,7 @@ class ListingsFeedScreen extends PureComponent {
           >
             <BottomTabsAvoidingScrollView>
               <Feed
+                ref={this.list}
                 testID="listing_feed"
                 automaticallyAdjustContentInsets={false}
                 data={data}

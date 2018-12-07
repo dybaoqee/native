@@ -1,4 +1,5 @@
 import _ from 'lodash/fp'
+import React from 'react'
 import {FlatList} from 'react-native'
 import {View} from '@emcasa/ui-native'
 
@@ -11,10 +12,17 @@ const keyExtractor = _.flow(
 
 const createHandler = (fun, ...args) => fun && (() => fun(...args))
 
-function VerticalListingFeed({onSelect, pagination, Card, ...props}) {
+const VerticalListingFeed = View.withComponent(function VerticalListingFeed({
+  onSelect,
+  pagination,
+  Card,
+  innerRef,
+  ...props
+}) {
   return (
     <FlatList
       {...props}
+      ref={innerRef}
       testID="listing_feed"
       pagination={pagination}
       keyExtractor={keyExtractor}
@@ -32,10 +40,12 @@ function VerticalListingFeed({onSelect, pagination, Card, ...props}) {
       )}
     />
   )
-}
+})
 
 VerticalListingFeed.defaultProps = {
   Card
 }
 
-export default View.withComponent(VerticalListingFeed)
+export default React.forwardRef((props, ref) => (
+  <VerticalListingFeed {...props} innerRef={ref} />
+))
