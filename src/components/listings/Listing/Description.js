@@ -5,9 +5,7 @@ import * as format from '@/config/formatting'
 const Section = ({children, title}) => (
   <Col flex={1}>
     <View mb="5px">
-      <Text color="grey" fontWeight="500">
-        {title.toUpperCase()}
-      </Text>
+      <Text color="grey">{title.toUpperCase()}</Text>
     </View>
     {children}
   </Col>
