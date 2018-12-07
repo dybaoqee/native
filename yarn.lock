@@ -1667,9 +1667,9 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@emcasa/mock-server@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@emcasa/mock-server/-/mock-server-0.2.0.tgz#2661b8b671f0dd03ddeeab5bb283f85f38fdd92b"
+"@emcasa/mock-server@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@emcasa/mock-server/-/mock-server-0.2.1.tgz#1ed2ac6c1a07d99f972934825ef1e71936fddef0"
   dependencies:
     apollo-errors "^1.9.0"
     apollo-server-express "^2.0.4"
