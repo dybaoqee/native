@@ -15,13 +15,15 @@ export default class AppThemeProvider extends PureComponent {
   }
 
   onLayout = ({nativeEvent: {layout}}) =>
-    this.setState({
+    this.setState(({dimensions}) => ({
       dimensions: {
         layout,
+        containerLayout: layout,
         window: Dimensions.get('window'),
-        screen: Dimensions.get('screen')
+        screen: Dimensions.get('screen'),
+        ...dimensions
       }
-    })
+    }))
 
   render() {
     return (

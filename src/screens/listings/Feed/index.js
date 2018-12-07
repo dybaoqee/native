@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
+import {View} from '@emcasa/ui-native'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
@@ -9,7 +10,7 @@ import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
-import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
+import BottomTabsSpacer from '@/components/layout/BottomTabs/Spacer'
 import InfiniteScroll from '@/containers/InfiniteScroll'
 import Feed from '@/components/listings/Feed/Vertical'
 import SearchLocation from './Location'
@@ -134,34 +135,43 @@ class ListingsFeedScreen extends PureComponent {
     return (
       <Shell testID="@listings.Feed" bottomTabs={this.bottomTabsProps}>
         <Body loading={loading}>
-          <InfiniteScroll
-            loading={loading}
-            hasNextPage={remainingCount > 0}
-            onLoad={this.onLoadMore}
-          >
-            <BottomTabsAvoidingScrollView>
-              <Feed
-                ref={this.list}
-                testID="listing_feed"
-                automaticallyAdjustContentInsets={false}
-                data={data}
-                onSelect={this.onSelect}
-                ListHeaderComponent={ListHeader}
-                ListEmptyComponent={
-                  <ListEmpty
-                    loading={loading}
-                    title="Nenhum resultado encontrado"
-                    buttonText="Limpar filtros"
-                    image={require('@/assets/img/icons/sad_smartphone.png')}
-                    onPress={this.onClearFilters}
-                  >
-                    A sua pesquisa não retornou nenhum imóvel. Altere ou limpe
-                    os filtros para ver resultados.
-                  </ListEmpty>
-                }
-              />
-            </BottomTabsAvoidingScrollView>
-          </InfiniteScroll>
+          <BottomTabsSpacer>
+            {(bottomTabs) => (
+              <InfiniteScroll
+                loading={loading}
+                hasNextPage={remainingCount > 0}
+                onLoad={this.onLoadMore}
+              >
+                <Feed
+                  ref={this.list}
+                  testID="listing_feed"
+                  automaticallyAdjustContentInsets={false}
+                  data={data}
+                  onSelect={this.onSelect}
+                  scrollIndicatorInsets={{
+                    right: 0,
+                    left: 0,
+                    top: 0,
+                    bottom: bottomTabs.height
+                  }}
+                  ListHeaderComponent={ListHeader}
+                  ListFooterComponent={<View height={bottomTabs.height} />}
+                  ListEmptyComponent={
+                    <ListEmpty
+                      loading={loading}
+                      title="Nenhum resultado encontrado"
+                      buttonText="Limpar filtros"
+                      image={require('@/assets/img/icons/sad_smartphone.png')}
+                      onPress={this.onClearFilters}
+                    >
+                      A sua pesquisa não retornou nenhum imóvel. Altere ou limpe
+                      os filtros para ver resultados.
+                    </ListEmpty>
+                  }
+                />
+              </InfiniteScroll>
+            )}
+          </BottomTabsSpacer>
         </Body>
       </Shell>
     )

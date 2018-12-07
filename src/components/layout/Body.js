@@ -1,17 +1,18 @@
 import {PureComponent} from 'react'
 import {ScrollView as RCTScrollView} from 'react-native'
 import styled from 'styled-components/native'
+import {compose} from 'recompose'
 import {justifyContent, alignItems} from 'styled-system'
 import {View as BaseView} from '@emcasa/ui-native'
 
-import BottomTabsAvoidingScrollView from '@/containers/BottomTabsAvoidingScrollView'
 import Spinner from '@/components/shared/Spinner'
-import {compose} from 'recompose'
+import BottomTabsSpacer from './BottomTabs/Spacer'
 
 const View = styled(BaseView)`
-  ${({hasBottomTabs, mb, theme}) => {
+  ${({mb, theme}) => {
     let marginBottom = mb
-    if (mb === 'auto') marginBottom = hasBottomTabs ? theme.size.bottomTabs : 0
+    if (mb === 'auto')
+      marginBottom = theme.Shell.bottomTabsVisible ? theme.size.bottomTabs : 0
     else if (mb == 'none') marginBottom = 0
     return {marginBottom}
   }};
@@ -22,21 +23,19 @@ const View = styled(BaseView)`
 const withContentContainerStyle = (Target) => styled(({style, ...props}) => (
   <Target contentContainerStyle={style} {...props} />
 ))`
-  ${({height, hasBottomTabs, theme}) =>
-    Boolean(hasBottomTabs && height === 'auto') && {
-      minHeight: theme.dimensions.layout.height - theme.size.bottomTabs
+  ${({height, theme}) =>
+    Boolean(theme.Shell.bottomTabsVisible && height === 'auto') && {
+      minHeight: theme.Shell.layout.height - theme.size.bottomTabs
     }};
 `
 
 const ScrollView = compose(withContentContainerStyle)(styled(
-  BaseView.withComponent(({hasBottomTabs, ...props}) => {
-    let component = <RCTScrollView {...props} />
-    if (hasBottomTabs && props.mb === 'auto')
-      component = (
-        <BottomTabsAvoidingScrollView>{component}</BottomTabsAvoidingScrollView>
-      )
-    return component
-  })
+  BaseView.withComponent(({children, mb, ...props}) => (
+    <RCTScrollView {...props}>
+      {children}
+      {mb === 'auto' && <BottomTabsSpacer />}
+    </RCTScrollView>
+  ))
 )`
   ${({mb}) => ({marginBottom: ['auto', 'none'].includes(mb) ? 0 : mb})};
   ${({height}) => ({height: height === 'auto' ? undefined : height})};
@@ -65,7 +64,7 @@ export default class Body extends PureComponent {
     return null
   }
 
-  renderOverlay() {
+  renderSpinner() {
     return (
       <Overlay>
         <Spinner />
@@ -86,7 +85,7 @@ export default class Body extends PureComponent {
         flex={1}
         {...props}
       >
-        {Boolean(loading && !children) && this.renderOverlay()}
+        {Boolean(loading && !children) && this.renderSpinner()}
         {children}
       </ViewComponent>
     )

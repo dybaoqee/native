@@ -7,6 +7,7 @@ import composeWithRef from '@/lib/composeWithRef'
 import {withFavoriteListings} from '@/graphql/containers'
 import {switchTab} from '@/redux/modules/navigation'
 import {Shell, Body} from '@/components/layout'
+import BottomTabsSpacer from '@/components/layout/BottomTabs/Spacer'
 import Feed from '@/components/listings/Feed/Vertical'
 import ListEmpty from '@/components/shared/ListEmpty'
 
@@ -55,34 +56,45 @@ class FavoritesScreen extends PureComponent {
     return (
       <Shell bottomTabs>
         <Body loading={loading}>
-          <Feed
-            data={data}
-            onSelect={this.onSelect}
-            ListHeaderComponent={
-              data.length ? (
-                <View m="15px" mb="0px">
-                  <Text fontWeight="500" fontSize={16}>
-                    Meus Imóveis favoritos
-                  </Text>
-                </View>
-              ) : (
-                undefined
-              )
-            }
-            ListEmptyComponent={
-              <ListEmpty
-                loading={loading}
-                title="Você ainda não favoritou nenhum imóvel"
-                buttonText="Explorar"
-                image={require('@/assets/img/icons/heart_plus.png')}
-                onPress={this.onExplore}
-              >
-                Navegue pelos nosso imóveis e dê um coração para os que você
-                mais gostar. Esses imóveis ficarão salvos aqui nessa lista para
-                você ver e rever quando quiser.
-              </ListEmpty>
-            }
-          />
+          <BottomTabsSpacer>
+            {(bottomTabs) => (
+              <Feed
+                data={data}
+                onSelect={this.onSelect}
+                scrollIndicatorInsets={{
+                  right: 0,
+                  left: 0,
+                  top: 0,
+                  bottom: bottomTabs.height
+                }}
+                ListHeaderComponent={
+                  data.length ? (
+                    <View m="15px" mb="0px">
+                      <Text fontWeight="500" fontSize={16}>
+                        Meus Imóveis favoritos
+                      </Text>
+                    </View>
+                  ) : (
+                    undefined
+                  )
+                }
+                ListFooterComponent={<View height={bottomTabs.height} />}
+                ListEmptyComponent={
+                  <ListEmpty
+                    loading={loading}
+                    title="Você ainda não favoritou nenhum imóvel"
+                    buttonText="Explorar"
+                    image={require('@/assets/img/icons/heart_plus.png')}
+                    onPress={this.onExplore}
+                  >
+                    Navegue pelos nosso imóveis e dê um coração para os que você
+                    mais gostar. Esses imóveis ficarão salvos aqui nessa lista
+                    para você ver e rever quando quiser.
+                  </ListEmpty>
+                }
+              />
+            )}
+          </BottomTabsSpacer>
         </Body>
       </Shell>
     )
