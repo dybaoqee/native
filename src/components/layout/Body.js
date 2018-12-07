@@ -30,8 +30,8 @@ const withContentContainerStyle = (Target) => styled(({style, ...props}) => (
 `
 
 const ScrollView = compose(withContentContainerStyle)(styled(
-  BaseView.withComponent(({children, mb, ...props}) => (
-    <RCTScrollView {...props}>
+  BaseView.withComponent(({children, mb, innerRef, ...props}) => (
+    <RCTScrollView ref={innerRef} {...props}>
       {children}
       {mb === 'auto' && <BottomTabsSpacer />}
     </RCTScrollView>

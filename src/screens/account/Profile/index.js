@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import {View as RCTView} from 'react-native'
 import {connect} from 'react-redux'
 import {Tab} from '@emcasa/ui-native'
 
@@ -34,8 +35,11 @@ class UserProfileScreen extends PureComponent {
   }
 
   state = {
-    tabIndex: 0
+    tabIndex: 0,
+    layout: undefined
   }
+
+  containerRef = React.createRef()
 
   get isValidUser() {
     const {jwt, user} = this.props
@@ -44,6 +48,14 @@ class UserProfileScreen extends PureComponent {
 
   componentDidMount() {
     if (!this.isValidUser) this.onSignOut()
+  }
+
+  componentDidAppear() {
+    this.containerRef.current.measure((x, y, width, height) => {
+      this.setState({
+        layout: {x, y, width, height}
+      })
+    })
   }
 
   onSignOut = _.once(async () => {
@@ -57,18 +69,23 @@ class UserProfileScreen extends PureComponent {
 
   render() {
     const {user} = this.props
-    const tabIndex = this.state
-
+    const {tabIndex, layout} = this.state
+    const ready = this.isValidUser && layout
     return (
       <Shell bottomTabs>
-        {this.isValidUser ? (
-          <Body mb="auto" height="auto">
+        <RCTView
+          collapsable={false}
+          ref={this.containerRef}
+          style={{flex: 1, height: '100%', width: '100%'}}
+        >
+          <Body loading={!ready} mb="auto" height="auto">
             <Tab.Group
               onChange={this.onChangeTab}
               tabBarProps={{pl: 15, pr: 15}}
             >
               <Tab label="Meu Perfil">
                 <ProfileTab
+                  layout={layout}
                   tabIndex={tabIndex}
                   user={user}
                   onSignOut={this.onSignOut}
@@ -79,9 +96,7 @@ class UserProfileScreen extends PureComponent {
               </Tab>
             </Tab.Group>
           </Body>
-        ) : (
-          <Body loading height="auto" />
-        )}
+        </RCTView>
       </Shell>
     )
   }

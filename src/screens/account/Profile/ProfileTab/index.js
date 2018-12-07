@@ -1,5 +1,5 @@
 import React, {PureComponent, Fragment} from 'react'
-import {ScrollView, Dimensions} from 'react-native'
+import {View as RCTView, ScrollView, Dimensions} from 'react-native'
 import {withTheme} from 'styled-components'
 import {View, Row, Col, Button, Text, Icon} from '@emcasa/ui-native'
 
@@ -8,22 +8,16 @@ import Profile from '@/components/account/Profile'
 import ProfileForm from './Form'
 
 class UserProfileTab extends PureComponent {
-  state = {}
+  state = {minHeight: '100%'}
 
   formRef = React.createRef()
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.tabIndex !== this.props.tabIndex) this.onCancelEditing()
-  }
-
-  get tabHeight() {
-    const {dimensions, size, buttonHeight} = this.props.theme
-
-    return (
-      dimensions.layout.height -
-      parseInt(size.bottomTabs) -
-      parseInt(buttonHeight[1])
-    )
+  static getDerivedStateFromProps({layout, theme}) {
+    return {
+      minHeight: layout
+        ? layout.height - theme.buttonHeight[1] - theme.size.bottomTabs
+        : '100%'
+    }
   }
 
   hideMessage = () => this.setState({message: undefined})
@@ -123,13 +117,13 @@ class UserProfileTab extends PureComponent {
 
   render() {
     const {user} = this.props
-    const {isEditing} = this.state
+    const {minHeight, isEditing} = this.state
 
     return (
       <ScrollView
         bounces={false}
         style={{flex: 1}}
-        contentContainerStyle={{minHeight: this.tabHeight}}
+        contentContainerStyle={{minHeight}}
       >
         <Row
           style={{minHeight: 100}}
