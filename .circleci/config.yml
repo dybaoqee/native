@@ -504,7 +504,7 @@ jobs:
     environment:
       <<: *env-android
       <<: *env-production
-      BUNDLE_ASSETS_PATH: android/app/src/main/res/
+      BUNDLE_ASSETS_PATH: tmp/
       JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
       SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
     steps:
