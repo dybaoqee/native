@@ -188,6 +188,7 @@ aliases:
     name: Generate app icons
     command: |-
       node_modules/.bin/app-icon generate -i src/assets/app_icons/$PLATFORM.$RELEASE_PROFILE.png --platforms $PLATFORM
+      cp src/assets/app_icons/ios-marketing.png ios/EmCasa/Images.xcassets/AppIcon.appiconset/ios-marketing-1024x1024-1x.png
   - &build-ios
     name: Build app
     command: |-
