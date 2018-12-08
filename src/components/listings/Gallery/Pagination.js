@@ -1,9 +1,37 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
 import {Animated} from 'react-native'
-import {View, Text, Icon} from '@emcasa/ui-native'
+import {View, Row, Text, Icon} from '@emcasa/ui-native'
+import styled from 'styled-components/native'
 
-import styles from './styles'
+const Bullet = styled(function PaginationBullet({value, style, ...props}) {
+  const scale = value.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.6, 1]
+  })
+  const animation = {transform: [{scale: scale}]}
+  return (
+    <Animated.View style={[style, animation]} {...props}>
+      <Icon type="solid" name="circle" color="white" size={10} />
+    </Animated.View>
+  )
+})`
+  display: flex;
+  width: 13;
+  height: 13;
+  justify-content: center;
+  align-items: center;
+`
+
+const TextContainer = styled(View)`
+  display: flex;
+  position: absolute;
+  height: 30;
+  top: 0;
+  left: 15;
+  justify-content: center;
+  align-items: center;
+`
 
 export default class GalleryPagination extends PureComponent {
   static defaultProps = {
@@ -62,33 +90,28 @@ export default class GalleryPagination extends PureComponent {
   }
 
   renderIcon = (index) => {
-    const scale = this.state.scale[index]
-    const value = scale.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0.3, 1]
-    })
-    const style = {opacity: value, transform: [{scale: value}]}
-    return (
-      <Animated.View key={index} style={[styles.pageIcon, style]}>
-        <Icon type="solid" name="circle" color="white" size={10} />
-      </Animated.View>
-    )
+    return <Bullet key={index} value={this.state.scale[index]} />
   }
 
   render() {
     const {displayText, index, totalPages} = this.props
     const {length} = this.state
     return (
-      <View style={styles.container}>
+      <Row
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        height="30px"
+      >
         {displayText && (
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>
+          <TextContainer>
+            <Text color="white" fontSize="small" fontWeight="500">
               {index + 1} / {totalPages}
             </Text>
-          </View>
+          </TextContainer>
         )}
         {_.times(length, this.renderIcon)}
-      </View>
+      </Row>
     )
   }
 }

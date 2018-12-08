@@ -530,9 +530,6 @@ workflows:
   commit:
     jobs:
       - checkout
-      - test:
-          requires:
-            - checkout
       - e2e_ios:
           requires:
             - checkout
