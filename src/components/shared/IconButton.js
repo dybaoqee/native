@@ -6,7 +6,7 @@ const touchableProps = `
 testID style onPress hitSlop disabled pointerEvents
 activeOpacity accessible accessibilityLabel`.split(/\s+/)
 
-export default function IconButton(props) {
+export default function IconButton({elevation, ...props}) {
   return (
     <TouchableOpacity
       {..._.pick(props, touchableProps)}

@@ -1,5 +1,5 @@
 import {PureComponent} from 'react'
-import {View, Platform} from 'react-native'
+import {Platform} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import AccountKit from 'react-native-facebook-account-kit'
 import {connect} from 'react-redux'

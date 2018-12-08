@@ -43,7 +43,8 @@ const compareRange = (a, b) =>
 
 const nullableRangeSelectStrategy = {
   isSelected: compareRange,
-  update: (selectedValue, value) => (selectedValue == value ? null : value)
+  update: (selectedValue, value) =>
+    compareRange(selectedValue, value) ? null : value
 }
 
 function ButtonRange({value, min = 0, max, emptyLabel = '0', ...props}) {
