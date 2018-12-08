@@ -33,6 +33,7 @@ import io.fabric.sdk.android.Fabric;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -87,6 +88,7 @@ public class MainApplication extends NavigationApplication implements ShareAppli
       new RNFirebaseRemoteConfigPackage(),
       new RNFirebaseMessagingPackage(),
       new RNFirebaseNotificationsPackage(),
+      new RNFirebaseAnalyticsPackage(),
       new RNSharePackage(),
       new ImagePickerPackage(),
       new SvgPackage(),
