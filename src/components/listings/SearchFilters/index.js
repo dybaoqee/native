@@ -36,33 +36,41 @@ const Field = styled(({style, ...props}) => (
   margin-bottom: 20px;
 `
 
-const parseRange = (value) =>
-  value == 0 ? {min: 0, max: 0} : {min: value, max: undefined}
-const formatRange = (value) => (value ? value.min : null)
-
 const compareArray = (a, b) => isEqual((a || []).sort(), (b || []).sort())
 
-const nullableSelectStrategy = {
-  isSelected: (selectedValue, value) => selectedValue == value,
+const compareRange = (a, b) =>
+  Boolean((!a && !b) || (a && b && a.min == b.min && a.max == b.max))
+
+const nullableRangeSelectStrategy = {
+  isSelected: compareRange,
   update: (selectedValue, value) => (selectedValue == value ? null : value)
 }
 
 function ButtonRange({value, min = 0, max, emptyLabel = '0', ...props}) {
   return (
     <Button.Group
-      strategy={nullableSelectStrategy}
+      strategy={nullableRangeSelectStrategy}
       flexDirection="row"
       selectedValue={value}
       {...props}
     >
-      {min == 0 && <Option value={0}>{emptyLabel}</Option>}
-      {range(1, max).map((num) => (
-        <Option key={num} value={num}>
-          {num}
+      {range(min, max).map((num) => (
+        <Option key={num} value={{min: num, max: num}}>
+          {num ? num : emptyLabel}
         </Option>
       ))}
-      <Option value={max}>+</Option>
+      <Option value={{min: max, max: undefined}}>+</Option>
     </Button.Group>
+  )
+}
+
+function ButtonRangeField({min, max, emptyLabel, ...props}) {
+  return (
+    <Field allowNull isEqual={compareRange} {...props}>
+      {({input}) => (
+        <ButtonRange min={min} max={max} emptyLabel={emptyLabel} {...input} />
+      )}
+    </Field>
   )
 }
 
@@ -94,31 +102,21 @@ export default function SearchFilters({onChange, initialValues}) {
             )}
           </Field>
           <Label>Quartos</Label>
-          <Field allowNull name="rooms" parse={parseRange} format={formatRange}>
-            {({input}) => <ButtonRange {...input} min={1} max={5} />}
-          </Field>
+          <ButtonRangeField name="rooms" min={1} max={5} />
           <Label>Suítes</Label>
-          <Field
-            allowNull
+          <ButtonRangeField
             name="suites"
-            parse={parseRange}
-            format={formatRange}
-          >
-            {({input}) => (
-              <ButtonRange {...input} min={0} max={4} emptyLabel="Sem suíte" />
-            )}
-          </Field>
+            min={0}
+            max={4}
+            emptyLabel="Sem suíte"
+          />
           <Label>Vagas de Garagem</Label>
-          <Field
-            allowNull
+          <ButtonRangeField
             name="garageSpots"
-            parse={parseRange}
-            format={formatRange}
-          >
-            {({input}) => (
-              <ButtonRange {...input} min={0} max={4} emptyLabel="Sem vaga" />
-            )}
-          </Field>
+            min={0}
+            max={4}
+            emptyLabel="Sem vaga"
+          />
           <Final.FormSpy
             subscription={{values: true, pristine: true}}
             onChange={(state) => onChange(state)}
