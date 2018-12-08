@@ -310,7 +310,6 @@ jobs:
             yarn e2e
             --artifacts-location tmp/detox/
             --take-screenshots all
-            --record-logs all
             --loglevel info
             --debug-synchronization 1000
       - store_artifacts:

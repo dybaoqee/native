@@ -115,7 +115,9 @@ class ListingsFeedScreen extends PureComponent {
       })
     )
 
-  onCloseLocationSearch = () => Modal.hide()
+  onCloseLocationSearch = () => {
+    if (this.state.modalVisible) Modal.hide()
+  }
 
   onClearFilters = () => this.props.clearFilters()
 

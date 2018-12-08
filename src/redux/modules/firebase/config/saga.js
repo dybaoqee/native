@@ -3,6 +3,7 @@ import {all, call, put, select, fork, takeLatest} from 'redux-saga/effects'
 import {AppState} from 'react-native'
 import Firebase from 'react-native-firebase'
 
+import {REMOTE_CONFIG_ENABLED} from '@/config/const'
 import * as actions from './index'
 import {getConfig} from './selectors'
 
@@ -45,6 +46,7 @@ function* initializeRemoteConfig() {
 }
 
 export default function* fcmSaga() {
+  if (!REMOTE_CONFIG_ENABLED) return
   yield all([
     takeLatest(appStateEvent('active'), fetchConfig),
     fork(initializeRemoteConfig)

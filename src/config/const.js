@@ -3,7 +3,7 @@ import pkg from '@package.json'
 
 function boolVal(value, defaultValue = false) {
   if (!value) return Boolean(defaultValue)
-  return !/^no?|false|0$/i.test(value)
+  return !/^no?|f(alse)?|0$/i.test(value)
 }
 
 export const CDN_URL =
@@ -69,6 +69,11 @@ export const CODEPUSH_DEPLOYMENT_KEY = process.env.CODEPUSH_DEPLOYMENT_KEY
 export const CODEPUSH_ENABLED = boolVal(
   process.env.CODEPUSH_ENABLED,
   CODEPUSH_DEPLOYMENT_KEY && !__DEV__
+)
+
+export const REMOTE_CONFIG_ENABLED = boolVal(
+  process.env.REMOTE_CONFIG_ENABLED,
+  !__DEV__
 )
 
 export const PERSIST_TIMEOUT =

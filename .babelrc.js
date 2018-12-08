@@ -33,6 +33,7 @@ module.exports = (api) => {
             'CODEPUSH_DEPLOYMENT_KEY',
             'CODEPUSH_ENABLED',
             'SENTRY_ENABLED',
+            'REMOTE_CONFIG_ENABLED',
             'API_URL',
             'IOS_API_URL',
             'ANDROID_API_URL',
