@@ -336,12 +336,14 @@ jobs:
             xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
       - run:
           name: Run tests
+          no_output_timeout: 2m
           command: >-
             yarn e2e
             --artifacts-location tmp/detox/
             --take-screenshots all
-            --loglevel info
-            --debug-synchronization 1000
+            --loglevel verbose
+            --debug-synchronization 500
+            --cleanup
       - store_artifacts:
           path: tmp/detox
           destination: e2e
