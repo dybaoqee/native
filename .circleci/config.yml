@@ -69,7 +69,7 @@ aliases:
       - v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
   - &restore-ios-build
     keys:
-      - v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
+      - v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
   # save caches
   - &cache-node-modules
@@ -92,7 +92,7 @@ aliases:
   - &cache-ios-build
     paths:
       - ios/build/Build
-    key: v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
+    key: v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
     # install dependencies
   - &install-sdkmanager
@@ -270,7 +270,9 @@ jobs:
       - save_cache: *cache-ios-build
       - persist_to_workspace:
           root: .
-          paths: ./ios/build/Build/Products/
+          paths:
+            - ./ios/build/Build/Products/
+            - ./tmp/xcode.checksum
 
   build_android:
     <<: *android
