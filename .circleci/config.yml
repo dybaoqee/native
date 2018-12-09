@@ -69,7 +69,7 @@ aliases:
       - v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
   - &restore-ios-build
     keys:
-      - v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
+      - v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
   # save caches
   - &cache-node-modules
@@ -92,7 +92,7 @@ aliases:
   - &cache-ios-build
     paths:
       - ios/build/Build
-    key: v1-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
+    key: v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
     # install dependencies
   - &install-sdkmanager
@@ -248,6 +248,47 @@ jobs:
           root: .
           paths: .
 
+  build_ios:
+    <<: *macos
+    environment:
+      API_URL: http://localhost:4000
+      NODE_ENV: e2e
+    steps:
+      - attach_workspace:
+          at: ~/emcasa
+      - run:
+          name: Generate cache checksum
+          command: xcodebuild -version | md5 > tmp/xcode.checksum
+      - restore_cache: *restore-ios-build
+      - run:
+          name: Build iOS binary
+          command: |-
+            if [ ! -d ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
+              .circleci/ios/prepare.sh
+              yarn build_e2e
+            fi
+      - save_cache: *cache-ios-build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./ios/build/Build/Products/
+            - ./tmp/xcode.checksum
+
+  build_android:
+    <<: *android
+    steps:
+      - attach_workspace:
+          at: ~/emcasa
+      - restore_cache: *restore-gradle
+      - run: *install-sdkmanager
+      - run:
+          name: Build android binary
+          command: export TERM=xterm && cd android && ./gradlew assembleDebug
+      - save_cache: *cache-gradle
+      - persist_to_workspace:
+          root: .
+          paths: ./android/app/build/outputs/apk/
+
   # ~ unit tests
   test:
     <<: *nodejs
@@ -267,11 +308,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - run:
-          name: Generate cache checksum
-          command: xcodebuild -version | md5 > tmp/xcode.checksum
       - restore_cache: *restore-detox-framework
-      - restore_cache: *restore-ios-build
       - run:
           name: Brew update
           command: |-
@@ -293,41 +330,23 @@ jobs:
           command: yarn start
           background: true
       - run:
-          name: Build iOS binary
-          command: |-
-            if [ ! -d ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
-              .circleci/ios/prepare.sh
-              yarn build_e2e
-            fi
-      - save_cache: *cache-ios-build
-      - run:
           name: Launch app
           command: |-
             xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
             xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
       - run:
           name: Run tests
+          no_output_timeout: 2m
           command: >-
             yarn e2e
             --artifacts-location tmp/detox/
             --take-screenshots all
-            --loglevel info
-            --debug-synchronization 1000
+            --loglevel verbose
+            --debug-synchronization 500
+            --cleanup
       - store_artifacts:
           path: tmp/detox
           destination: e2e
-
-  build_android:
-    <<: *android
-    steps:
-      - attach_workspace:
-          at: ~/emcasa
-      - restore_cache: *restore-gradle
-      - run: *install-sdkmanager
-      - run:
-          name: Build android binary
-          command: export TERM=xterm && cd android && ./gradlew assembleDebug
-      - save_cache: *cache-gradle
 
   # Staging deploy
   # ~ iOS
@@ -531,16 +550,23 @@ workflows:
   commit:
     jobs:
       - checkout
-      - e2e_ios:
+      # build
+      - build_ios:
           requires:
             - checkout
       - build_android:
           requires:
             - checkout
+      # test
+      - e2e_ios:
+          requires:
+            - build_ios
+      # deploy
       - deploy_staging_binary:
           type: approval
           requires:
             - e2e_ios
+            - build_ios
             - build_android
       - deploy_staging_codepush:
           type: approval
