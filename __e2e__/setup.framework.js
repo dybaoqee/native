@@ -7,11 +7,15 @@ import pkg from '../package.json'
 jest.setTimeout(120000)
 jasmine.getEnv().addReporter(detoxAdapter)
 
-beforeAll(async () => detox.init(pkg.detox))
+beforeAll(async function() {
+  await detox.init(pkg.detox)
+})
 
-beforeEach(async () => detoxAdapter.beforeEach())
+beforeEach(async function() {
+  await detoxAdapter.beforeEach()
+})
 
-afterAll(async () => {
+afterAll(async function() {
   await detoxAdapter.afterAll()
   await detox.cleanup()
 })
