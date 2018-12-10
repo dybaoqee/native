@@ -8625,9 +8625,9 @@ react-native-google-places-autocomplete@^1.3.9:
     prop-types "^15.5.10"
     qs "^5.2.0"
 
-react-native-image-picker@^0.26.10:
-  version "0.26.10"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.10.tgz#0bb9ab928984948c67aee0b9e64216bee007a9fc"
+"react-native-image-picker@https://github.com/Doko-Demo-Doa/react-native-image-picker.git":
+  version "0.27.1"
+  resolved "https://github.com/Doko-Demo-Doa/react-native-image-picker.git#ebcadc3c1305f34e85454fcda86ec55c61d4b07c"
 
 react-native-keyboard-spacer@^0.4.1:
   version "0.4.1"
