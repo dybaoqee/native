@@ -119,7 +119,6 @@ aliases:
     environment:
       BETA_TESTERS: product,dev
       ALPHA_TESTERS: product,dev
-      RELEASE_PROFILE: staging
     command: |-
       echo 'export PATH="$PATH:~/emcasa/node_modules/.bin"' >> $BASH_ENV
       echo "export COMMIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
