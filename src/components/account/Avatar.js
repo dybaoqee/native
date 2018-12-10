@@ -4,7 +4,7 @@ import {View, Text} from '@emcasa/ui-native'
 import styled from 'styled-components/native'
 
 const initials = (name = '') => {
-  const nameParts = name.split(' ')
+  const nameParts = name.trim().split(' ')
   if (nameParts.length === 1) return name.slice(0, 2).toUpperCase()
   else return (first(nameParts)[0] + last(nameParts)[0]).toUpperCase()
 }
