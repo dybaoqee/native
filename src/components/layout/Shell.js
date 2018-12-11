@@ -40,7 +40,6 @@ export default class Shell extends PureComponent {
             <KeyboardAvoidingView
               ref={this.keyboardAvoidingView}
               style={{flex: 1, position: 'relative'}}
-              keyboardVerticalOffset={80}
               behavior={behavior !== 'none' ? behavior : undefined}
               enabled={Platform.OS !== 'android' && behavior !== 'none'}
             >
