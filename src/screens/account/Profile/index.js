@@ -59,10 +59,11 @@ class UserProfileScreen extends PureComponent {
   }
 
   onSignOut = _.once(async () => {
-    const {previousTabIndex, signOut, switchTab, updateStackRoot} = this.props
+    const {previousTabIndex, signOut, updateStackRoot} = this.props
+    setImmediate(() => {
+      updateStackRoot({tabIndex: previousTabIndex, data: {user: {}}})
+    })
     await signOut()
-    updateStackRoot()
-    switchTab(previousTabIndex)
   })
 
   onChangeTab = (tabIndex) => this.setState({tabIndex})

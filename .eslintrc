@@ -53,6 +53,8 @@
     "process": true,
     "__dirname": true,
     "__filename": true,
-    "__DEV__": true
+    "__DEV__": true,
+    "setImmediate": true,
+    "runAfterInteractions": true
   }
 }

@@ -34,7 +34,7 @@ const parseBottomTabs = _.flow(
   }))
 )
 
-function* updateStackRoot({rootId, tabIndex, children}) {
+function* updateStackRoot({rootId, tabIndex, children, data}) {
   const graphql = yield getContext('graphql')
   const {
     data: {userProfile}
@@ -45,7 +45,8 @@ function* updateStackRoot({rootId, tabIndex, children}) {
   })
   const bottomTabs = parseBottomTabs(
     yield select(getBottomTabs, {
-      user: userProfile || {}
+      user: userProfile || {},
+      ...data
     })
   )
   if (children.length) bottomTabs[tabIndex].stack.children.push(...children)
