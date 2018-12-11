@@ -4,13 +4,13 @@ import * as shared from '../shared/selectors'
 export async function navigateToLogin() {
   await waitFor(element(shared.bottomTabs()))
     .toBeVisible()
-    .withTimeout(12000)
+    .withTimeout(3000)
   await element(shared.bottomTabButton('Login')).tap()
-  await waitFor(element(select.loginScreen()))
+  await waitFor(element(select.accountKitScreen()))
     .toBeVisible()
-    .withTimeout(5000)
+    .withTimeout(3000)
 }
 
 export async function login() {
-  await element(select.loginButton()).tap()
+  await element(by.text('Login').withAncestor(select.accountKitScreen())).tap()
 }

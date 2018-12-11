@@ -1,6 +1,6 @@
 import {Mutation} from 'react-apollo'
 
-import {MESSENGER_RECEIVER_ID} from '@/lib/config'
+import {MESSENGER_RECEIVER_ID} from '@/config/const'
 import {GET_CHANNEL_FEED} from '@/graphql/modules/messenger/queries'
 import {MARK_AS_READ} from '@/graphql/modules/messenger/mutations'
 

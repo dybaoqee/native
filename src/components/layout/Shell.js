@@ -1,55 +1,56 @@
 import React, {PureComponent} from 'react'
-import {View, Keyboard, KeyboardAvoidingView, Platform} from 'react-native'
+import {KeyboardAvoidingView, SafeAreaView, Platform} from 'react-native'
+import styled, {ThemeProvider} from 'styled-components/native'
+
+import BottomTabs from './BottomTabs'
+
+const Container = styled.View`
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`
 
 export default class Shell extends PureComponent {
   static defaultProps = {
+    bottomTabs: false,
     behavior: 'padding'
   }
 
   state = {
-    keyboardVisible: false,
-    offset: 63
+    layout: {width: 0, height: 0},
+    bottomTabsVisible: false
   }
 
   keyboardAvoidingView = React.createRef()
 
-  componentDidMount() {
-    this.keyboardListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this.onKeyboardHide
-    )
+  static getDerivedStateFromProps({bottomTabs}) {
+    return {bottomTabsVisible: Boolean(bottomTabs)}
   }
 
-  componentWillUnmount() {
-    this.keyboardListener.remove()
-  }
-
-  onLayout = ({nativeEvent: {layout}}) =>
-    this.setState({layout: {height: layout.height}})
-  // Reset KeyboardAvoidingView padding when keyboard is hidden
-  onKeyboardHide = () => {
-    this.keyboardAvoidingView.current._onKeyboardChange()
-  }
+  onLayout = ({nativeEvent: {layout}}) => this.setState({layout})
 
   render() {
-    const {style, children, testID, behavior} = this.props
-    const {offset, layout, keyboardVisible} = this.state
+    const {zIndex, children, testID, behavior, bottomTabs} = this.props
+    const bottomTabProps = typeof bottomTabs === 'object' ? bottomTabs : {}
     return (
-      <View
-        testID={testID}
-        style={[{flex: 1}, layout]}
-        onLayout={this.onLayout}
-      >
-        <KeyboardAvoidingView
-          ref={this.keyboardAvoidingView}
-          style={[{flex: 1}, style, !keyboardVisible && layout]}
-          keyboardVerticalOffset={offset}
-          behavior={behavior !== 'none' ? behavior : undefined}
-          enabled={Platform.OS !== 'android' && behavior !== 'none'}
-        >
-          <View style={{flex: 1, display: 'flex'}}>{children}</View>
-        </KeyboardAvoidingView>
-      </View>
+      <ThemeProvider theme={{Shell: this.state}}>
+        <SafeAreaView style={{zIndex, flex: 1}} forceInset={{top: 'never'}}>
+          <Container testID={testID} onLayout={this.onLayout}>
+            <KeyboardAvoidingView
+              ref={this.keyboardAvoidingView}
+              style={{flex: 1, position: 'relative'}}
+              behavior={behavior !== 'none' ? behavior : undefined}
+              enabled={Platform.OS !== 'android' && behavior !== 'none'}
+            >
+              <Container>{children}</Container>
+            </KeyboardAvoidingView>
+            {this.state.bottomTabsVisible && (
+              <BottomTabs testID="bottom_tabs" {...bottomTabProps} />
+            )}
+          </Container>
+        </SafeAreaView>
+      </ThemeProvider>
     )
   }
 }

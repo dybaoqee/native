@@ -1,6 +1,6 @@
 import {HttpLink} from 'apollo-link-http'
 
-import {APOLLO_ENGINE_URL} from '@/lib/config'
+import {APOLLO_ENGINE_URL} from '@/config/const'
 
 export default () =>
   new HttpLink({

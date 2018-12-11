@@ -1,54 +1,82 @@
-import {Component} from 'react'
-import {View} from 'react-native'
+import {PureComponent} from 'react'
+import * as Final from 'react-final-form'
+import {View, Col, Input} from '@emcasa/ui-native'
+import composeValidations, * as validations from '@/lib/validations'
 
-import {required} from '@/lib/validations'
-import Form from '@/components/shared/Form/Form'
-import Email from '@/components/shared/Form/Email'
-import Phone from '@/components/shared/Form/Phone'
-import TextInput from '@/components/shared/Form/TextInput'
-import Button from '../FormButton'
-import Section from '../FormSection'
-import styles from './styles'
+function Field({children, ...props}) {
+  return (
+    <Final.Field {...props}>
+      {(field) => <View mb="15px">{children(field)}</View>}
+    </Final.Field>
+  )
+}
 
-export default class ProfileForm extends Component {
-  isInputActive = (key) =>
-    this.props.value[key] !== (this.props.user[key] || '')
+const validatePhone = composeValidations(
+  validations.required('O telefone é obrigatório'),
+  validations.phone()
+)
+const validateName = validations.required('O nome é obrigatório')
+const validateEmail = validations.email()
+
+export default class ProfileForm extends PureComponent {
+  static defaultProps = {
+    fields: {name: true, email: true, phone: true}
+  }
 
   render() {
-    const {onEditPassword, onEditNotifications, ...props} = this.props
+    const {onChange, onSubmit, initialValues, fields, ...props} = this.props
 
     return (
-      <View style={styles.container}>
-        <Form style={styles.form} {...props}>
-          <Section active={this.isInputActive('name')} title="Nome completo">
-            <TextInput
-              style={styles.input}
-              name="name"
-              placeholder="Nome"
-              validations={[required('O nome é obrigatório')]}
+      <Final.Form initialValues={initialValues} onSubmit={onSubmit}>
+        {({form}) => (
+          <Col flex={1} {...props}>
+            {fields.name && (
+              <Field name="name" validate={validateName}>
+                {({input: {onChange, ...input}}) => (
+                  <Input
+                    {...input}
+                    autoCapitalize="words"
+                    placeholder="Nome"
+                    onChangeText={onChange}
+                    onSubmitEditing={() => form.focus('email')}
+                  />
+                )}
+              </Field>
+            )}
+            {fields.email && (
+              <Field name="email" validate={validateEmail}>
+                {({input: {onChange, ...input}}) => (
+                  <Input
+                    {...input}
+                    autoCapitalize="none"
+                    placeholder="Email"
+                    keyboardType="email-address"
+                    onChangeText={onChange}
+                  />
+                )}
+              </Field>
+            )}
+            {fields.phone && (
+              <Field name="phone" validate={validatePhone}>
+                {({input: {onChange, ...input}}) => (
+                  <Input
+                    {...input}
+                    disabled
+                    editable={false}
+                    placeholder="Telefone (obrigatório)"
+                    keyboardType="phone-pad"
+                    onChangeText={onChange}
+                  />
+                )}
+              </Field>
+            )}
+            <Final.FormSpy
+              subscription={{values: true, pristine: true, valid: true}}
+              onChange={(state) => onChange(state)}
             />
-          </Section>
-          <Section
-            active={this.isInputActive('email')}
-            title="Endereço de email"
-          >
-            <Email style={styles.input} name="email" />
-          </Section>
-          <Section active={this.isInputActive('phone')} title="Telefone">
-            <Phone
-              style={styles.input}
-              name="phone"
-              validations={[required(false)]}
-            />
-          </Section>
-        </Form>
-        <Button onPress={onEditNotifications} icon="chevron-right">
-          Notificações
-        </Button>
-        <Button onPress={onEditPassword} icon="chevron-right">
-          Alterar senha
-        </Button>
-      </View>
+          </Col>
+        )}
+      </Final.Form>
     )
   }
 }

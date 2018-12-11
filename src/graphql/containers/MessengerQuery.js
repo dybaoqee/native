@@ -8,7 +8,7 @@ import {withUserProfile} from './CredentialsQuery'
 const MessengerQuery = withUserProfile(function _MessengerQuery({
   children,
   listing,
-  user,
+  user = {},
   ...options
 }) {
   const isThisChannel = (message) =>

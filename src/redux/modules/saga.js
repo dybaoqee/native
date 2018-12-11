@@ -1,35 +1,31 @@
 import {fork, all} from 'redux-saga/effects'
-import {networkEventsListenerSaga} from 'react-native-offline'
 import codePushSaga from 'react-native-code-push-saga'
 import codePush from 'react-native-code-push'
 
+import {CODEPUSH_DEPLOYMENT_KEY, CODEPUSH_ENABLED} from '@/config/const'
+import amplitude from './amplitude/saga'
+import sentry from './sentry/saga'
 import firebase from './firebase/saga'
-import auth from './auth/saga'
-import relatedListings from './relatedListings/saga'
-import gallery from './gallery/saga'
-import interest from './interest/saga'
-import neighborhoods from './neighborhoods/saga'
-import screens from '@/screens/modules/saga'
+import navigation from './navigation/saga'
 
 export default function* root() {
-  yield all([
-    fork(screens),
+  const sagas = [
+    fork(navigation),
     fork(firebase),
-    fork(auth),
-    fork(relatedListings),
-    fork(gallery),
-    fork(interest),
-    fork(neighborhoods),
-    fork(codePushSaga, {
-      syncOnResume: true,
-      delayByInterval: 10 * 60, // 10 minutes
-      syncOptions: {
-        installMode: codePush.InstallMode.ON_NEXT_RESUME
-      }
-    }),
-    fork(networkEventsListenerSaga, {
-      timeout: 2000,
-      checkConnectionInterval: 20000
-    })
-  ])
+    fork(sentry),
+    fork(amplitude)
+  ]
+  if (CODEPUSH_ENABLED) {
+    sagas.push(
+      fork(codePushSaga, {
+        deploymentKey: CODEPUSH_DEPLOYMENT_KEY,
+        syncOnResume: true,
+        delayByInterval: 10 * 60, // 10 minutes
+        syncOptions: {
+          installMode: codePush.InstallMode.ON_NEXT_RESUME
+        }
+      })
+    )
+  }
+  yield all(sagas)
 }

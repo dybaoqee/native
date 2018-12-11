@@ -1,4 +1,4 @@
-configurations:
+environments:
   - &default
     working_directory: ~/emcasa
   - &nodejs
@@ -12,8 +12,45 @@ configurations:
   - &macos
     <<: *default
     macos:
-      xcode: "9.4.1"
+      xcode: "10.1.0"
     shell: /bin/bash --login -eo pipefail
+
+configurations:
+  - &env-staging
+    API_URL: https://em-casa-backend-staging.herokuapp.com
+    APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
+    MESSENGER_RECEIVER_ID: 16
+    NODE_ENV: production
+    RELEASE_PROFILE: staging
+    CODESIGN_PROFILE: ad-hoc
+    BUILD_CONFIGURATION: Beta
+    CODEPUSH_DEPLOYMENT_TARGET: Staging
+  - &env-production
+    API_URL: https://em-casa-backend.herokuapp.com
+    APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
+    FRONTEND_URL: https://www.emcasa.com
+    MESSENGER_RECEIVER_ID: 212
+    NODE_ENV: production
+    RELEASE_PROFILE: production
+    CODESIGN_PROFILE: app-store
+    BUILD_CONFIGURATION: Release
+    CODEPUSH_DEPLOYMENT_TARGET: Production
+  - &env-ios
+    PLATFORM: ios
+    BUNDLE_IDENTIFIER: com.EmCasa.native
+    CODEPUSH_APP_NAME: EmCasa/EmCasa-ios
+    SENTRY_PROPERTIES: ios/sentry.properties
+    SENTRY_PROJECT: native-ios
+    SENTRY_ORG: emcasa
+    SENTRY_DNS: https://480e9c9a4c9147108f8cca3c6d3455c7:cd7e119ef54d4abf83c266f494c267a4@sentry.io/1338163
+  - &env-android
+    PLATFORM: android
+    BUNDLE_IDENTIFIER: com.emcasa
+    CODEPUSH_APP_NAME: EmCasa/EmCasa-android
+    SENTRY_PROPERTIES: android/sentry.properties
+    SENTRY_PROJECT: native-android
+    SENTRY_ORG: emcasa
+    SENTRY_DNS: https://87cccabbc2bf4157ad64d1fd5430ac1f:0705d7e93f3c4025bb5b21befada2173@sentry.io/1338162
 
 aliases:
   # restore caches
@@ -26,17 +63,18 @@ aliases:
   - &restore-gradle
     keys:
       - v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &restore-cocoapods
+  - &restore-detox-framework
     keys:
-      - v1-cocoapods-{{ checksum "ios/Podfile" }}
-  - &restore-homebrew
+      - v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
+  - &restore-ios-build
     keys:
-      - v1-brew-{{ arch }}-{{ checksum "/usr/local/Homebrew/.git/refs/heads/master" }}
+      - v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
   # save caches
   - &cache-node-modules
     paths:
       - node_modules
+      - ~/.npmrc
     key: v3-node-modules-{{ checksum "package.json" }}
   - &cache-gems
     paths:
@@ -46,14 +84,14 @@ aliases:
     paths:
       - ~/.gradle
     key: v1-gradle-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
-  - &cache-cocoapods
+  - &cache-detox-framework
     paths:
-      - ~/.cocoapods
-    key: v1-cocoapods-{{ checksum "ios/Podfile" }}
-  - &cache-homebrew
+      - ~/Library/Detox
+    key: v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
+  - &cache-ios-build
     paths:
-      - /usr/local/Homebrew
-    key: v1-brew-{{ arch }}-{{ .Branch }}
+      - ios/build/Build
+    key: v2-ios-build-{{ checksum "tmp/ios.checksum" }}-{{ checksum "yarn.lock" }}
 
     # install dependencies
   - &install-sdkmanager
@@ -64,15 +102,12 @@ aliases:
     command: yarn install
   - &install-gems
     command: bundle check || bundle install --path vendor/bundle
-  - &install-cocoapods
-    command: cd ios && pod install
   - &install-detox-osx
     command: |-
       brew tap wix/brew
       brew install --HEAD applesimutils
       brew install watchman
       npm install --global detox-cli
-      detox clean-framework-cache
       detox build-framework-cache
 
   # build configurations
@@ -83,8 +118,10 @@ aliases:
     environment:
       BETA_TESTERS: product,dev
       ALPHA_TESTERS: product,dev
-      RELEASE_PROFILE: staging
     command: |-
+      echo 'export PATH="$PATH:~/emcasa/node_modules/.bin"' >> $BASH_ENV
+      echo "export COMMIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
+      echo "export RELEASE_PROFILE=$RELEASE_PROFILE" >> $BASH_ENV
       echo "export BUILD_NUMBER=$((CIRCLE_BUILD_NUM+100))" >> $BASH_ENV
       echo "export VERSION_NAME=$(.circleci/version.sh ${VERSION_TAG:-})" >> $BASH_ENV
       echo "export TESTER_GROUPS=$([ $CIRCLE_BRANCH != \"master\" ] && echo $ALPHA_TESTERS || echo $BETA_TESTERS)" >> $BASH_ENV
@@ -93,8 +130,17 @@ aliases:
       echo "export IOS_XCCONFIG_FILE=$PWD/tmp/.secrets/ios/${RELEASE_PROFILE}.xcconfig" >> $BASH_ENV
       echo "export IOS_CERTIFICATE_FILE=$PWD/tmp/.secrets/ios/app.p12" >> $BASH_ENV
       echo "export IOS_PROVISIONING_FILE=$PWD/tmp/.secrets/ios/${CODESIGN_PROFILE:-ad-hoc}.mobileprovision" >> $BASH_ENV
+      if [ $RELEASE_PROFILE == "production" ];
+      then echo "export AMPLITUDE_API_KEY=$AMPLITUDE_API_KEY_PRODUCTION" >> $BASH_ENV;
+      else echo "export AMPLITUDE_API_KEY=$AMPLITUDE_API_KEY_STATING" >> $BASH_ENV; fi
       cp ~/emcasa/tmp/.secrets/ios/GoogleService-Info.${RELEASE_PROFILE}.plist ~/emcasa/ios/EmCasa/GoogleService-Info.plist
       cp ~/emcasa/tmp/.secrets/android/google-services.${RELEASE_PROFILE}.json ~/emcasa/android/app/google-services.json
+      cp ~/emcasa/tmp/.secrets/$PLATFORM/sentry.properties $SENTRY_PROPERTIES
+  - &configure-codepush
+    name: Configure CodePush
+    command: |-
+      node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
+      echo "export CODEPUSH_DEPLOYNENT_KEY=$(.circleci/codepush_deployment_key.sh)" >> $BASH_ENV
   - &configure-keychain
     name: Setup build keychain
     command: |-
@@ -116,15 +162,18 @@ aliases:
       security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD $KEYCHAIN_NAME
 
   # build scripts
-  - &bundle-android
+  - &bundle-js
+    name: Build JS bundle
     command: >-
       node_modules/.bin/react-native bundle
       --dev false
-      --platform android
+      --platform $PLATFORM
       --entry-file index.js
-      --assets-dest android/app/src/main/res/
-      --bundle-output android/app/src/main/assets/index.android.bundle
+      --assets-dest $BUNDLE_ASSETS_PATH
+      --bundle-output $JS_BUNDLE_PATH
+      --sourcemap-output $SOURCE_MAPS_PATH
   - &bump-ios
+    name: Bump version (iOS)
     command: |-
       cd ios
       agvtool new-marketing-version $VERSION_NAME
@@ -133,26 +182,43 @@ aliases:
     command: |-
       sed -i'' -re "s/(versionCode) ([[:digit:]]*)/\1 $BUILD_NUMBER/" android/app/build.gradle
       sed -i'' -re "s/(versionName) \"(.*)\"/\1 \"$VERSION_NAME\"/" android/app/build.gradle
+  - &generate-assets-ios
+    name: Generate app icons (iOS)
+    command: |-
+      node_modules/.bin/app-icon generate -i src/assets/app_icons/$RELEASE_PROFILE/ios.png --platforms ios
+      cp src/assets/app_icons/ios-marketing.png ios/EmCasa/Images.xcassets/AppIcon.appiconset/ios-marketing-1024x1024-1x.png
+  - &generate-assets-android
+    name: Generate app icons (Android)
+    command: |-
+      cp src/assets/app_icons/$RELEASE_PROFILE/ic_launcher_background.xml android/app/src/main/res/drawable/ic_launcher_background.xml
+  - &build-ios
+    name: Build app
+    command: |-
+      .circleci/ios/build.sh
+      tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
+  - &sign-ios
+    name: Code sign app
+    command: .circleci/ios/sign.sh
   # deploy scripts
-  - &codepush-login
-    name: Login to CodePush
-    command: node_modules/.bin/code-push login --accessKey $CODEPUSH_ACCESS_KEY
-  - &codepush-deploy-android
-    name: Deploy to CodePush (Android)
-    command: >-
-      node_modules/.bin/code-push release-react
-      EmCasa/EmCasa-android android
-      --deploymentName ${DEPLOYMENT_TARGET:-Staging}
-      --targetBinaryVersion $VERSION_NAME
-      $CODEPUSH_FLAGS
-  - &codepush-deploy-ios
-    name: Deploy to CodePush (iOS)
-    command: >-
-      node_modules/.bin/code-push release-react
-      EmCasa/EmCasa-ios ios
-      --deploymentName ${DEPLOYMENT_TARGET:-Staging}
-      --targetBinaryVersion $VERSION_NAME
-      $CODEPUSH_FLAGS
+  - &codepush-deploy
+    name: Deploy to CodePush
+    command: |-
+      node_modules/.bin/code-push release-react \
+        $CODEPUSH_APP_NAME $PLATFORM \
+        --deploymentName $CODEPUSH_DEPLOYMENT_TARGET \
+        --targetBinaryVersion $VERSION_NAME \
+        --outputDir build/ \
+        $CODEPUSH_FLAGS
+  - &sentry-deploy
+    name: Deploy to Setry
+    command: |-
+      RELEASE_NAME="$BUNDLE_IDENTIFIER$BUNDLE_IDENTIFIER_SUFFIX-$VERSION_NAME+$BUILD_NUMBER"
+      sentry-cli releases new $RELEASE_NAME
+      sentry-cli releases set-commits $RELEASE_NAME --auto
+      sentry-cli releases files $RELEASE_NAME upload-sourcemaps \
+        --validate --rewrite \
+        $(dirname $SOURCE_MAPS_PATH)
+      sentry-cli releases finalize $RELEASE_NAME
 
 version: 2
 jobs:
@@ -162,18 +228,68 @@ jobs:
     <<: *nodejs
     steps:
       - checkout
-      - run: sudo apt-get -y -qq install awscli
+      - run: sudo apt-get -y -qq install awscli md5deep
       - restore_cache: *restore-node-modules
       - restore_cache: *restore-gems
+      - run:
+          name: Configure npmrc
+          command: |-
+            touch ~/.npmrc
+            echo "@fortawesome:registry=https://npm.fontawesome.com/$FONTAWESOME_TOKEN" > ~/.npmrc
       - run: *install-node-modules
       - run: *install-gems
-      - run: mkdir -p tmp/logs tmp/detox tmp/.secrets
-      - run: aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets
+      - run:
+          name: Generate temp files
+          command: |-
+            mkdir -p tmp/logs tmp/detox tmp/.secrets
+            md5deep -r ios/ | sort -k2 > tmp/ios.checksum
+            aws s3 sync $AWS_SECRETS_BUCKET ~/emcasa/tmp/.secrets --quiet
       - save_cache: *cache-node-modules
       - save_cache: *cache-gems
       - persist_to_workspace:
           root: .
           paths: .
+
+  build_ios:
+    <<: *macos
+    environment:
+      API_URL: http://localhost:4000
+      NODE_ENV: e2e
+    steps:
+      - attach_workspace:
+          at: ~/emcasa
+      - run:
+          name: Generate cache checksum
+          command: xcodebuild -version | md5 > tmp/xcode.checksum
+      - restore_cache: *restore-ios-build
+      - run:
+          name: Build iOS binary
+          command: |-
+            if [ ! -d ~/emcasa/ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app ]; then
+              .circleci/ios/prepare.sh
+              yarn build_e2e
+            fi
+      - save_cache: *cache-ios-build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./ios/build/Build/Products/
+            - ./tmp/xcode.checksum
+
+  build_android:
+    <<: *android
+    steps:
+      - attach_workspace:
+          at: ~/emcasa
+      - restore_cache: *restore-gradle
+      - run: *install-sdkmanager
+      - run:
+          name: Build android binary
+          command: export TERM=xterm && cd android && ./gradlew assembleDebug
+      - save_cache: *cache-gradle
+      - persist_to_workspace:
+          root: .
+          paths: ./android/app/build/outputs/apk/
 
   # ~ unit tests
   test:
@@ -189,23 +305,24 @@ jobs:
     environment:
       API_URL: http://localhost:4000
       NODE_ENV: e2e
+      DEVICE_NAME: iPhone 6
+      IOS_VERSION: "12.1"
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
-      - restore_cache: *restore-homebrew
+      - restore_cache: *restore-detox-framework
       - run:
           name: Brew update
           command: |-
             brew update
             brew upgrade python
       - run: *install-detox-osx
-      - run: *install-cocoapods
-      - save_cache: *cache-cocoapods
-      - save_cache: *cache-homebrew
-      - run: |-
-          instruments -s devices
-          xcrun instruments -w "iPhone 6 (11.4) [" || true
+      - save_cache: *cache-detox-framework
+      - run:
+          name: Boot iPhone simulator
+          command: |-
+            instruments -s devices
+            xcrun instruments -w "$DEVICE_NAME ($IOS_VERSION) [" || true
       - run:
           name: Start test server
           command: yarn test_server
@@ -214,74 +331,74 @@ jobs:
           name: Start bundler
           command: yarn start
           background: true
-      - run: yarn build_e2e
-      - run: |-
-          xcrun simctl install "iPhone 6" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
-          xcrun simctl launch "iPhone 6" com.EmCasa.native-debug && sleep 5
-      - run: yarn e2e --artifacts-location tmp/detox/ --take-screenshots all --debug-synchronization 10000
+      - run:
+          name: Launch app
+          command: |-
+            xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
+            xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
+      - run:
+          name: Run tests
+          no_output_timeout: 2m
+          command: >-
+            yarn e2e
+            --artifacts-location tmp/detox/
+            --take-screenshots all
+            --loglevel verbose
+            --debug-synchronization 500
+            --cleanup
       - store_artifacts:
           path: tmp/detox
           destination: e2e
-
-  build_android:
-    <<: *android
-    steps:
-      - attach_workspace:
-          at: ~/emcasa
-      - restore_cache: *restore-gradle
-      - run: *install-sdkmanager
-      - run: export TERM=xterm && cd android && ./gradlew assembleDebug
-      - save_cache: *cache-gradle
 
   # Staging deploy
   # ~ iOS
   deploy_staging_codepush_ios:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Staging
+      <<: *env-ios
+      <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: -beta
+      SOURCE_MAPS_PATH: build/CodePush/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-version-staging
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-ios
+      - run: *configure-codepush
+      - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_staging_binary_ios:
     <<: *macos
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      RELEASE_PROFILE: staging
-      CODESIGN_PROFILE: ad-hoc
+      <<: *env-ios
+      <<: *env-staging
       BUNDLE_IDENTIFIER_SUFFIX: -beta
+      BUNDLE_ASSETS_PATH: ios/
+      JS_BUNDLE_PATH: ios/main.jsbundle
+      SOURCE_MAPS_PATH: ios/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
-      - run: *install-cocoapods
-      - run: brew install pcre imagemagick
+      - run: .circleci/ios/prepare.sh
+      - run: brew install pcre imagemagick watchman getsentry/tools/sentry-cli
       - run: *configure-version-staging
       - run: *configure-release
+      - run: *configure-codepush
       - run: *configure-keychain
+      - run: *generate-assets-ios
+      - run: *bundle-js
       - run: *bump-ios
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-ios-staging.png --platforms ios
-      - run: BUILD_CONFIGURATION=Beta .circleci/ios/build.sh
-      - run: tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
-      - run: .circleci/ios/sign.sh
+      - run: *build-ios
+      - run: *sign-ios
       - run: >-
           bundle exec fastlane run crashlytics
           ipa_path:"$PWD/ios/build/EmCasa-Beta.ipa"
           api_token:"$FABRIC_API_KEY"
           build_secret:"$FABRIC_BUILD_SECRET"
           groups:"$TESTER_GROUPS"
+      - run: *sentry-deploy
       - store_artifacts:
           path: ios/build/EmCasa.xcarchive.tar.gz
           destination: build/EmCasa.xcarchive.tar.gz
@@ -290,39 +407,41 @@ jobs:
   deploy_staging_codepush_android:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Staging
+      <<: *env-android
+      <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: .beta
+      SOURCE_MAPS_PATH: build/CodePush/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-version-staging
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-android
+      - run: *configure-codepush
+      - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_staging_binary_android:
     <<: *android
     environment:
-      API_URL: https://em-casa-backend-staging.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
-      MESSENGER_RECEIVER_ID: 16
-      NODE_ENV: production
-      RELEASE_PROFILE: staging
+      <<: *env-android
+      <<: *env-staging
+      BUNDLE_IDENTIFIER_SUFFIX: .beta
+      BUNDLE_ASSETS_PATH: android/app/src/main/res/
+      JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
+      SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - restore_cache: *restore-gradle
       - run: *install-gems
       - run: *install-sdkmanager
-      - run: sudo apt-get install -y -qq imagemagick
+      - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-version-staging
       - run: *configure-release
+      - run: *configure-codepush
+      - run: *generate-assets-android
       - run: *bump-android
-      - run: *bundle-android
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-android-staging.png --platforms android
+      - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleStaging
       - run: >-
           bundle exec fastlane run crashlytics
@@ -330,6 +449,7 @@ jobs:
           api_token:"$FABRIC_API_KEY"
           build_secret:"$FABRIC_BUILD_SECRET"
           groups:"$TESTER_GROUPS"
+      - run: *sentry-deploy
       - store_artifacts:
           path: android/app/build/outputs/apk/staging
           destination: build
@@ -339,44 +459,39 @@ jobs:
   deploy_production_codepush_ios:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Production
-      CODEPUSH_FLAGS: -x
+      <<: *env-ios
+      <<: *env-production
+      SOURCE_MAPS_PATH: build/CodePush/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-ios
+      - run: *configure-codepush
+      - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_production_binary_ios:
     <<: *macos
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      RELEASE_PROFILE: production
-      CODESIGN_PROFILE: app-store
+      <<: *env-ios
+      <<: *env-production
+      BUNDLE_ASSETS_PATH: ios/
+      JS_BUNDLE_PATH: ios/main.jsbundle
+      SOURCE_MAPS_PATH: ios/main.jsbundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
-      - restore_cache: *restore-cocoapods
       - run: *install-gems
-      - run: *install-cocoapods
-      - run: brew install pcre imagemagick
+      - run: .circleci/ios/prepare.sh
+      - run: brew install pcre imagemagick watchman getsentry/tools/sentry-cli
       - run: *configure-release
+      - run: *configure-codepush
       - run: *configure-keychain
+      - run: *generate-assets-ios
+      - run: *bundle-js
       - run: *bump-ios
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-ios.png --platforms ios
-      - run: BUILD_CONFIGURATION=Release .circleci/ios/build.sh
-      - run: tar -zcvf ios/build/EmCasa.xcarchive.tar.gz ios/build/EmCasa.xcarchive
-      - run: .circleci/ios/sign.sh
+      - run: *build-ios
+      - run: *sign-ios
       - run: >-
           bundle exec fastlane deliver
           --skip_metadata --skip_screenshots
@@ -385,6 +500,7 @@ jobs:
           --username $APPLE_ID
           --app_version $VERSION_NAME
           --app_identifier com.EmCasa.native
+      - run: *sentry-deploy
       - store_artifacts:
           path: ios/build/EmCasa.xcarchive.tar.gz
           destination: build/EmCasa.xcarchive.tar.gz
@@ -393,42 +509,40 @@ jobs:
   deploy_production_codepush_android:
     <<: *nodejs
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      DEPLOYMENT_TARGET: Production
-      CODEPUSH_FLAGS: -x
+      <<: *env-android
+      <<: *env-production
+      SOURCE_MAPS_PATH: build/CodePush/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - run: *configure-release
-      - run: *codepush-login
-      - run: *codepush-deploy-android
+      - run: *configure-codepush
+      - run: *codepush-deploy
+      - run: *sentry-deploy
 
   deploy_production_binary_android:
     <<: *android
     environment:
-      API_URL: https://em-casa-backend.herokuapp.com
-      APOLLO_ENGINE_URL: https://em-casa-apollo-engine.herokuapp.com/graphql_api
-      FRONTEND_URL: https://www.emcasa.com
-      MESSENGER_RECEIVER_ID: 212
-      NODE_ENV: production
-      RELEASE_PROFILE: production
+      <<: *env-android
+      <<: *env-production
+      BUNDLE_ASSETS_PATH: tmp/
+      JS_BUNDLE_PATH: android/app/src/main/assets/index.android.bundle
+      SOURCE_MAPS_PATH: android/app/src/main/assets/index.android.bundle.map
     steps:
       - attach_workspace:
           at: ~/emcasa
       - restore_cache: *restore-gradle
       - run: *install-gems
       - run: *install-sdkmanager
-      - run: sudo apt-get install -y -qq imagemagick
+      - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-release
+      - run: *configure-codepush
+      - run: *generate-assets-android
       - run: *bump-android
-      - run: *bundle-android
-      - run: node_modules/.bin/app-icon generate -i ~/emcasa/src/assets/img/icon-android.png --platforms android
+      - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleRelease
       - run: export TERM=xterm && cd android && ./gradlew publishApkRelease -x bundleReleaseJsAndAssets
+      - run: *sentry-deploy
       - store_artifacts:
           path: android/app/build/outputs/apk/release
           destination: build
@@ -438,19 +552,23 @@ workflows:
   commit:
     jobs:
       - checkout
-      - test:
-          requires:
-            - checkout
-      - e2e_ios:
+      # build
+      - build_ios:
           requires:
             - checkout
       - build_android:
           requires:
             - checkout
+      # test
+      - e2e_ios:
+          requires:
+            - build_ios
+      # deploy
       - deploy_staging_binary:
           type: approval
           requires:
             - e2e_ios
+            - build_ios
             - build_android
       - deploy_staging_codepush:
           type: approval

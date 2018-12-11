@@ -1,14 +1,9 @@
-import {View, StyleSheet} from 'react-native'
+import styled from 'styled-components'
+import {themeGet} from 'styled-system'
+import {Col} from '@emcasa/ui-native'
 
-import * as colors from '@/assets/colors'
-
-const styles = StyleSheet.create({
-  container: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.gray.light
-  }
-})
-
-export default function Footer({style, children}) {
-  return <View style={[styles.container, style]}>{children}</View>
-}
+export default styled(Col).attrs({elevation: 4})`
+  border-top-color: ${themeGet('colors.lightGrey')};
+  border-top-width: 1px;
+  background-color: white;
+`

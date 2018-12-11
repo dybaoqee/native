@@ -1,4 +1,6 @@
 import _ from 'lodash/fp'
+import {isEqual} from 'lodash'
+import {PureComponent} from 'react'
 import update from 'immutability-helper'
 import {Query} from 'react-apollo'
 
@@ -6,6 +8,18 @@ import {GET_LISTINGS_FEED} from '@/graphql/modules/listings/queries'
 import {withBlacklistedListingIDs} from './BlacklistQuery'
 
 const getIDs = _.map(_.get('id'))
+
+class ListingsFilterWatcher extends PureComponent {
+  componentDidUpdate(prev) {
+    if (!isEqual(prev.response.variables, this.props.response.variables)) {
+      this.props.response.refetch()
+    }
+  }
+
+  render() {
+    return this.props.children
+  }
+}
 
 const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
   blacklist,
@@ -16,13 +30,12 @@ const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
 }) {
   return (
     <Query
-      key={JSON.stringify(filters)}
       query={GET_LISTINGS_FEED}
       fetchPolicy={fetchPolicy}
       variables={{filters, pageSize}}
     >
-      {({fetchMore, updateQuery, data = {}, ...response}) =>
-        children({
+      {({fetchMore, updateQuery, data = {}, ...response}) => {
+        const nextResponse = {
           ...response,
           data,
           fetchMore: _.once(() =>
@@ -36,8 +49,13 @@ const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
             })
           ),
           updateBlacklists: () => updateQuery(updateBlacklists({blacklist}))
-        })
-      }
+        }
+        return (
+          <ListingsFilterWatcher response={nextResponse}>
+            {children(nextResponse)}
+          </ListingsFilterWatcher>
+        )
+      }}
     </Query>
   )
 })
@@ -67,8 +85,10 @@ ListingsFeedQuery.defaultProps = {
   filters: {}
 }
 
-export const withListingsFeed = (options = {}) => (Target) => (props) => (
-  <ListingsFeedQuery {...props} {...options}>
+export const withListingsFeed = (getOptions = {}) => (Target) => (props) => (
+  <ListingsFeedQuery
+    {...(typeof getOptions === 'function' ? getOptions(props) : getOptions)}
+  >
     {({data: {listings}, ...response}) => (
       <Target
         {...props}

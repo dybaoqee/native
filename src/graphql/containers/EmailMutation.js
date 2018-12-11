@@ -6,7 +6,7 @@ import {withUserProfile} from './CredentialsQuery'
 
 const EmailMutation = withUserProfile(function _EmailMutation({
   children,
-  user
+  user = {}
 }) {
   return (
     <Mutation mutation={EDIT_EMAIL}>

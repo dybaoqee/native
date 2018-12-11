@@ -6,7 +6,6 @@ import {
   GET_BLACKLISTED_LISTINGS_IDS,
   GET_BLACKLISTED_LISTINGS
 } from '@/graphql/modules/user/queries'
-import {withJwt} from './CredentialsQuery'
 
 const createBlacklistContainer = (query, getProps) => (Target) => (props) => (
   <Query fetchPolicy="cache-and-network" query={query}>

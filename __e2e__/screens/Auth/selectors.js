@@ -1,3 +1,3 @@
 export const loginScreen = () => by.id('@auth.Login')
 
-export const loginButton = () => by.id('login_button')
+export const accountKitScreen = () => by.id('@mock.AccountKit')

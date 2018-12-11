@@ -1,6 +1,6 @@
 import {Mutation} from 'react-apollo'
 
-import {MESSENGER_RECEIVER_ID} from '@/lib/config'
+import {MESSENGER_RECEIVER_ID} from '@/config/const'
 import {
   GET_MESSAGES,
   GET_CHANNEL_FEED
@@ -12,7 +12,7 @@ const SendMessageMutation = withUserProfile(function _SendMessageMutation({
   children,
   listing,
   receiver,
-  user,
+  user = {},
   ...options
 }) {
   return (

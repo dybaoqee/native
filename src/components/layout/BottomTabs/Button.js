@@ -1,26 +1,36 @@
-import {TouchableOpacity} from 'react-native'
+import styled from 'styled-components/native'
+import LinearGradient from 'react-native-linear-gradient'
+import {Icon} from '@emcasa/ui-native'
 
-import Icon from '@/components/shared/Icon'
-import Text from '@/components/shared/Text'
-import styles, {iconColor} from './styles'
+import {touchable} from '@/components/shared/Touchable'
 
-export default function NavButton({children, icon, active, ...props}) {
+const SIZE = 60
+
+const ButtonIcon = styled(Icon)`
+  transform: rotate(45deg);
+`
+
+const Button = styled(function Button({icon, type, active, ...props}) {
+  let colors = ['#FB0090', '#F50057']
+  if (active) colors[1] = colors[0]
   return (
-    <TouchableOpacity
-      accessible
-      accessibilityLabel={children}
-      style={styles.buttonContainer}
-      {...props}
-    >
-      <Icon
+    <LinearGradient colors={colors} {...props}>
+      <ButtonIcon
         name={icon}
-        color={iconColor[active ? 'active' : 'default']}
-        size={17}
-        style={styles.icon}
+        type={type}
+        color="white"
+        stroke="white"
+        strokeWidth={10}
       />
-      <Text style={[styles.buttonText, active && styles.buttonTextActive]}>
-        {children}
-      </Text>
-    </TouchableOpacity>
+    </LinearGradient>
   )
-}
+})`
+  justify-content: center;
+  align-items: center;
+  width: ${SIZE};
+  height: ${SIZE};
+  border-radius: 20;
+  transform: rotate(-45deg);
+`
+
+export default touchable(Button)

@@ -1,15 +1,9 @@
 import 'moment/locale/pt-br'
 import moment from 'moment'
 import {YellowBox} from 'react-native'
-import AccountKit from 'react-native-facebook-account-kit'
 
-import initNavigation from '@/screens'
-
-AccountKit.configure({
-  responseType: 'token',
-  // defaultCountry: 'BR',
-  receiveSMS: true
-})
+import {registerScreens} from '@/screens'
+import configureAccountKit from '@/config/accountKit'
 
 // Temporary fix for
 // https://github.com/facebook/react-native/issues/17504
@@ -20,7 +14,6 @@ YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
   'Remote debugger'
 ])
-
 moment.locale('pt-br')
-
-initNavigation()
+configureAccountKit()
+registerScreens()

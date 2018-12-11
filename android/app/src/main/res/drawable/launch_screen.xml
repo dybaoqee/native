@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <color android:color="@color/pink"/>
+  </item>
+  <item>
+    <bitmap android:gravity="fill_horizontal|fill_vertical" android:tileMode="disabled" android:src="@mipmap/launch_screen"/>
+  </item>
+  <item>
+    <bitmap android:gravity="center" android:tileMode="disabled" android:src="@mipmap/logo_white"/>
+  </item>
+</layer-list>

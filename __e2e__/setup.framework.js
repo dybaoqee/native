@@ -4,13 +4,18 @@ import detoxAdapter from 'detox/runners/jest/adapter'
 
 import pkg from '../package.json'
 
-jest.setTimeout(180000)
+jest.setTimeout(120000)
 jasmine.getEnv().addReporter(detoxAdapter)
 
-beforeAll(() => detox.init(pkg.detox))
+beforeAll(async function() {
+  await detox.init(pkg.detox)
+})
 
-beforeEach(() => detoxAdapter.beforeEach())
+beforeEach(async function() {
+  await detoxAdapter.beforeEach()
+})
 
-afterAll(() => detoxAdapter.afterAll())
-
-afterAll(() => detox.cleanup())
+afterAll(async function() {
+  await detoxAdapter.afterAll()
+  await detox.cleanup()
+})

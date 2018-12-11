@@ -15,7 +15,7 @@
 #import "ReactNativeNavigation.h"
 #import "RNFirebaseMessaging.h"
 #import "RNFirebaseNotifications.h"
-
+#import <React/RNSentry.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -53,6 +53,8 @@
   [FIRApp configure];
 
   [RNFirebaseNotifications configure];
+
+  [RNSentry installWithRootView:rootView];
 
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];

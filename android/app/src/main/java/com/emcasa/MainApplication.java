@@ -7,6 +7,10 @@ import android.support.multidex.MultiDex;
 import android.content.Context;
 
 import com.facebook.react.ReactApplication;
+import com.sudoplz.reactnativeamplitudeanalytics.RNAmplitudeSDKPackage;
+import io.sentry.RNSentryPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.microsoft.codepush.react.CodePush;
 import io.underscope.react.fbak.RNAccountKitPackage;
 import com.rpt.reactnativecheckpackageinstallation.CheckPackageInstallationPackage;
@@ -29,8 +33,8 @@ import io.fabric.sdk.android.Fabric;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
-import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -69,6 +73,10 @@ public class MainApplication extends NavigationApplication implements ShareAppli
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+      new RNAmplitudeSDKPackage(MainApplication.this),
+      new RNSentryPackage(),
+      new RNSpinkitPackage(),
+      new LinearGradientPackage(),
       new CodePush(
         getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey),
         getApplicationContext(),
@@ -77,10 +85,10 @@ public class MainApplication extends NavigationApplication implements ShareAppli
       new CheckPackageInstallationPackage(),
       new FBSDKPackage(mCallbackManager),
       new RNFirebasePackage(),
-      new RNFirebaseAnalyticsPackage(),
+      new RNFirebaseRemoteConfigPackage(),
       new RNFirebaseMessagingPackage(),
-      new RNFirebaseCrashlyticsPackage(),
       new RNFirebaseNotificationsPackage(),
+      new RNFirebaseAnalyticsPackage(),
       new RNSharePackage(),
       new ImagePickerPackage(),
       new SvgPackage(),

@@ -1,76 +1,91 @@
-import {View, TouchableOpacity, StyleSheet, Platform} from 'react-native'
+import styled from 'styled-components/native'
+import {themeGet, bgColor, opacity} from 'styled-system'
+import {View, Row, Col, Text} from '@emcasa/ui-native'
 
-import * as colors from '@/assets/colors'
-import Text from '@/components/shared/Text'
-import Icon from '@/components/shared/Icon'
+import IconButton from '@/components/shared/IconButton'
 import Shell from './Shell'
 
-export default function Modal({style, ...props}) {
+const Background = styled.View`
+  z-index: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  left: 0;
+  ${bgColor};
+  ${opacity};
+`
+
+const Modal = styled(function Modal({children, bg, opacity, ...props}) {
   return (
-    <Shell
-      style={[{marginTop: Platform.OS === 'ios' ? 20 : 0}].concat(style)}
-      {...props}
-    />
-  )
-}
-
-const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  headerAbsolute: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    zIndex: 1
-  },
-  button: {
-    flex: 0
-  },
-  title: {
-    flex: 1
-  },
-  titleText: {
-    textAlign: 'center',
-    marginRight: 20,
-    fontSize: 18,
-    color: colors.gray.dark
-  }
-})
-
-Modal.Header = ({style, children, inline, iconColor, onDismiss}) => (
-  <View style={[styles.header, !inline && styles.headerAbsolute, style]}>
-    <View style={styles.button}>
-      {onDismiss && (
-        <TouchableOpacity
-          testID="close_modal_button"
-          onPress={onDismiss}
-          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-        >
-          <Icon
-            name="times"
-            size={24}
-            strokeWidth={20}
-            stroke={iconColor}
-            color={iconColor}
-          />
-        </TouchableOpacity>
+    <View flex={1}>
+      <Shell zIndex={1} {...props}>
+        {children}
+      </Shell>
+      {Boolean(bg && bg !== 'transparent') && (
+        <Background bg={bg} opacity={opacity} />
       )}
     </View>
-    {children && (
-      <View style={styles.title}>
-        <Text style={styles.titleText}>{children}</Text>
-      </View>
-    )}
-  </View>
-)
+  )
+})`
+  margin-top: ${themeGet('size.statusBar', 0)};
+`
 
-Modal.Header.displayName = 'Modal.Header'
+Modal.defaultProps = {
+  bg: 'white'
+}
+
+export default Modal
+
+Modal.Header = styled(function ModalHeader({
+  children,
+  color,
+  onDismiss,
+  fontSize,
+  fontWeight,
+  textAlign,
+  ...props
+}) {
+  return (
+    <Row {...props}>
+      <Col flex={1}>
+        {children && (
+          <Text color={color} {...{fontSize, fontWeight, textAlign}}>
+            {children}
+          </Text>
+        )}
+      </Col>
+      <Col>
+        {onDismiss && (
+          <IconButton
+            testID="close_modal_button"
+            name="times"
+            type="light"
+            size={24}
+            color={color}
+            onPress={onDismiss}
+            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+          />
+        )}
+      </Col>
+    </Row>
+  )
+})`
+  justify-content: center;
+  padding-horizontal: 10px;
+  padding-vertical: 5px;
+  ${({translucent}) =>
+    translucent && {
+      position: 'absolute',
+      top: 0,
+      left: 0
+    }};
+`
 
 Modal.Header.defaultProps = {
-  iconColor: colors.gray.dark
+  zIndex: 1,
+  fontSize: 'large',
+  color: 'dark'
 }

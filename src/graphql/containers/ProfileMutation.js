@@ -5,7 +5,7 @@ import {withUserProfile} from './CredentialsQuery'
 
 const ProfileMutation = withUserProfile(function _ProfileMutation({
   children,
-  user
+  user = {}
 }) {
   return (
     <Mutation mutation={EDIT_PROFILE} variables={{id: user.id}}>

@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* EmCasaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EmCasaTests.m */; };
-		011B0FBB61A747FF8C96BF81 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -22,7 +21,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		1D75D8D310528D5E42DA2B15 /* Pods_EmCasaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42227073AA224B0DAA8A1A43 /* Pods_EmCasaTests.framework */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -35,21 +33,28 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* EmCasaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* EmCasaTests.m */; };
-		3EEAAC4E956E475C99F6FF0C /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */; };
+		452218CF4A4D2E77E3E1E83C /* libPods-EmCasa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AEB52E48A8F27926034CE4D1 /* libPods-EmCasa.a */; };
 		53FA17B8F54C4A6B907D089C /* libRNPhotoView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0325E4F318A6456E85013DC4 /* libRNPhotoView.a */; };
-		5CFBFF8ECB7F46339FD1EE04 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */; };
 		771841EFF177410ABD7A8777 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AF0EE749DB426EB358DFCF /* libRNFirebase.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		941FF34BBE1746F7A69E35B1 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E54AFC74544FE99AC265E5 /* libRCTFBSDK.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		C314BCDE20EBFDEB00235F22 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C314BCDD20EBFDE100235F22 /* libRNShare.a */; };
 		C314BCDF20EBFDF500235F22 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E6B01A20E759AC0069302D /* libRCTCameraRoll.a */; };
+		C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */; };
+		C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */; };
+		C335733021B65E5800A22811 /* libRNAmplitudeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */; };
+		C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3357D0E21B4FD8600D150AE /* libRNSentry.a */; };
 		C336DC3F2118B7D100273254 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C336DC352118B7A600273254 /* libReactNativeNavigation.a */; };
 		C33831E920EB0D5E0061F81C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831B720EB0D5D0061F81C /* Social.framework */; };
 		C33831EB20EB0D6B0061F81C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33831EA20EB0D6B0061F81C /* MessageUI.framework */; };
 		C347F62B20E5835400C76519 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C347F5FB20E5835400C76519 /* GoogleService-Info.plist */; };
+		C350F25521A5C49B0023D800 /* FaktSoftPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */; };
+		C350F25621A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */; };
 		C39C66D321543BB000F7ED61 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C39C66A121543B9600F7ED61 /* libCodePush.a */; };
 		C39C671E21543D3400F7ED61 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C39C66EB21543D3400F7ED61 /* libz.tbd */; };
+		C3A1923A21B451A200A2F0B6 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3A1923521B4513A00A2F0B6 /* libRNSpinkit.a */; };
+		C3A71AC82176C6A200DDA9B9 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3A71A922176C68400DDA9B9 /* libBVLinearGradient.a */; };
 		C3AA0DBE20B86FE9008A4D1A /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AA0DB820B86FD6008A4D1A /* libReactNativePermissions.a */; };
 		C3ABC49A20C747D10009230C /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3ABC49420C747AC0009230C /* libRNImagePicker.a */; };
 		C3D2661A20A10D3100CCE313 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -59,9 +64,7 @@
 		C3F7957121307849004C6C8F /* libRNAccountKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C3F7957021307832004C6C8F /* libRNAccountKit.a */; };
 		C3F7960D213087AE004C6C8F /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3F795DA213087AE004C6C8F /* AccountKit.framework */; };
 		C3F7960F213087BA004C6C8F /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */; };
-		DD38508A522671808AAB45C4 /* Pods_EmCasa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9B0A2BDB982F6C676D60BC /* Pods_EmCasa.framework */; };
-		E58E3BD668E147E88B11A36E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */; };
-		E85C9CB2634347619F34FCDA /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */; };
+		D08C77AA67A364DBE1B3E5B7 /* libPods-EmCasaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF5E8CF91D0D22ADD1358404 /* libPods-EmCasaTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,6 +313,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNPhotoView;
 		};
+		C335732521B65E4C00A22811 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNAmplitudeSDK;
+		};
+		C3357D0D21B4FD8600D150AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSentry;
+		};
 		C336DC342118B7A600273254 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */;
@@ -394,6 +411,34 @@
 			remoteGlobalIDString = F886647B1F4ADB500036D01B;
 			remoteInfo = "CodePush-tvOS";
 		};
+		C3A1923421B4513A00A2F0B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D42CB3511B2538DE00FD0AE2;
+			remoteInfo = RNSpinkit;
+		};
+		C3A1923621B4513A00A2F0B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641194871EC9FD4A00D4FC03;
+			remoteInfo = "RNSpinkit-tvOS";
+		};
+		C3A71A912176C68400DDA9B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = BVLinearGradient;
+		};
+		C3A71A932176C68400DDA9B9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64AA15081EF7F30100718508;
+			remoteInfo = "BVLinearGradient-tvOS";
+		};
 		C3AA0DB720B86FD6008A4D1A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3AA0D8C20B86FD6008A4D1A /* ReactNativePermissions.xcodeproj */;
@@ -469,7 +514,6 @@
 		00E356EE1AD99517003FC87E /* EmCasaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmCasaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* EmCasaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmCasaTests.m; sourceTree = "<group>"; };
-		013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		0325E4F318A6456E85013DC4 /* libRNPhotoView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNPhotoView.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -480,15 +524,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = EmCasa/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = EmCasa/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		1D4B4DD58C4F4720B09DAD5D /* RNAccountKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAccountKit.xcodeproj; path = "../node_modules/react-native-facebook-account-kit/ios/RNAccountKit.xcodeproj"; sourceTree = "<group>"; };
 		1DC0995126FE247C998EF169 /* Pods-EmCasa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasa.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa.release.xcconfig"; sourceTree = "<group>"; };
 		27AF0EE749DB426EB358DFCF /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* EmCasa-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EmCasa-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* EmCasa-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EmCasa-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		42227073AA224B0DAA8A1A43 /* Pods_EmCasaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmCasaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		458AC7EBDF9D283A02862F16 /* Pods-EmCasa.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasa.beta.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa.beta.xcconfig"; sourceTree = "<group>"; };
 		46E54AFC74544FE99AC265E5 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -496,21 +537,30 @@
 		75507F174CF7438483601C83 /* RNPhotoView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNPhotoView.xcodeproj; path = "../node_modules/react-native-photo-view/ios/RNPhotoView.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBold.ttf"; path = "../src/assets/fonts/OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		AC14AACE2CF950571B460565 /* Pods-EmCasaTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasaTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasaTests/Pods-EmCasaTests.beta.xcconfig"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AE377F8F509E44F996FA4476 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		AEB52E48A8F27926034CE4D1 /* libPods-EmCasa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EmCasa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C300924A20E150130004339A /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		C30AC4F521388CC50023FEB7 /* EmCasa-release.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "EmCasa-release.entitlements"; path = "EmCasa/EmCasa-release.entitlements"; sourceTree = "<group>"; };
 		C30AC52621388CC50023FEB7 /* EmCasa-beta.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "EmCasa-beta.entitlements"; path = "EmCasa/EmCasa-beta.entitlements"; sourceTree = "<group>"; };
 		C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
+		C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Light.ttf"; path = "../src/assets/fonts/FaktSoftPro-Light.ttf"; sourceTree = "<group>"; };
+		C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Regular.ttf"; path = "../src/assets/fonts/FaktSoftPro-Regular.ttf"; sourceTree = "<group>"; };
+		C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNAmplitudeSDK.xcodeproj; path = "../node_modules/react-native-amplitude-analytics/ios/RNAmplitudeSDK.xcodeproj"; sourceTree = "<group>"; };
+		C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		C3357D0F21B4FDE400D150AE /* Sentry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Sentry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/lib/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		C33831B720EB0D5D0061F81C /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C33831EA20EB0D6B0061F81C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C347F5FB20E5835400C76519 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "EmCasa/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-Medium.ttf"; path = "../src/assets/fonts/FaktSoftPro-Medium.ttf"; sourceTree = "<group>"; };
+		C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "FaktSoftPro-UltraLight.ttf"; path = "../src/assets/fonts/FaktSoftPro-UltraLight.ttf"; sourceTree = "<group>"; };
 		C371D9A2212354FA00A2AD36 /* EmCasa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = EmCasa.entitlements; path = EmCasa/EmCasa.entitlements; sourceTree = "<group>"; };
 		C39C669A21543B9600F7ED61 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		C39C66EB21543D3400F7ED61 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
+		C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		C3AA0D8C20B86FD6008A4D1A /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		C3ABC46720C747AB0009230C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		C3D3B593205C4AAA0004FBF1 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
@@ -520,8 +570,7 @@
 		C3F795DA213087AE004C6C8F /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AccountKit.framework; path = "../node_modules/react-native-facebook-account-kit/ios/AccountKit.framework"; sourceTree = "<group>"; };
 		C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AccountKitStrings.bundle; path = "../node_modules/react-native-facebook-account-kit/ios/AccountKitStrings.bundle"; sourceTree = "<group>"; };
 		CE81788E224C1EB049484A2A /* Pods-EmCasaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasaTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasaTests/Pods-EmCasaTests.release.xcconfig"; sourceTree = "<group>"; };
-		DA9B0A2BDB982F6C676D60BC /* Pods_EmCasa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmCasa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		DF5E8CF91D0D22ADD1358404 /* libPods-EmCasaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EmCasaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE500972F61F43FDA473F064 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		F72983F049B35542A88E5139 /* Pods-EmCasa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmCasa.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -532,7 +581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				1D75D8D310528D5E42DA2B15 /* Pods_EmCasaTests.framework in Frameworks */,
+				D08C77AA67A364DBE1B3E5B7 /* libPods-EmCasaTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,6 +589,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C335733021B65E5800A22811 /* libRNAmplitudeSDK.a in Frameworks */,
+				C3357D1121B4FE0200D150AE /* libRNSentry.a in Frameworks */,
+				C3A1923A21B451A200A2F0B6 /* libRNSpinkit.a in Frameworks */,
+				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				C3A71AC82176C6A200DDA9B9 /* libBVLinearGradient.a in Frameworks */,
 				C39C671E21543D3400F7ED61 /* libz.tbd in Frameworks */,
 				C39C66D321543BB000F7ED61 /* libCodePush.a in Frameworks */,
 				C3F7957121307849004C6C8F /* libRNAccountKit.a in Frameworks */,
@@ -552,7 +606,6 @@
 				C3D6CCF5209774AA00E1D8D1 /* libRNSVG.a in Frameworks */,
 				C3D3B5C0205C4AB20004FBF1 /* libAirMaps.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
-				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -566,10 +619,10 @@
 				C3F7960D213087AE004C6C8F /* AccountKit.framework in Frameworks */,
 				C33831E920EB0D5E0061F81C /* Social.framework in Frameworks */,
 				C33831EB20EB0D6B0061F81C /* MessageUI.framework in Frameworks */,
-				DD38508A522671808AAB45C4 /* Pods_EmCasa.framework in Frameworks */,
 				53FA17B8F54C4A6B907D089C /* libRNPhotoView.a in Frameworks */,
 				771841EFF177410ABD7A8777 /* libRNFirebase.a in Frameworks */,
 				941FF34BBE1746F7A69E35B1 /* libRCTFBSDK.a in Frameworks */,
+				452218CF4A4D2E77E3E1E83C /* libPods-EmCasa.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,14 +773,15 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C3357D0F21B4FDE400D150AE /* Sentry.framework */,
 				C39C66EB21543D3400F7ED61 /* libz.tbd */,
 				C3F795DA213087AE004C6C8F /* AccountKit.framework */,
 				C3F79576213078C6004C6C8F /* Accounts.framework */,
 				C33831EA20EB0D6B0061F81C /* MessageUI.framework */,
 				C33831B720EB0D5D0061F81C /* Social.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				DA9B0A2BDB982F6C676D60BC /* Pods_EmCasa.framework */,
-				42227073AA224B0DAA8A1A43 /* Pods_EmCasaTests.framework */,
+				AEB52E48A8F27926034CE4D1 /* libPods-EmCasa.a */,
+				DF5E8CF91D0D22ADD1358404 /* libPods-EmCasaTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -753,12 +807,11 @@
 		7E4AFE5F5EC34142AAD2E6FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C350F25321A5C49B0023D800 /* FaktSoftPro-Medium.ttf */,
+				C350F25421A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf */,
+				C33138132195CC5200D9D47D /* FaktSoftPro-Regular.ttf */,
+				C331380B2195CB4100D9D47D /* FaktSoftPro-Light.ttf */,
 				C3F7960E213087BA004C6C8F /* AccountKitStrings.bundle */,
-				1628E5320CD54949AD213729 /* OpenSans-Bold.ttf */,
-				013F8C74D0DC4BF9BF7E23FA /* OpenSans-ExtraBold.ttf */,
-				1A78C75678D844D4A6D6FF76 /* OpenSans-Light.ttf */,
-				E58918718EB94278B0A51F78 /* OpenSans-Regular.ttf */,
-				87313058992349ECBFDA6CA2 /* OpenSans-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -766,6 +819,10 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */,
+				C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */,
+				C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */,
+				C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */,
 				C39C669A21543B9600F7ED61 /* CodePush.xcodeproj */,
 				C3F7956B21307832004C6C8F /* RNAccountKit.xcodeproj */,
 				C336DC072118B7A600273254 /* ReactNativeNavigation.xcodeproj */,
@@ -896,6 +953,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C33572F221B65E4C00A22811 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3357D0921B4FD8500D150AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3357D0E21B4FD8600D150AE /* libRNSentry.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C336DC082118B7A600273254 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +983,24 @@
 			children = (
 				C39C66A121543B9600F7ED61 /* libCodePush.a */,
 				C39C66A321543B9600F7ED61 /* libCodePush.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3A191FC21B4513900A2F0B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3A1923521B4513A00A2F0B6 /* libRNSpinkit.a */,
+				C3A1923721B4513A00A2F0B6 /* libRNSpinkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3A71A8C2176C68400DDA9B9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3A71A922176C68400DDA9B9 /* libBVLinearGradient.a */,
+				C3A71A942176C68400DDA9B9 /* libBVLinearGradient.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1002,8 +1093,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				E45F80C427AFF34207272398 /* [CP] Embed Pods Frameworks */,
 				C3113622204DC391003BDB80 /* Fabric */,
+				A360021CD4EE8E5BD43DE5A1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1104,6 +1195,10 @@
 					ProjectRef = C3D3B593205C4AAA0004FBF1 /* AirMaps.xcodeproj */;
 				},
 				{
+					ProductGroup = C3A71A8C2176C68400DDA9B9 /* Products */;
+					ProjectRef = C3A71A8B2176C68400DDA9B9 /* BVLinearGradient.xcodeproj */;
+				},
+				{
 					ProductGroup = C39C669B21543B9600F7ED61 /* Products */;
 					ProjectRef = C39C669A21543B9600F7ED61 /* CodePush.xcodeproj */;
 				},
@@ -1180,6 +1275,10 @@
 					ProjectRef = 1D4B4DD58C4F4720B09DAD5D /* RNAccountKit.xcodeproj */;
 				},
 				{
+					ProductGroup = C33572F221B65E4C00A22811 /* Products */;
+					ProjectRef = C33572F121B65E4C00A22811 /* RNAmplitudeSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = C3F868CD20E5DF9E00030741 /* Products */;
 					ProjectRef = AE377F8F509E44F996FA4476 /* RNFirebase.xcodeproj */;
 				},
@@ -1192,8 +1291,16 @@
 					ProjectRef = 75507F174CF7438483601C83 /* RNPhotoView.xcodeproj */;
 				},
 				{
+					ProductGroup = C3357D0921B4FD8500D150AE /* Products */;
+					ProjectRef = C3357D0821B4FD8500D150AE /* RNSentry.xcodeproj */;
+				},
+				{
 					ProductGroup = C314BCD920EBFDE000235F22 /* Products */;
 					ProjectRef = C314BCD820EBFDE000235F22 /* RNShare.xcodeproj */;
+				},
+				{
+					ProductGroup = C3A191FC21B4513900A2F0B6 /* Products */;
+					ProjectRef = C3A191FB21B4513900A2F0B6 /* RNSpinkit.xcodeproj */;
 				},
 				{
 					ProductGroup = C3D6CCC32097749200E1D8D1 /* Products */;
@@ -1435,6 +1542,20 @@
 			remoteRef = C33522C12063422100AF766A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C335732621B65E4C00A22811 /* libRNAmplitudeSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNAmplitudeSDK.a;
+			remoteRef = C335732521B65E4C00A22811 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3357D0E21B4FD8600D150AE /* libRNSentry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSentry.a;
+			remoteRef = C3357D0D21B4FD8600D150AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C336DC352118B7A600273254 /* libReactNativeNavigation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1519,6 +1640,34 @@
 			remoteRef = C39C66A221543B9600F7ED61 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C3A1923521B4513A00A2F0B6 /* libRNSpinkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSpinkit.a;
+			remoteRef = C3A1923421B4513A00A2F0B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3A1923721B4513A00A2F0B6 /* libRNSpinkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSpinkit.a;
+			remoteRef = C3A1923621B4513A00A2F0B6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3A71A922176C68400DDA9B9 /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = C3A71A912176C68400DDA9B9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C3A71A942176C68400DDA9B9 /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = C3A71A932176C68400DDA9B9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C3AA0DB820B86FD6008A4D1A /* libReactNativePermissions.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1596,13 +1745,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C331380F2195CB4200D9D47D /* FaktSoftPro-Light.ttf in Resources */,
+				C350F25621A5C49B0023D800 /* FaktSoftPro-UltraLight.ttf in Resources */,
+				C350F25521A5C49B0023D800 /* FaktSoftPro-Medium.ttf in Resources */,
+				C33138142195CC5200D9D47D /* FaktSoftPro-Regular.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C347F62B20E5835400C76519 /* GoogleService-Info.plist in Resources */,
-				E58E3BD668E147E88B11A36E /* OpenSans-Bold.ttf in Resources */,
-				011B0FBB61A747FF8C96BF81 /* OpenSans-ExtraBold.ttf in Resources */,
-				3EEAAC4E956E475C99F6FF0C /* OpenSans-Light.ttf in Resources */,
-				E85C9CB2634347619F34FCDA /* OpenSans-Regular.ttf in Resources */,
-				5CFBFF8ECB7F46339FD1EE04 /* OpenSans-SemiBold.ttf in Resources */,
 				C3F7960F213087BA004C6C8F /* AccountKitStrings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1637,7 +1785,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\nexport SENTRY_PROERTIES=\"${SENTRY_PROPERTIES}\"\nif [[ -f \"$SENTRY_PROERTIES\" ]]; then\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode;\nfi\n../node_modules/react-native/scripts/react-native-xcode.sh\n\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1689,6 +1837,36 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		A360021CD4EE8E5BD43DE5A1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa-resources.sh",
+				"${PODS_ROOT}/Amplitude-iOS/Amplitude/api.amplitude.com.der",
+				"${PODS_ROOT}/Amplitude-iOS/Amplitude/ComodoCaLimitedRsaCertificationAuthority.der",
+				"${PODS_ROOT}/Amplitude-iOS/Amplitude/ComodoRsaCA.der",
+				"${PODS_ROOT}/Amplitude-iOS/Amplitude/ComodoRsaDomainValidationCA.der",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/api.amplitude.com.der",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ComodoCaLimitedRsaCertificationAuthority.der",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ComodoRsaCA.der",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ComodoRsaDomainValidationCA.der",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C3113622204DC391003BDB80 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1701,37 +1879,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ -n \"${FABRIC_API_KEY}\" ]]; then\n    \"${PODS_ROOT}/Fabric/run\" \"${FABRIC_API_KEY}\" \"${FABRIC_BUILD_SECRET}\";\nfi";
-			showEnvVarsInLog = 0;
-		};
-		E45F80C427AFF34207272398 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
-				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmCasa/Pods-EmCasa-frameworks.sh\"\n";
+			shellScript = "if [[ -n \"${FABRIC_API_KEY}\" ]]; then\n    \"${PODS_ROOT}/Fabric/run\" \"${FABRIC_API_KEY}\" \"${FABRIC_BUILD_SECRET}\";\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1899,6 +2047,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-amplitude-analytics/ios",
 				);
 				INFOPLIST_FILE = EmCasa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1912,6 +2061,7 @@
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1958,10 +2108,26 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-amplitude-analytics/ios",
+					"$(BUILD_DIR)/Release-$(PLATFORM_NAME)/include",
 				);
 				INFOPLIST_FILE = EmCasa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Amplitude-iOS\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Bolts\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKShareKit\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Protobuf\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1970,6 +2136,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmCasa.native;
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2258,11 +2425,16 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-amplitude-analytics/ios",
+					"$(BUILD_DIR)/Release-$(PLATFORM_NAME)/include",
 				);
 				INFOPLIST_FILE = EmCasa/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(BUILD_DIR)/Release-$(PLATFORM_NAME)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)/**",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2271,6 +2443,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmCasa.native;
 				PRODUCT_NAME = EmCasa;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SENTRY_PROPERTIES = "$(SRCROOT)/sentry.properties";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Beta;

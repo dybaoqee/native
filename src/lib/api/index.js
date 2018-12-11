@@ -1,7 +1,7 @@
 import qs from 'qs'
 import toCamelCase from 'camelcase-keys-deep'
 
-import {API_URL} from '@/lib/config'
+import {API_URL} from '@/config/const'
 import ResponseError from './ResponseError'
 
 export const buildUrl = (path) => API_URL + path

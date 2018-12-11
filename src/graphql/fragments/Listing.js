@@ -11,6 +11,7 @@ const Listing = gql`
     area
     balconies
     rooms
+    bathrooms
     restrooms
     suites
     dependencies
@@ -48,6 +49,10 @@ export const ListingFeed = gql`
   fragment ListingFeed on Listing {
     id
     price
+    area
+    rooms
+    suites
+    bathrooms
     isExclusive
     isRelease
     isActive

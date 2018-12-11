@@ -25,7 +25,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb$(FACEBOOK_APP_ID)</string>
+          <string>ak$(FACEBOOK_APP_ID)</string>
         </array>
       </dict>
     </array>
@@ -51,15 +51,6 @@
     <string>EmCasa</string>
     <key>AccountKitClientToken</key>
     <string>$(ACCOUNTKIT_CLIENT_TOKEN)</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-          <string>ak$(FACEBOOK_APP_ID)</string>
-        </array>
-      </dict>
-    </array>
     <key>GoogleMapsApiKey</key>
     <string>$(GOOGLE_MAPS_API_KEY)</string>
     <key>LSApplicationQueriesSchemes</key>
@@ -110,11 +101,10 @@
     <string>$(PRODUCT_NAME) usa a sua localização enviar notificações segmentadas ao seu local</string>
     <key>UIAppFonts</key>
     <array>
-      <string>OpenSans-Bold.ttf</string>
-      <string>OpenSans-ExtraBold.ttf</string>
-      <string>OpenSans-Light.ttf</string>
-      <string>OpenSans-Regular.ttf</string>
-      <string>OpenSans-SemiBold.ttf</string>
+      <string>FaktSoftPro-UltraLight.ttf</string>
+      <string>FaktSoftPro-Light.ttf</string>
+      <string>FaktSoftPro-Regular.ttf</string>
+      <string>FaktSoftPro-Medium.ttf</string>
     </array>
     <key>UIBackgroundModes</key>
     <array>
