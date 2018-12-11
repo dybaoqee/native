@@ -53,8 +53,8 @@ export default class createListingScreen extends PureComponent {
           </Row>
           <Row mb="75px">
             <Text color="white" fontSize={18} lineHeight={25}>
-              Vamos te redirecionar para o nosso site para você anuniar o seu
-              imóvel, tá ok?
+              Vender seu imóvel nunca foi tão fácil, informe o endereço do seu
+              imóvel e receba agora uma avaliação grátis.
             </Text>
           </Row>
           <Row>
