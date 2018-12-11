@@ -182,11 +182,15 @@ aliases:
     command: |-
       sed -i'' -re "s/(versionCode) ([[:digit:]]*)/\1 $BUILD_NUMBER/" android/app/build.gradle
       sed -i'' -re "s/(versionName) \"(.*)\"/\1 \"$VERSION_NAME\"/" android/app/build.gradle
-  - &generate-assets
-    name: Generate app icons
+  - &generate-assets-ios
+    name: Generate app icons (iOS)
     command: |-
-      node_modules/.bin/app-icon generate -i src/assets/app_icons/$PLATFORM.$RELEASE_PROFILE.png --platforms $PLATFORM
+      node_modules/.bin/app-icon generate -i src/assets/app_icons/$RELEASE_PROFILE/ios.png --platforms ios
       cp src/assets/app_icons/ios-marketing.png ios/EmCasa/Images.xcassets/AppIcon.appiconset/ios-marketing-1024x1024-1x.png
+  - &generate-assets-android
+    name: Generate app icons (Android)
+    command: |-
+      cp src/assets/app_icons/$RELEASE_PROFILE/ic_launcher_background.xml android/app/src/main/res/drawable/ic_launcher_background.xml
   - &build-ios
     name: Build app
     command: |-
@@ -383,7 +387,7 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *configure-keychain
-      - run: *generate-assets
+      - run: *generate-assets-ios
       - run: *bundle-js
       - run: *bump-ios
       - run: *build-ios
@@ -435,7 +439,7 @@ jobs:
       - run: *configure-version-staging
       - run: *configure-release
       - run: *configure-codepush
-      - run: *generate-assets
+      - run: *generate-assets-android
       - run: *bump-android
       - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleStaging
@@ -483,7 +487,7 @@ jobs:
       - run: *configure-release
       - run: *configure-codepush
       - run: *configure-keychain
-      - run: *generate-assets
+      - run: *generate-assets-ios
       - run: *bundle-js
       - run: *bump-ios
       - run: *build-ios
@@ -533,7 +537,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y -qq imagemagick
       - run: *configure-release
       - run: *configure-codepush
-      - run: *generate-assets
+      - run: *generate-assets-android
       - run: *bump-android
       - run: *bundle-js
       - run: export TERM=xterm && cd android && ./gradlew assembleRelease

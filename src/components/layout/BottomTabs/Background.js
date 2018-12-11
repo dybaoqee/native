@@ -8,7 +8,7 @@ const bgWidth = ({theme}) =>
   (Dimensions.get('window').width - theme.size.bottomTabsBg.width) / 2
 
 const bgColorHeight = ({theme}) =>
-  theme.size.bottomTabs - theme.size.bottomTabsBg.height
+  theme.size.bottomTabs - theme.size.bottomTabsBg.height + 1
 
 const FloatingBackgroundImage = styled.Image.attrs({
   source: {
