@@ -37,8 +37,7 @@ class ListingScreen extends PureComponent {
   }
 
   state = {
-    bounces: false,
-    visible: false
+    ready: false
   }
 
   get shareOptions() {
@@ -62,30 +61,8 @@ class ListingScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    InteractionManager.runAfterInteractions(() =>
-      this.setState({visible: true})
-    )
+    InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
   }
-
-  componentDidDisappear() {
-    this.setState({visible: false})
-  }
-
-  navigateTo = (component, params = this.props.params) => () => {
-    const {componentId} = this.props
-    Navigation.push(componentId, {
-      component: {
-        ...component,
-        passProps: {
-          params: {...params, parentId: componentId}
-        }
-      }
-    })
-  }
-
-  onPopScreen = _.once(() => {
-    Navigation.pop(this.props.componentId)
-  })
 
   onOpenGallery = (index) => {
     Navigation.showModal({
@@ -112,11 +89,13 @@ class ListingScreen extends PureComponent {
     })
   }
 
-  onScroll = ({nativeEvent: {contentOffset, contentSize, layoutMeasurement}}) =>
-    this.setState({
-      bounces:
-        contentOffset.y > contentSize.height / 2 - layoutMeasurement.height / 2
+  onOpenInterestForm = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: InterestFormScreen.screenName
+      }
     })
+  }
 
   onShare = async () => {
     const {
@@ -141,14 +120,17 @@ class ListingScreen extends PureComponent {
 
   onViewTour = _.once(() => this.props.onViewTour())
 
+  renderRightButtons = () => {
+    return <RightButtons id={this.props.params.id} onShare={this.onShare} />
+  }
+
   render() {
     const {
       listing: {data, loading},
       relatedListings,
-      params: {id},
       componentId
     } = this.props
-    const {bounces, visible} = this.state
+    const {ready} = this.state
 
     const isActive = data && data.isActive
     return (
@@ -158,26 +140,26 @@ class ListingScreen extends PureComponent {
           loading={loading}
           onScroll={this.onScroll}
           scrollEventThrottle={10}
-          bounces={bounces}
+          bounces={false}
         >
           <Header
             translucent
             color={isActive ? 'white' : 'pink'}
             backButton={componentId}
-            rightButtons={<RightButtons id={id} onShare={this.onShare} />}
+            RightButtons={this.renderRightButtons}
           >
             {isActive && `${data.address.neighborhood} (${data.area}m²)`}
           </Header>
           {data && (
             <Listing
               {...data}
-              ready={visible}
+              ready={ready}
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}
             />
           )}
-          {loading || !visible ? (
+          {loading || !ready ? (
             <Row height={60} justifyContent="center" alignItems="center">
               <Spinner size={15} />
             </Row>
@@ -215,11 +197,7 @@ class ListingScreen extends PureComponent {
                 </Text>
               </Row>
             )}
-            <Button
-              active
-              height="tall"
-              onPress={this.navigateTo({name: InterestFormScreen.screenName})}
-            >
+            <Button active height="tall" onPress={this.onOpenInterestForm}>
               Marcar visita
             </Button>
           </Footer>

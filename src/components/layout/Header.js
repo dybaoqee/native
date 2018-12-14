@@ -5,6 +5,7 @@ import styled from 'styled-components/native'
 import {themeGet, bgColor} from 'styled-system'
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
+import renderProp from '@/lib/renderProp'
 import IconButton from '@/components/shared/IconButton'
 
 class BackButton extends PureComponent {
@@ -19,7 +20,7 @@ class BackButton extends PureComponent {
         type="light"
         color="pink"
         size={22}
-        onPress={this.onPress}
+        onPressIn={this.onPress}
         hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
         {...this.props}
       />
@@ -56,7 +57,7 @@ const TopBar = styled(View)`
   ${bgColor};
 `
 
-function Header({children, backButton, rightButtons, ...props}) {
+function Header({children, backButton, RightButtons, ...props}) {
   const childProps = _.pick(props, ['translucent', 'color'])
   return (
     <Fragment>
@@ -78,9 +79,9 @@ function Header({children, backButton, rightButtons, ...props}) {
               />
             </Col>
           )}
-          {Boolean(rightButtons) && (
+          {Boolean(RightButtons) && (
             <Col zIndex={1} flex={1} mr="15px" pointerEvents="box-none">
-              <Row justifyContent="flex-end">{rightButtons}</Row>
+              <Row justifyContent="flex-end">{renderProp(RightButtons)}</Row>
             </Col>
           )}
           {Boolean(children) &&
