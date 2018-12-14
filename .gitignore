@@ -48,6 +48,7 @@ local.properties
 *.keystore
 *.iml
 .project
+.settings
 android/app/bin
 
 # fastlane
