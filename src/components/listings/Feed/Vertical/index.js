@@ -42,7 +42,8 @@ class VerticalListingFeed extends Component {
     delete props.Card
     return (
       <FlatList
-        removeClippedSubviews
+        {...props}
+        removeClippedSubviews={process.env.NODE_ENV !== 'e2e'}
         initialNumToRender={10}
         maxToRenderPerBatch={6}
         updateCellsBatchingPeriod={100}
@@ -50,7 +51,6 @@ class VerticalListingFeed extends Component {
         pagination={pagination}
         keyExtractor={keyExtractor}
         renderItem={this.renderItem}
-        {...props}
       />
     )
   }
