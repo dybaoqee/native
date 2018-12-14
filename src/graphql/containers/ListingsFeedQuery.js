@@ -12,7 +12,7 @@ const getIDs = _.map(_.get('id'))
 class ListingsFilterWatcher extends PureComponent {
   componentDidUpdate(prev) {
     if (!isEqual(prev.variables, this.props.variables)) {
-      this.props.response.refetch()
+      this.props.refetch()
     }
   }
 
@@ -52,7 +52,10 @@ const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
           updateBlacklists: () => updateQuery(updateBlacklists({blacklist}))
         }
         return (
-          <ListingsFilterWatcher variables={nextResponse.variables}>
+          <ListingsFilterWatcher
+            variables={nextResponse.variables}
+            refetch={nextResponse.refetch}
+          >
             {children(nextResponse)}
           </ListingsFilterWatcher>
         )
