@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import {PureComponent} from 'react'
+import {InteractionManager} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
@@ -22,6 +23,7 @@ import * as format from '@/config/formatting'
 import GalleryScreen from '@/screens//listing/Gallery'
 import TourScreen from '@/screens//listing/Tour'
 import InterestFormScreen from '@/screens//interest/Form'
+import Spinner from '@/components/shared/Spinner'
 
 class ListingScreen extends PureComponent {
   static screenName = 'listing.Listing'
@@ -60,7 +62,9 @@ class ListingScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    this.setState({visible: true})
+    InteractionManager.runAfterInteractions(() =>
+      this.setState({visible: true})
+    )
   }
 
   componentDidDisappear() {
@@ -173,15 +177,19 @@ class ListingScreen extends PureComponent {
               onOpenTour={this.onOpenTour}
             />
           )}
-          {Boolean(isActive && relatedListings.data.length) && (
-            <Section title="Veja Também">
+          {loading || !visible ? (
+            <Row height={60} justifyContent="center" alignItems="center">
+              <Spinner size={15} />
+            </Row>
+          ) : isActive ? (
+            <Section title="Veja Também" mt={0}>
               <Feed
                 pl="5px"
                 data={relatedListings.data}
                 onSelect={this.onSelectListing}
               />
             </Section>
-          )}
+          ) : null}
         </Body>
         {data && (
           <Footer p="15px">
@@ -226,7 +234,7 @@ export default composeWithRef(
     null,
     {logEvent}
   ),
-  withListing(({params: {id}}) => ({id})),
+  withViewTourMutation,
   withRelatedListings(({params: {id}}) => ({id})),
-  withViewTourMutation
+  withListing(({params: {id}}) => ({id}))
 )(ListingScreen)

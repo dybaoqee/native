@@ -1,5 +1,4 @@
 import _ from 'lodash/fp'
-import cmp from 'shallowequal'
 import React, {Component} from 'react'
 import {FlatList} from 'react-native'
 import {View} from '@emcasa/ui-native'
@@ -45,6 +44,7 @@ class VerticalListingFeed extends Component {
         removeClippedSubviews
         initialNumToRender={10}
         maxToRenderPerBatch={6}
+        updateCellsBatchingPeriod={100}
         testID="listing_feed"
         pagination={pagination}
         keyExtractor={keyExtractor}

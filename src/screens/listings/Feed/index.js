@@ -21,6 +21,7 @@ import ListingScreen from '@/screens//listing/Listing'
 import ListEmpty from '@/components/shared/ListEmpty'
 
 import Modal from '@/screens/shared/Modal'
+import Spinner from '@/components/shared/Spinner'
 
 class ListingsFeedScreen extends PureComponent {
   static screenName = 'listings.Feed'
@@ -47,13 +48,6 @@ class ListingsFeedScreen extends PureComponent {
   state = {modalVisible: false}
 
   list = React.createRef()
-
-  componentDidDisappear() {
-    const {
-      listingsFeed: {loading, updateBlacklists}
-    } = this.props
-    if (!loading) updateBlacklists()
-  }
 
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.filters, this.props.filters))
@@ -130,6 +124,44 @@ class ListingsFeedScreen extends PureComponent {
     })
   }
 
+  renderListFooter = () => {
+    const {
+      listingsFeed: {loading}
+    } = this.props
+    return (
+      <View>
+        <View
+          height={15}
+          p="5px"
+          mb="40px"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {loading && <Spinner size={15} />}
+        </View>
+        <BottomTabsSpacer />
+      </View>
+    )
+  }
+
+  renderListEmpty = () => {
+    const {
+      listingsFeed: {loading}
+    } = this.props
+    return (
+      <ListEmpty
+        loading={loading}
+        title="Nenhum resultado encontrado"
+        buttonText="Limpar filtros"
+        image={require('@/assets/img/icons/sad_smartphone.png')}
+        onPress={this.onClearFilters}
+      >
+        A sua pesquisa não retornou nenhum imóvel. Altere ou limpe os filtros
+        para ver resultados.
+      </ListEmpty>
+    )
+  }
+
   render() {
     const {
       listingsFeed: {data, loading, remainingCount}
@@ -149,27 +181,16 @@ class ListingsFeedScreen extends PureComponent {
                   testID="listing_feed"
                   automaticallyAdjustContentInsets={false}
                   data={data}
-                  onSelect={this.onSelect}
                   scrollIndicatorInsets={{
                     right: 0,
                     left: 0,
                     top: 0,
                     bottom: bottomTabs.height
                   }}
+                  onSelect={this.onSelect}
                   ListHeaderComponent={ListHeader}
-                  ListFooterComponent={<View height={bottomTabs.height} />}
-                  ListEmptyComponent={
-                    <ListEmpty
-                      loading={loading}
-                      title="Nenhum resultado encontrado"
-                      buttonText="Limpar filtros"
-                      image={require('@/assets/img/icons/sad_smartphone.png')}
-                      onPress={this.onClearFilters}
-                    >
-                      A sua pesquisa não retornou nenhum imóvel. Altere ou limpe
-                      os filtros para ver resultados.
-                    </ListEmpty>
-                  }
+                  ListFooterComponent={this.renderListFooter}
+                  ListEmptyComponent={this.renderListEmpty}
                 />
               </InfiniteScroll>
             )}
@@ -181,6 +202,7 @@ class ListingsFeedScreen extends PureComponent {
 }
 
 export default composeWithRef(
+  withDistricts(),
   connect(
     (state) => ({filters: getSearchFiltersQuery(state)}),
     {clearFilters}
@@ -189,6 +211,5 @@ export default composeWithRef(
     filters,
     pageSize: 15,
     fetchPolicy: 'network-only'
-  })),
-  withDistricts()
+  }))
 )(ListingsFeedScreen)
