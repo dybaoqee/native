@@ -47,7 +47,7 @@ class ListingsFeedScreen extends PureComponent {
 
   state = {modalVisible: false}
 
-  list = React.createRef()
+  listRef = React.createRef()
 
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.filters, this.props.filters))
@@ -79,8 +79,8 @@ class ListingsFeedScreen extends PureComponent {
   }
 
   resetScrollPosition = () => {
-    if (!this.list.current) return
-    this.list.current.scrollToOffset({animated: true, offset: 0})
+    if (!this.listRef.current) return
+    this.listRef.current.scrollToOffset({animated: true, offset: 0})
   }
 
   onLoadMore = () => {
@@ -177,7 +177,7 @@ class ListingsFeedScreen extends PureComponent {
                 onLoad={this.onLoadMore}
               >
                 <Feed
-                  ref={this.list}
+                  ref={this.listRef}
                   testID="listing_feed"
                   automaticallyAdjustContentInsets={false}
                   data={data}

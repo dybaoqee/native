@@ -1,6 +1,6 @@
 import _ from 'lodash/fp'
 import React, {Component} from 'react'
-import {FlatList} from 'react-native'
+import {FlatList as RCTFlatList} from 'react-native'
 import {View} from '@emcasa/ui-native'
 
 import Card from '@/components/listings/Card'
@@ -9,6 +9,8 @@ const keyExtractor = _.flow(
   _.get('id'),
   _.toString
 )
+
+const FlatList = View.withComponent(RCTFlatList)
 
 class VerticalListingFeed extends Component {
   static defaultProps = {
@@ -35,12 +37,11 @@ class VerticalListingFeed extends Component {
   }
 
   render() {
-    const {pagination, innerRef, ...props} = this.props
+    const {pagination, ...props} = this.props
     delete props.onSelect
     delete props.Card
     return (
       <FlatList
-        ref={innerRef}
         removeClippedSubviews
         initialNumToRender={10}
         maxToRenderPerBatch={6}
@@ -55,8 +56,6 @@ class VerticalListingFeed extends Component {
   }
 }
 
-export default View.withComponent(
-  React.forwardRef((props, ref) => (
-    <VerticalListingFeed {...props} innerRef={ref} />
-  ))
-)
+export default React.forwardRef((props, ref) => (
+  <VerticalListingFeed {...props} innerRef={ref} />
+))
