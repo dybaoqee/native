@@ -1687,21 +1687,21 @@
     slugify "^1.3.1"
     url "^0.11.0"
 
-"@emcasa/ui-native@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.8.0.tgz#541565b642f28aa80a79abe1903f4d499fecc7f9"
+"@emcasa/ui-native@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.8.1.tgz#4f264aaa13505b84d20d197ee33c3d182fe07609"
   dependencies:
-    "@emcasa/ui" "^0.8.0"
+    "@emcasa/ui" "^0.8.1"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     recompose "^0.30.0"
 
-"@emcasa/ui@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.8.0.tgz#1895c57d950e840f729070fe47b39565bfe9b187"
+"@emcasa/ui@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.8.1.tgz#103f76df90a8d535ccbfcde37ab7b30b457dd18c"
   dependencies:
     "@fortawesome/free-solid-svg-icons" "^5.4.1"
-    interpolate-range "^2.1.0"
+    everpolate "^0.0.3"
     lodash.omit "^4.5.0"
     lodash.toarray "^4.4.0"
     styled-components "^3.4.9"
@@ -4471,6 +4471,10 @@ events@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.0.0.tgz#9a0a0dfaf62893d92b875b8f2698ca4114973e88"
 
+everpolate@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/everpolate/-/everpolate-0.0.3.tgz#3b1b318465494712aa1eb106144468ea417d0129"
+
 exception-formatter@^1.0.4:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/exception-formatter/-/exception-formatter-1.0.7.tgz#3291616b86fceabefa97aee6a4708032c6e3b96d"
@@ -5796,10 +5800,6 @@ inquirer@^6.2.0:
     string-width "^2.1.0"
     strip-ansi "^5.0.0"
     through "^2.3.6"
-
-interpolate-range@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/interpolate-range/-/interpolate-range-2.1.0.tgz#fec3f907a3a075476feb478439ae8d166bc826a5"
 
 invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.2:
   version "2.2.3"

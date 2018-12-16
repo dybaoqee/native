@@ -1,8 +1,13 @@
+import {Component} from 'react'
 import {range, isEqual} from 'lodash'
 import styled, {withTheme} from 'styled-components/native'
-import {View, Text, Button} from '@emcasa/ui-native'
+import {width, height} from 'styled-system'
+import {View, Text, Button, Slider} from '@emcasa/ui-native'
 import * as Final from 'react-final-form'
 import {compose, mapProps} from 'recompose'
+
+import * as format from '@/config/formatting'
+import Tooltip from '@/components/shared/Tooltip'
 import GhostButton from '@/components/shared/GhostButton'
 
 const Option = compose(
@@ -75,18 +80,140 @@ function ButtonRangeField({min, max, emptyLabel, ...props}) {
   )
 }
 
+const SliderLabelText = styled(({style, width, height, ...props}) => (
+  <View style={style} width={width} height={height}>
+    <Text {...props} />
+  </View>
+)).attrs({
+  textAlign: 'center',
+  color: 'white',
+  fontSize: 'small'
+})`
+  position: absolute;
+  z-index: 1;
+  top: 2.5px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  ${width};
+  ${height};
+`
+
+const SliderLabel = styled(function Sliderlabel({
+  children,
+  width,
+  height,
+  ...props
+}) {
+  return (
+    <View width={width} height={height} {...props}>
+      <SliderLabelText width={width} height={height}>
+        {children}
+      </SliderLabelText>
+      <Tooltip
+        style={{position: 'absolute'}}
+        bg="pink"
+        border="1px"
+        borderColor="white"
+        height={height}
+        width={width}
+        tipHeight={5}
+      />
+    </View>
+  )
+}).attrs({
+  width: 60,
+  height: 24
+})`
+  margin-bottom: 10px;
+  margin-left: -${({width}) => width / 2}px;
+`
+
+class SliderRangeField extends Component {
+  shouldComponentUpdate() {
+    return false
+  }
+
+  parseValue({min, max}) {
+    return {min: min.toFixed(0), max: max.toFixed(0)}
+  }
+
+  render() {
+    const {min, max, renderLabel, ...props} = this.props
+    return (
+      <View style={{marginHorizontal: 12}}>
+        <Field
+          allowNull
+          isEqual={compareRange}
+          parse={this.parseValue}
+          {...props}
+        >
+          {({input}) => (
+            <Slider
+              height="medium"
+              mt="20px"
+              range={[min, max]}
+              initialValue={input.value || defaultInitialValues[props.name]}
+              trackProps={{height: 1, bg: 'white'}}
+              onChange={input.onChange}
+            >
+              <Slider.Marker bg="white" name="min" renderLabel={renderLabel} />
+              <Slider.Marker
+                bg="white"
+                name="max"
+                trackProps={{height: 3}}
+                renderLabel={renderLabel}
+              />
+            </Slider>
+          )}
+        </Field>
+      </View>
+    )
+  }
+}
+
+const defaultInitialValues = {
+  price: {min: 250 * 1000, max: 10 * 1000 * 1000},
+  area: {min: 35, max: 500},
+  rooms: null,
+  garageSpots: null
+}
+
 export default function SearchFilters({onChange, initialValues}) {
   return (
     <Final.Form
       initialValues={{
-        rooms: null,
-        garageSpots: null,
+        ...defaultInitialValues,
         ...initialValues
       }}
       onSubmit={() => null}
     >
       {() => (
         <View pr="20px" pl="20px">
+          <Label>Área</Label>
+          <SliderRangeField
+            name="area"
+            min={defaultInitialValues.area.min}
+            max={defaultInitialValues.area.max}
+            renderLabel={({value}) => (
+              <SliderLabel>
+                {format.number(value.toFixed(0))}
+                m²
+              </SliderLabel>
+            )}
+          />
+          <Label>Valor</Label>
+          <SliderRangeField
+            name="price"
+            min={defaultInitialValues.price.min}
+            max={defaultInitialValues.price.max}
+            renderLabel={({value}) => (
+              <SliderLabel>
+                R$
+                {format.abbrevPrice(value.toFixed(0))}
+              </SliderLabel>
+            )}
+          />
           <Label>Tipo de Imóvel</Label>
           <Field name="types" isEqual={compareArray}>
             {({input}) => (
@@ -120,7 +247,7 @@ export default function SearchFilters({onChange, initialValues}) {
           />
           <Final.FormSpy
             subscription={{values: true, pristine: true}}
-            onChange={(state) => onChange(state)}
+            onChange={onChange}
           />
         </View>
       )}
