@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import android.content.Context;
 
 import com.facebook.react.ReactApplication;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.sudoplz.reactnativeamplitudeanalytics.RNAmplitudeSDKPackage;
 import io.sentry.RNSentryPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -73,6 +74,7 @@ public class MainApplication extends NavigationApplication implements ShareAppli
   public List<ReactPackage> createAdditionalReactPackages() {
     return Arrays.<ReactPackage>asList(
       new MainReactPackage(),
+      new RNGestureHandlerPackage(),
       new RNAmplitudeSDKPackage(MainApplication.this),
       new RNSentryPackage(),
       new RNSpinkitPackage(),
