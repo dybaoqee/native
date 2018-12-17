@@ -130,22 +130,38 @@ const SliderLabel = styled(function Sliderlabel({
 `
 
 class SliderRangeField extends Component {
+  static defaultProps = {
+    round: 1
+  }
+
   shouldComponentUpdate() {
     return false
   }
 
-  parseValue({min, max}) {
-    return {min: min.toFixed(0), max: max.toFixed(0)}
+  parseValue = (value) => {
+    const {round} = this.props
+    return (value / round).toFixed(0) * round
+  }
+
+  parseRange = ({min, max}) => {
+    return {
+      min: this.parseValue(min),
+      max: this.parseValue(max)
+    }
+  }
+
+  renderLabel = ({value}) => {
+    return this.props.renderLabel({value: this.parseValue(value)})
   }
 
   render() {
-    const {min, max, renderLabel, ...props} = this.props
+    const {min, max, ...props} = this.props
     return (
       <View style={{marginHorizontal: 12}}>
         <Field
           allowNull
           isEqual={compareRange}
-          parse={this.parseValue}
+          parse={this.parseRange}
           slideEventThrottle={100}
           {...props}
         >
@@ -158,12 +174,16 @@ class SliderRangeField extends Component {
               trackProps={{height: 1, bg: 'white'}}
               onChange={input.onChange}
             >
-              <Slider.Marker bg="white" name="min" renderLabel={renderLabel} />
+              <Slider.Marker
+                bg="white"
+                name="min"
+                renderLabel={this.renderLabel}
+              />
               <Slider.Marker
                 bg="white"
                 name="max"
                 trackProps={{height: 3}}
-                renderLabel={renderLabel}
+                renderLabel={this.renderLabel}
               />
             </Slider>
           )}
@@ -174,7 +194,7 @@ class SliderRangeField extends Component {
 }
 
 const defaultInitialValues = {
-  price: {min: 250 * 1000, max: 10 * 1000 * 1000},
+  price: {min: 250000, max: 10000000},
   area: {min: 35, max: 500},
   rooms: null,
   garageSpots: null
@@ -206,6 +226,7 @@ export default function SearchFilters({onChange, initialValues}) {
           <Label>Valor</Label>
           <SliderRangeField
             name="price"
+            round={1000}
             min={defaultInitialValues.price.min}
             max={defaultInitialValues.price.max}
             renderLabel={({value}) => (
