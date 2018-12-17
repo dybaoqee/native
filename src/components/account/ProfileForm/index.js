@@ -1,15 +1,7 @@
 import {PureComponent} from 'react'
 import * as Final from 'react-final-form'
-import {View, Col, Input} from '@emcasa/ui-native'
+import {Col, Input} from '@emcasa/ui-native'
 import composeValidations, * as validations from '@/lib/validations'
-
-function Field({children, ...props}) {
-  return (
-    <Final.Field {...props}>
-      {(field) => <View mb="15px">{children(field)}</View>}
-    </Final.Field>
-  )
-}
 
 const validatePhone = composeValidations(
   validations.required('O telefone é obrigatório'),
@@ -31,44 +23,50 @@ export default class ProfileForm extends PureComponent {
         {({form}) => (
           <Col flex={1} {...props}>
             {fields.name && (
-              <Field name="name" validate={validateName}>
-                {({input: {onChange, ...input}}) => (
+              <Final.Field name="name" validate={validateName}>
+                {({input: {onChange, ...input}, meta: {touched, error}}) => (
                   <Input
                     {...input}
+                    hideLabelView
+                    error={touched && error}
                     autoCapitalize="words"
                     placeholder="Nome"
                     onChangeText={onChange}
                     onSubmitEditing={() => form.focus('email')}
                   />
                 )}
-              </Field>
+              </Final.Field>
             )}
             {fields.email && (
-              <Field name="email" validate={validateEmail}>
-                {({input: {onChange, ...input}}) => (
+              <Final.Field name="email" validate={validateEmail}>
+                {({input: {onChange, ...input}, meta: {touched, error}}) => (
                   <Input
                     {...input}
+                    hideLabelView
+                    error={touched && error}
                     autoCapitalize="none"
                     placeholder="Email"
                     keyboardType="email-address"
                     onChangeText={onChange}
                   />
                 )}
-              </Field>
+              </Final.Field>
             )}
             {fields.phone && (
-              <Field name="phone" validate={validatePhone}>
-                {({input: {onChange, ...input}}) => (
+              <Final.Field name="phone" validate={validatePhone}>
+                {({input: {onChange, ...input}, meta: {touched, error}}) => (
                   <Input
                     {...input}
                     disabled
+                    hideLabelView
+                    error={touched && error}
                     editable={false}
                     placeholder="Telefone (obrigatório)"
                     keyboardType="phone-pad"
                     onChangeText={onChange}
                   />
                 )}
-              </Field>
+              </Final.Field>
             )}
             <Final.FormSpy
               subscription={{values: true, pristine: true, valid: true}}
