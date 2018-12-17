@@ -4,6 +4,12 @@ import styled from 'styled-components/native'
 import {View, Input, Button} from '@emcasa/ui-native'
 import BaseDateTimePicker from 'react-native-modal-datetime-picker'
 
+import {
+  CALL_WITHIN_5_MINUTES,
+  CALL_AT_SPECIFIC_TIME,
+  CONTACT_BY_EMAIL,
+  CONTACT_BY_WHATSAPP
+} from './interestTypes'
 import composeValidations, * as validations from '@/lib/validations'
 
 const validatePhone = composeValidations(
@@ -151,10 +157,15 @@ export default class InterestFormFields extends Component {
   render() {
     const {type} = this.props
     const fields = [<Name key="name" />]
-    if (type === 3) fields.push(<Email key="email" />)
-    if (type !== 3 || type === 5) fields.push(<Phone key="phone" />)
-    if (type === 2) fields.push(<Time key="time" />)
-    if (type === 3) fields.push(<Message key="message" />)
+    if (type === CONTACT_BY_EMAIL) fields.push(<Email key="email" />)
+    if (
+      type !== CALL_WITHIN_5_MINUTES ||
+      type === CALL_AT_SPECIFIC_TIME ||
+      type === CONTACT_BY_WHATSAPP
+    )
+      fields.push(<Phone key="phone" />)
+    if (type === CALL_AT_SPECIFIC_TIME) fields.push(<Time key="time" />)
+    if (type === CONTACT_BY_EMAIL) fields.push(<Message key="message" />)
     return fields
   }
 }
