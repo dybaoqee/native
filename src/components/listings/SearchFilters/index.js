@@ -146,6 +146,7 @@ class SliderRangeField extends Component {
           allowNull
           isEqual={compareRange}
           parse={this.parseValue}
+          slideEventThrottle={100}
           {...props}
         >
           {({input}) => (
