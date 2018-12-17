@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import {InteractionManager} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
@@ -40,6 +40,8 @@ class ListingScreen extends PureComponent {
     ready: false
   }
 
+  webViewRef = React.createRef()
+
   get shareOptions() {
     const {
       id,
@@ -62,6 +64,11 @@ class ListingScreen extends PureComponent {
 
   componentDidAppear() {
     InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
+  }
+
+  onDismiss = () => {
+    if (this.webViewRef.current) this.webViewRef.current.stopLoading()
+    Navigation.pop(this.props.componentId)
   }
 
   onOpenGallery = (index) => {
@@ -127,8 +134,7 @@ class ListingScreen extends PureComponent {
   render() {
     const {
       listing: {data, loading},
-      relatedListings,
-      componentId
+      relatedListings
     } = this.props
     const {ready} = this.state
 
@@ -145,7 +151,7 @@ class ListingScreen extends PureComponent {
           <Header
             translucent
             color={isActive ? 'white' : 'pink'}
-            backButton={componentId}
+            onDismiss={this.onDismiss}
             RightButtons={this.renderRightButtons}
           >
             {isActive && `${data.address.neighborhood} (${data.area}m²)`}
@@ -153,6 +159,7 @@ class ListingScreen extends PureComponent {
           {data && (
             <Listing
               {...data}
+              webViewRef={this.webViewRef}
               ready={ready}
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}

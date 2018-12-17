@@ -1,5 +1,5 @@
 import qs from 'qs'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
 import {WebView, View} from 'react-native'
 import {Row} from '@emcasa/ui-native'
 
@@ -17,7 +17,7 @@ const Content = styled(View)`
   z-index: 100;
 `
 
-export default class Matterport extends PureComponent {
+class Matterport extends PureComponent {
   static defaultProps = {
     q: {},
     width: '100%',
@@ -44,7 +44,7 @@ export default class Matterport extends PureComponent {
   }
 
   render() {
-    const {q, code, ...props} = this.props
+    const {q, code, webViewRef, ...props} = this.props
     const queryString = qs.stringify({
       ...q,
       m: code
@@ -54,6 +54,7 @@ export default class Matterport extends PureComponent {
       <Container style={this.display}>
         <Content style={this.display}>
           <WebView
+            ref={webViewRef}
             startInLoadingState
             javaScriptEnabled
             scalesPageToFit
@@ -69,3 +70,7 @@ export default class Matterport extends PureComponent {
     )
   }
 }
+
+export default React.forwardRef((props, ref) => (
+  <Matterport webViewRef={ref} {...props} />
+))

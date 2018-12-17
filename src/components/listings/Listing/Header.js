@@ -108,6 +108,7 @@ export default class ListingHeader extends PureComponent {
         {!this.state.tourLoading && <TourOverlay />}
         {this.props.ready && (
           <Matterport
+            ref={this.props.webViewRef}
             useWebKit
             play={false}
             code={this.props.matterportCode}
