@@ -1,6 +1,7 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import * as Final from 'react-final-form'
-import {Input} from '@emcasa/ui-native'
+import {View, Input, Button} from '@emcasa/ui-native'
+import DateTimePicker from 'react-native-modal-datetime-picker'
 
 import composeValidations, * as validations from '@/lib/validations'
 
@@ -13,6 +14,7 @@ const validateEmail = composeValidations(
   validations.required('O email é obrigatório.'),
   validations.email()
 )
+const validateTime = validations.required('O horário é obrigatório')
 
 const Name = () => (
   <Final.Field name="name" validate={validateName}>
@@ -77,6 +79,58 @@ const Message = () => (
   </Final.Field>
 )
 
+class Time extends Component {
+  state = {value: undefined, modalVisible: false}
+
+  fieldRef = React.createRef()
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.value !== this.state.value && this.fieldRef.current) {
+      this.fieldRef.current.handlers.onChange(this.message)
+    }
+  }
+
+  get message() {
+    const {value} = this.state
+    return value
+      ? `Me ligue às ${value.getHours()}:${value.getMinutes()}h`
+      : 'Escolha o horário'
+  }
+
+  onShowModal = () => this.setState({modalVisible: true})
+
+  onHideModal = () => this.setState({modalVisible: false})
+
+  onChange = (value) => this.setState({value, modalVisible: false})
+
+  render() {
+    return (
+      <Final.Field ref={this.fieldRef} name="message" validate={validateTime}>
+        {() => (
+          <View>
+            <Button active height="tall" onPress={this.onShowModal}>
+              {this.message}
+            </Button>
+            <DateTimePicker
+              mode="time"
+              cancelTextIOS="Cancelar"
+              confirmTextIOS="Confirmar"
+              titleIOS="Escolha o horário"
+              isVisible={this.state.modalVisible}
+              onConfirm={this.onChange}
+              onCancel={this.onHideModal}
+            />
+          </View>
+        )}
+      </Final.Field>
+    )
+  }
+}
+
 export default class InterestFormFields extends Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.type !== this.props.type
@@ -93,7 +147,7 @@ export default class InterestFormFields extends Component {
     const fields = [<Name key="name" />]
     if (type === 3) fields.push(<Email key="email" />)
     if (type !== 3 || type === 5) fields.push(<Phone key="phone" />)
-    // if (type === 2) fields.push(<Time name="time" />)
+    if (type === 2) fields.push(<Time key="time" />)
     if (type === 3) fields.push(<Message key="message" />)
     return fields
   }
