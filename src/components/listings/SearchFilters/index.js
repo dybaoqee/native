@@ -194,7 +194,7 @@ class SliderRangeField extends Component {
 }
 
 const defaultInitialValues = {
-  price: {min: 250000, max: 10000000},
+  price: {min: 250000, max: 12000000},
   area: {min: 35, max: 500},
   rooms: null,
   garageSpots: null
