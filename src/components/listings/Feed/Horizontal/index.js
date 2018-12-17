@@ -5,8 +5,6 @@ import {View} from '@emcasa/ui-native'
 
 import Card from '@/components/listings/Card'
 
-const createHandler = (fun, ...args) => fun && (() => fun(...args))
-
 class HorizontalListingFeed extends Component {
   static defaultProps = {
     Card,
@@ -20,6 +18,13 @@ class HorizontalListingFeed extends Component {
 
   slider = React.createRef()
 
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.data.length !== this.props.data.length ||
+      nextProps.active !== this.props.active
+    )
+  }
+
   componentDidUpdate(prev) {
     const {active, data} = this.props
     const slider = this.slider.current
@@ -32,24 +37,32 @@ class HorizontalListingFeed extends Component {
     return this.props.data.length
   }
 
-  renderer = (fun) => ({item}) => {
-    const {onSelect} = this.props
-    return fun({...item, onPress: createHandler(onSelect, item.id)})
+  renderItem = ({item, index}) => {
+    const {onSelect, itemWidth, Card} = this.props
+    return (
+      <Card
+        width={itemWidth}
+        showImages={1}
+        onPress={onSelect}
+        index={index}
+        {...item}
+      />
+    )
   }
 
   render() {
     if (!this.totalCount) return null
-    const {style, loop, width, itemWidth, Card, ...props} = this.props
-    props.renderItem = this.renderer(
-      props.renderItem
-        ? props.renderItem
-        : (item) => <Card width={itemWidth} showImages={1} {...item} />
-    )
+    const {style, loop, width, itemWidth, ...props} = this.props
+    delete props.onSelect
+    delete props.Card
     return (
       <Carousel
         enableMomentum
+        removeClippedSubviews
         inactiveSlideOpacity={1}
         inactiveSlideScale={1}
+        initialNumToRender={4}
+        maxToRenderPerBatch={4}
         activeSlideAlignment={loop ? 'center' : 'start'}
         containerCustomStyle={[{flex: null}, style]}
         sliderWidth={width}
@@ -57,6 +70,7 @@ class HorizontalListingFeed extends Component {
         style={style}
         slideStyle={{padding: 10}}
         itemWidth={itemWidth + 20}
+        renderItem={this.renderItem}
         {...props}
       />
     )

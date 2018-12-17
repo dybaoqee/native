@@ -1,4 +1,5 @@
 import {cond, get, stubTrue} from 'lodash/fp'
+import {Component} from 'react'
 import {Dimensions, StyleSheet} from 'react-native'
 import styled from 'styled-components'
 import {themeGet} from 'styled-system'
@@ -65,70 +66,81 @@ const Body = styled.View`
   ])};
 `
 
-function ListingCard({
-  width,
-  images,
-  address,
-  price,
-  favorite,
-  onFavorite,
-  showImages,
-  index,
-  ...props
-}) {
-  const innerWidth = parseInt(width) - parseInt(props.ml) - parseInt(props.mr)
-  return (
-    <View {...props}>
-      <View testID={`listing_card(${index + 1})`}>
-        <Header images={images} width={innerWidth} showImages={showImages}>
-          <View style={{position: 'absolute', top: 10, right: 10}}>
-            <FavoriteButton
-              contrast
-              testID="favorite_button"
-              hitSlop={15}
-              active={favorite}
-              onPress={onFavorite}
-            />
-          </View>
-        </Header>
-        <Body pressed={props.active}>
-          <Row mb="4px">
-            <Text fontSize="16px">{address.neighborhood.toUpperCase()}</Text>
-          </Row>
-          <Row mb="4px">
-            <Text fontSize="14px" numberOfLines={1} ellipsizeMode="tail">
-              {address.street}
-            </Text>
-          </Row>
-          <Row>
-            <Text fontSize="14px" color="grey">
-              {stringifyProps(props)}
-            </Text>
-          </Row>
-          <Row>
-            <Text fontSize="20px" fontWeight="500">
-              {price
-                ? `R$ ${format.number(price)}`
-                : String.fromCharCode(0x2500)}
-            </Text>
-          </Row>
-        </Body>
-      </View>
-    </View>
-  )
-}
+class ListingCard extends Component {
+  static defaultProps = {
+    testUniqueID: '',
+    ml: 0,
+    mr: 0,
+    showImages: 4,
+    get width() {
+      return Dimensions.get('window').width
+    }
+  }
 
-ListingCard.defaultProps = {
-  testUniqueID: '',
-  ml: 0,
-  mr: 0,
-  showImages: 4,
-  get width() {
-    return Dimensions.get('window').width
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.active !== this.props.active ||
+      nextProps.favorite !== this.props.favorite
+    )
+  }
+
+  render() {
+    const {
+      active,
+      width,
+      images,
+      address,
+      price,
+      favorite,
+      onFavorite,
+      showImages,
+      index,
+      ...props
+    } = this.props
+    const innerWidth = parseInt(width) - parseInt(props.ml) - parseInt(props.mr)
+    return (
+      <View {...props}>
+        <View testID={`listing_card(${index + 1})`}>
+          <Header images={images} width={innerWidth} showImages={showImages}>
+            <View style={{position: 'absolute', top: 10, right: 10}}>
+              <FavoriteButton
+                contrast
+                testID="favorite_button"
+                hitSlop={15}
+                active={favorite}
+                onPress={onFavorite}
+              />
+            </View>
+          </Header>
+          <Body pressed={active}>
+            <Row mb="4px">
+              <Text fontSize="16px">{address.neighborhood.toUpperCase()}</Text>
+            </Row>
+            <Row mb="4px">
+              <Text fontSize="14px" numberOfLines={1} ellipsizeMode="tail">
+                {address.street}
+              </Text>
+            </Row>
+            <Row>
+              <Text fontSize="14px" color="grey">
+                {stringifyProps(props)}
+              </Text>
+            </Row>
+            <Row>
+              <Text fontSize="20px" fontWeight="500">
+                {price
+                  ? `R$ ${format.number(price)}`
+                  : String.fromCharCode(0x2500)}
+              </Text>
+            </Row>
+          </Body>
+        </View>
+      </View>
+    )
   }
 }
 
 export default compose(
-  touchable,
-  withFavoriteMutation
+  withFavoriteMutation,
+  touchable(({id, onPress}) => onPress(id))
 )(ListingCard)

@@ -38,7 +38,7 @@ class ListingTourScreen extends PureComponent {
             style={{marginTop: 60, justifyContent: 'flex-end'}}
             onDismiss={onDismiss}
           />
-          {data && <Matterport code={data.matterportCode} {...layout} />}
+          {data && <Matterport code={data.matterportCode} />}
         </Body>
       </Modal>
     )

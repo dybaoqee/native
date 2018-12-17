@@ -33,4 +33,4 @@ const Button = styled(function Button({icon, type, active, ...props}) {
   transform: rotate(-45deg);
 `
 
-export default touchable(Button)
+export default touchable()(Button)

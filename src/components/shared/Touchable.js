@@ -2,19 +2,21 @@ import {PureComponent} from 'react'
 import {TouchableWithoutFeedback} from 'react-native'
 
 export default class Touchable extends PureComponent {
-  state = {
-    active: false
-  }
+  state = {active: false}
 
-  onHighlight = (active) => () => this.setState({active})
+  onPressIn = () => this.setState({active: true})
+
+  onPressOut = () => this.setState({active: false})
+
+  onPress = () => this.props.onPressHandler(this.props)
 
   render() {
-    const {onPress, children} = this.props
+    const {children} = this.props
     return (
       <TouchableWithoutFeedback
-        onPress={onPress}
-        onPressIn={this.onHighlight(true)}
-        onPressOut={this.onHighlight(false)}
+        onPress={this.onPress}
+        onPressIn={this.onPressIn}
+        onPressOut={this.onPressOut}
       >
         {children(this.state)}
       </TouchableWithoutFeedback>
@@ -22,8 +24,10 @@ export default class Touchable extends PureComponent {
   }
 }
 
-export const touchable = (Target) => ({onPress, ...props}) => (
-  <Touchable onPress={onPress}>
+const defaultOnPress = ({onPress}) => onPress()
+
+export const touchable = (onPress = defaultOnPress) => (Target) => (props) => (
+  <Touchable onPressHandler={onPress} {...props}>
     {(ctx) => <Target {...ctx} {...props} />}
   </Touchable>
 )

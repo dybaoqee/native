@@ -1,5 +1,5 @@
 import _ from 'lodash/fp'
-import {isEqual} from 'lodash'
+import isEqual from 'shallowequal'
 import {PureComponent} from 'react'
 import update from 'immutability-helper'
 import {Query} from 'react-apollo'
@@ -11,8 +11,8 @@ const getIDs = _.map(_.get('id'))
 
 class ListingsFilterWatcher extends PureComponent {
   componentDidUpdate(prev) {
-    if (!isEqual(prev.response.variables, this.props.response.variables)) {
-      this.props.response.refetch()
+    if (!isEqual(prev.variables, this.props.variables)) {
+      this.props.refetch()
     }
   }
 
@@ -30,6 +30,7 @@ const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
 }) {
   return (
     <Query
+      notifyOnNetworkStatusChange
       query={GET_LISTINGS_FEED}
       fetchPolicy={fetchPolicy}
       variables={{filters, pageSize}}
@@ -51,7 +52,10 @@ const ListingsFeedQuery = withBlacklistedListingIDs(function ListingsFeedQuery({
           updateBlacklists: () => updateQuery(updateBlacklists({blacklist}))
         }
         return (
-          <ListingsFilterWatcher response={nextResponse}>
+          <ListingsFilterWatcher
+            variables={nextResponse.variables}
+            refetch={nextResponse.refetch}
+          >
             {children(nextResponse)}
           </ListingsFilterWatcher>
         )
@@ -85,22 +89,28 @@ ListingsFeedQuery.defaultProps = {
   filters: {}
 }
 
-export const withListingsFeed = (getOptions = {}) => (Target) => (props) => (
-  <ListingsFeedQuery
-    {...(typeof getOptions === 'function' ? getOptions(props) : getOptions)}
-  >
-    {({data: {listings}, ...response}) => (
-      <Target
-        {...props}
-        listingsFeed={{
-          loading: response.loading,
-          data: listings ? listings.listings : [],
-          remainingCount: listings ? listings.remainingCount : undefined,
-          refetch: response.refetch,
-          fetchMore: response.fetchMore,
-          updateBlacklists: response.updateBlacklists
-        }}
-      />
-    )}
-  </ListingsFeedQuery>
-)
+export const withListingsFeed = (getOptions = {}) => (Target) =>
+  Object.assign(
+    (props) => (
+      <ListingsFeedQuery
+        {...(typeof getOptions === 'function' ? getOptions(props) : getOptions)}
+      >
+        {({data: {listings}, ...response}) => (
+          <Target
+            {...props}
+            listingsFeed={{
+              loading: response.loading,
+              data: listings ? listings.listings : [],
+              remainingCount: listings ? listings.remainingCount : undefined,
+              refetch: response.refetch,
+              fetchMore: response.fetchMore,
+              updateBlacklists: response.updateBlacklists
+            }}
+          />
+        )}
+      </ListingsFeedQuery>
+    ),
+    {
+      displayName: `withListingsFeed(${Target.displayName || Target.name})`
+    }
+  )

@@ -18,23 +18,28 @@ export default class Shell extends PureComponent {
   }
 
   state = {
-    layout: {width: 0, height: 0},
-    bottomTabsVisible: false
+    Shell: {
+      layout: {width: 0, height: 0},
+      bottomTabsVisible: false
+    }
   }
 
   keyboardAvoidingView = React.createRef()
 
-  static getDerivedStateFromProps({bottomTabs}) {
-    return {bottomTabsVisible: Boolean(bottomTabs)}
+  static getDerivedStateFromProps({bottomTabs}, {Shell}) {
+    if (Shell.bottomTabsVisible !== Boolean(bottomTabs))
+      return {Shell: {...Shell, bottomTabsVisible: Boolean(bottomTabs)}}
+    return null
   }
 
-  onLayout = ({nativeEvent: {layout}}) => this.setState({layout})
+  onLayout = ({nativeEvent: {layout}}) =>
+    this.setState(({Shell}) => ({Shell: {...Shell, layout}}))
 
   render() {
     const {zIndex, children, testID, behavior, bottomTabs} = this.props
     const bottomTabProps = typeof bottomTabs === 'object' ? bottomTabs : {}
     return (
-      <ThemeProvider theme={{Shell: this.state}}>
+      <ThemeProvider theme={this.state}>
         <SafeAreaView style={{zIndex, flex: 1}} forceInset={{top: 'never'}}>
           <Container testID={testID} onLayout={this.onLayout}>
             <KeyboardAvoidingView
@@ -45,7 +50,7 @@ export default class Shell extends PureComponent {
             >
               <Container>{children}</Container>
             </KeyboardAvoidingView>
-            {this.state.bottomTabsVisible && (
+            {this.state.Shell.bottomTabsVisible && (
               <BottomTabs testID="bottom_tabs" {...bottomTabProps} />
             )}
           </Container>

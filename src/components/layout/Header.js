@@ -1,16 +1,14 @@
 import _ from 'lodash'
 import {PureComponent, Fragment} from 'react'
-import {Navigation} from 'react-native-navigation'
 import styled from 'styled-components/native'
 import {themeGet, bgColor} from 'styled-system'
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
+import renderProp from '@/lib/renderProp'
 import IconButton from '@/components/shared/IconButton'
 
 class BackButton extends PureComponent {
-  onPress = _.once(() => {
-    Navigation.pop(this.props.componentId)
-  })
+  onPress = _.once(this.props.onDismiss)
 
   render() {
     return (
@@ -19,7 +17,7 @@ class BackButton extends PureComponent {
         type="light"
         color="pink"
         size={22}
-        onPress={this.onPress}
+        onPressIn={this.onPress}
         hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
         {...this.props}
       />
@@ -56,7 +54,7 @@ const TopBar = styled(View)`
   ${bgColor};
 `
 
-function Header({children, backButton, rightButtons, ...props}) {
+function Header({children, onDismiss, RightButtons, ...props}) {
   const childProps = _.pick(props, ['translucent', 'color'])
   return (
     <Fragment>
@@ -67,20 +65,20 @@ function Header({children, backButton, rightButtons, ...props}) {
           style={{position: 'relative'}}
           pointerEvents="box-none"
         >
-          {Boolean(backButton) && (
+          {Boolean(onDismiss) && (
             <Col zIndex={1} ml="15px" pointerEvents="box-none">
               <BackButton
                 accessible
                 accessibilityLabel="Voltar para a tela anterior"
                 testID="header_back_button"
-                componentId={backButton}
+                onDismiss={onDismiss}
                 {...childProps}
               />
             </Col>
           )}
-          {Boolean(rightButtons) && (
+          {Boolean(RightButtons) && (
             <Col zIndex={1} flex={1} mr="15px" pointerEvents="box-none">
-              <Row justifyContent="flex-end">{rightButtons}</Row>
+              <Row justifyContent="flex-end">{renderProp(RightButtons)}</Row>
             </Col>
           )}
           {Boolean(children) &&

@@ -80,7 +80,8 @@ setTimeout(function () {
 
 export default class ListingHeader extends PureComponent {
   state = {
-    galleryData: undefined
+    galleryData: undefined,
+    tourLoading: true
   }
 
   get images() {
@@ -94,6 +95,8 @@ export default class ListingHeader extends PureComponent {
     else this.props.onOpenGallery(index - 1)
   }
 
+  onTourLoadEnd = () => this.setState({tourLoading: false})
+
   renderTour() {
     return (
       <View
@@ -102,9 +105,10 @@ export default class ListingHeader extends PureComponent {
         width="100%"
         height="100%"
       >
-        <TourOverlay />
+        {!this.state.tourLoading && <TourOverlay />}
         {this.props.ready && (
           <Matterport
+            ref={this.props.webViewRef}
             useWebKit
             play={false}
             code={this.props.matterportCode}
@@ -113,6 +117,7 @@ export default class ListingHeader extends PureComponent {
             ${openFloorPlanScript()}
             `.trim()}
             pointerEvents="none"
+            onLoadEnd={this.onTourLoadEnd}
             q={{
               title: 0, // Hide top bar
               help: 0, // Don't show help

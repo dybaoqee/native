@@ -7,27 +7,22 @@ import Properties from './Properties'
 import Header from './Header'
 
 export default class ListingView extends Component {
-  state = {
-    ready: false
-  }
-
-  get ready() {
-    return this.state.ready && this.props.ready
-  }
-
-  componentDidMount() {
-    requestAnimationFrame(() => this.setState({ready: true}))
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.id !== this.props.id || nextProps.ready !== this.props.ready
+    )
   }
 
   render() {
-    const {address} = this.props
+    const {address, ready} = this.props
     return (
       <Col flex={1}>
-        <Header ready={this.ready} testID="listing_header" {...this.props} />
+        <Header testID="listing_header" {...this.props} />
         <Properties {...this.props} />
         <Description {...this.props} />
-        {this.ready && (
+        {ready && (
           <View
+            mb="25px"
             testID="listing_map"
             style={{overflow: 'hidden', marginHorizontal: 15}}
             borderRadius={4}

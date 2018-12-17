@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import {PureComponent} from 'react'
+import React, {PureComponent} from 'react'
+import {InteractionManager} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import Share from 'react-native-share'
 import {connect} from 'react-redux'
@@ -22,6 +23,7 @@ import * as format from '@/config/formatting'
 import GalleryScreen from '@/screens//listing/Gallery'
 import TourScreen from '@/screens//listing/Tour'
 import InterestFormScreen from '@/screens//interest/Form'
+import Spinner from '@/components/shared/Spinner'
 
 class ListingScreen extends PureComponent {
   static screenName = 'listing.Listing'
@@ -35,9 +37,10 @@ class ListingScreen extends PureComponent {
   }
 
   state = {
-    bounces: false,
-    visible: false
+    ready: false
   }
+
+  webViewRef = React.createRef()
 
   get shareOptions() {
     const {
@@ -60,28 +63,13 @@ class ListingScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    this.setState({visible: true})
+    InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
   }
 
-  componentDidDisappear() {
-    this.setState({visible: false})
-  }
-
-  navigateTo = (component, params = this.props.params) => () => {
-    const {componentId} = this.props
-    Navigation.push(componentId, {
-      component: {
-        ...component,
-        passProps: {
-          params: {...params, parentId: componentId}
-        }
-      }
-    })
-  }
-
-  onPopScreen = _.once(() => {
+  onDismiss = () => {
+    if (this.webViewRef.current) this.webViewRef.current.stopLoading()
     Navigation.pop(this.props.componentId)
-  })
+  }
 
   onOpenGallery = (index) => {
     Navigation.showModal({
@@ -108,11 +96,13 @@ class ListingScreen extends PureComponent {
     })
   }
 
-  onScroll = ({nativeEvent: {contentOffset, contentSize, layoutMeasurement}}) =>
-    this.setState({
-      bounces:
-        contentOffset.y > contentSize.height / 2 - layoutMeasurement.height / 2
+  onOpenInterestForm = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: InterestFormScreen.screenName
+      }
     })
+  }
 
   onShare = async () => {
     const {
@@ -137,14 +127,16 @@ class ListingScreen extends PureComponent {
 
   onViewTour = _.once(() => this.props.onViewTour())
 
+  renderRightButtons = () => {
+    return <RightButtons id={this.props.params.id} onShare={this.onShare} />
+  }
+
   render() {
     const {
       listing: {data, loading},
-      relatedListings,
-      params: {id},
-      componentId
+      relatedListings
     } = this.props
-    const {bounces, visible} = this.state
+    const {ready} = this.state
 
     const isActive = data && data.isActive
     return (
@@ -154,34 +146,39 @@ class ListingScreen extends PureComponent {
           loading={loading}
           onScroll={this.onScroll}
           scrollEventThrottle={10}
-          bounces={bounces}
+          bounces={false}
         >
           <Header
             translucent
             color={isActive ? 'white' : 'pink'}
-            backButton={componentId}
-            rightButtons={<RightButtons id={id} onShare={this.onShare} />}
+            onDismiss={this.onDismiss}
+            RightButtons={this.renderRightButtons}
           >
             {isActive && `${data.address.neighborhood} (${data.area}m²)`}
           </Header>
           {data && (
             <Listing
               {...data}
-              ready={visible}
+              webViewRef={this.webViewRef}
+              ready={ready}
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}
             />
           )}
-          {Boolean(isActive && relatedListings.data.length) && (
-            <Section title="Veja Também">
+          {loading || !ready ? (
+            <Row height={60} justifyContent="center" alignItems="center">
+              <Spinner size={15} />
+            </Row>
+          ) : isActive ? (
+            <Section title="Veja Também" mt={0}>
               <Feed
                 pl="5px"
                 data={relatedListings.data}
                 onSelect={this.onSelectListing}
               />
             </Section>
-          )}
+          ) : null}
         </Body>
         {data && (
           <Footer p="15px">
@@ -207,11 +204,7 @@ class ListingScreen extends PureComponent {
                 </Text>
               </Row>
             )}
-            <Button
-              active
-              height="tall"
-              onPress={this.navigateTo({name: InterestFormScreen.screenName})}
-            >
+            <Button active height="tall" onPress={this.onOpenInterestForm}>
               Marcar visita
             </Button>
           </Footer>
@@ -226,7 +219,7 @@ export default composeWithRef(
     null,
     {logEvent}
   ),
-  withListing(({params: {id}}) => ({id})),
+  withViewTourMutation,
   withRelatedListings(({params: {id}}) => ({id})),
-  withViewTourMutation
+  withListing(({params: {id}}) => ({id}))
 )(ListingScreen)

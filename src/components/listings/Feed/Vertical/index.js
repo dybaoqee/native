@@ -1,6 +1,6 @@
 import _ from 'lodash/fp'
-import React from 'react'
-import {FlatList} from 'react-native'
+import React, {Component} from 'react'
+import {FlatList as RCTFlatList} from 'react-native'
 import {View} from '@emcasa/ui-native'
 
 import Card from '@/components/listings/Card'
@@ -10,40 +10,50 @@ const keyExtractor = _.flow(
   _.toString
 )
 
-const createHandler = (fun, ...args) => fun && (() => fun(...args))
+const FlatList = View.withComponent(RCTFlatList)
 
-const VerticalListingFeed = View.withComponent(function VerticalListingFeed({
-  onSelect,
-  pagination,
-  Card,
-  innerRef,
-  ...props
-}) {
-  return (
-    <FlatList
-      {...props}
-      ref={innerRef}
-      testID="listing_feed"
-      pagination={pagination}
-      keyExtractor={keyExtractor}
-      removeClippedSubviews={process.env.NODE_ENV === 'production'}
-      renderItem={({item, index}) => (
-        <Card
-          mt="5px"
-          mb="5px"
-          ml="15px"
-          mr="15px"
-          index={index}
-          onPress={createHandler(onSelect, item.id)}
-          {...item}
-        />
-      )}
-    />
-  )
-})
+class VerticalListingFeed extends Component {
+  static defaultProps = {
+    Card
+  }
 
-VerticalListingFeed.defaultProps = {
-  Card
+  shouldComponentUpdate(nextProps) {
+    return nextProps.data.length !== this.props.data.length
+  }
+
+  renderItem = ({item, index}) => {
+    const {onSelect, Card} = this.props
+    return (
+      <Card
+        mt="5px"
+        mb="5px"
+        ml="15px"
+        mr="15px"
+        index={index}
+        onPress={onSelect}
+        {...item}
+      />
+    )
+  }
+
+  render() {
+    const {pagination, ...props} = this.props
+    delete props.onSelect
+    delete props.Card
+    return (
+      <FlatList
+        {...props}
+        removeClippedSubviews={process.env.NODE_ENV !== 'e2e'}
+        initialNumToRender={10}
+        maxToRenderPerBatch={6}
+        updateCellsBatchingPeriod={100}
+        testID="listing_feed"
+        pagination={pagination}
+        keyExtractor={keyExtractor}
+        renderItem={this.renderItem}
+      />
+    )
+  }
 }
 
 export default React.forwardRef((props, ref) => (
