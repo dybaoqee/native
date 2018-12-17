@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import * as Final from 'react-final-form'
+import styled from 'styled-components/native'
 import {View, Input, Button} from '@emcasa/ui-native'
-import DateTimePicker from 'react-native-modal-datetime-picker'
+import BaseDateTimePicker from 'react-native-modal-datetime-picker'
 
 import composeValidations, * as validations from '@/lib/validations'
 
@@ -78,6 +79,11 @@ const Message = () => (
     )}
   </Final.Field>
 )
+
+const DateTimePicker = styled(BaseDateTimePicker).attrs({
+  cancelTextStyle: ({theme}) => ({color: theme.colors.pink}),
+  confirmTextStyle: ({theme}) => ({color: theme.colors.pink})
+})``
 
 class Time extends Component {
   state = {value: undefined, modalVisible: false}
