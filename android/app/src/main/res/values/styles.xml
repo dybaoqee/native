@@ -8,6 +8,7 @@
     <item name="android:colorPrimaryDark">@android:color/white</item>
     <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
     <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+    <item name="android:timePickerDialogTheme">@style/DialogTheme</item>
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowDisablePreview">true</item>
     <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -18,6 +19,11 @@
   <style name="SpinnerDropDownItem" parent="Theme.AppCompat.Light">
     <item name="android:textSize">18dp</item>
     <item name="android:gravity">center</item>
+  </style>
+  <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">@color/pink</item>
+    <item name="colorControlActivated">@color/pink</item>
+    <item name="colorControlHighlight">@color/lightGrey</item>
   </style>
   <style name="LoginTheme" parent="Theme.AccountKit">
     <item name="com_accountkit_primary_color">@color/pink</item>
