@@ -99,7 +99,8 @@ class ListingScreen extends PureComponent {
   onOpenInterestForm = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: InterestFormScreen.screenName
+        name: InterestFormScreen.screenName,
+        passProps: {params: this.props.params}
       }
     })
   }
