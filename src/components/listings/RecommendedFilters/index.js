@@ -7,8 +7,8 @@ import {
 } from 'react-native'
 import styled from 'styled-components'
 import Carousel from 'react-native-snap-carousel'
-import LinearGradient from 'react-native-linear-gradient'
 import {View, Text} from '@emcasa/ui-native'
+import GradientOverlay from '@/components/shared/GradientOverlay'
 
 const IMAGE_PADDING_BOTTOM = 10
 const IMAGE_PADDING_TOP = 5
@@ -73,22 +73,6 @@ const Neighborhood = styled(function NeighborhoodCard({
   overflow: hidden;
 `
 
-const GradientOverlay = styled(LinearGradient).attrs({
-  colors: ['rgba(255,255,255,0)', 'white'],
-  locations: [0.8, 1],
-  start: {x: 0, y: 0},
-  end: {x: 1, y: 0},
-  pointerEvents: 'none'
-})`
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-`
-
 export default class RecommendedNeighborhoods extends PureComponent {
   state = {}
 
@@ -117,7 +101,7 @@ export default class RecommendedNeighborhoods extends PureComponent {
     const {itemWidth, itemHeight} = this.state
     return (
       <View>
-        <GradientOverlay />
+        <GradientOverlay from={0} to={1} size={0.2} axis="x" />
         <Carousel
           enableMomentum
           enableSnap={false}

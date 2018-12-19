@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import {PureComponent, Fragment} from 'react'
 import styled from 'styled-components/native'
-import {themeGet, bgColor} from 'styled-system'
+import {themeGet, bgColor, zIndex} from 'styled-system'
 import {View, Row, Col, Text} from '@emcasa/ui-native'
 
 import renderProp from '@/lib/renderProp'
@@ -34,12 +34,11 @@ const Title = styled(Text)`
   font-size: 18;
   text-align: center;
   line-height: ${themeGet('size.topBar', 0)};
-  ${({translucent, theme: {colors}}) =>
-    translucent && `text-shadow: 0 1px 4px ${colors.dark}`};
 `
 
 const TopBar = styled(View)`
   z-index: 1;
+  ${zIndex};
   background-color: white;
   justify-content: center;
   min-height: ${themeGet('size.topBar', 0)};
