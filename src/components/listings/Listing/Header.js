@@ -62,7 +62,7 @@ const addressDescription = ({type, address: {street, city}}) =>
   `${type} na ${street}, ${city}`
 
 const injectCssScript = (css) => `requestAnimationFrame(function() {
-  var css = '${css.replace(' ', '')}';
+  var css = "${css}";
   var node = document.createElement('style');
   node.type = 'text/css';
   document.body.appendChild(node);
@@ -71,12 +71,30 @@ const injectCssScript = (css) => `requestAnimationFrame(function() {
   window.node = node;
 });`
 
-const openFloorPlanScript = () => `
-setTimeout(function () {
-  const element = document.querySelector(".ui-icon.floorplan");
-  element.click();
-}, 2500);
-`
+const openFloorPlanScript = ({
+  timeout = 500,
+  retry = 10
+} = {}) => `requestAnimationFrame(function () {
+  var iterations = 0;
+  var jQueryLoaded = '$' in window;
+  function isFloorPlanActive() {
+    var screenModeSelector = CSS.escape("mode.floorplan");
+    return jQueryLoaded
+      ? $("#gui-modes-floorplan.active, ." + screenModeSelector).length
+      : !!document.querySelector("." + screenModeSelector);
+  }
+  function getFloorPlanButton() {
+    return jQueryLoaded
+      ? $(".ui-icon.floorplan, #gui-modes-floorplan")
+      : document.querySelector(".ui-icon.floorplan");
+  }
+  var interval = setInterval(function openFloorPlan() {
+    var isActive = isFloorPlanActive();
+    var button = getFloorPlanButton();
+    if (isActive || iterations++ == ${retry}) clearInterval(interval);
+    else if (button) button.click();
+  }, ${timeout});
+});`
 
 export default class ListingHeader extends PureComponent {
   state = {
@@ -95,7 +113,15 @@ export default class ListingHeader extends PureComponent {
     else this.props.onOpenGallery(index - 1)
   }
 
-  onTourLoadEnd = () => this.setState({tourLoading: false})
+  onTourLoadEnd = () =>
+    this.setState({tourLoading: false}, () => {
+      const {webViewRef} = this.props
+      if (!webViewRef.current) return
+      setTimeout(
+        () => webViewRef.current.injectJavaScript(openFloorPlanScript()),
+        1500
+      )
+    })
 
   renderTour() {
     return (
@@ -105,19 +131,21 @@ export default class ListingHeader extends PureComponent {
         width="100%"
         height="100%"
       >
-        {!this.state.tourLoading && <TourOverlay />}
         {this.props.ready && (
           <Matterport
             ref={this.props.webViewRef}
             useWebKit
+            javascriptEnabled
+            javaScriptEnabledAndroid
             play={false}
             code={this.props.matterportCode}
-            injectedJavaScript={`
-            ${injectCssScript('#cta-container {display: none}')}
-            ${openFloorPlanScript()}
-            `.trim()}
             pointerEvents="none"
             onLoadEnd={this.onTourLoadEnd}
+            injectedJavaScript={injectCssScript(
+              ['.pinBottom-container', '#help-modal', '#cta-container'].join(
+                ','
+              ) + '{display: none}'
+            )}
             q={{
               title: 0, // Hide top bar
               help: 0, // Don't show help
@@ -142,6 +170,7 @@ export default class ListingHeader extends PureComponent {
     return (
       <Fragment>
         <GalleryContainer testID={testID} width={width} height={height}>
+          {!this.state.tourLoading && <TourOverlay />}
           {images && images.length ? (
             <Gallery
               lazy={false}

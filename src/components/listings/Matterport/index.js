@@ -56,8 +56,6 @@ class Matterport extends PureComponent {
           <WebView
             ref={webViewRef}
             startInLoadingState
-            javaScriptEnabled
-            scalesPageToFit
             source={{uri}}
             style={this.display}
             renderLoading={this.renderLoading}
