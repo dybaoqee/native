@@ -6,6 +6,7 @@ import {View, Row, Text, Icon} from '@emcasa/ui-native'
 
 import Image from '@/components/listings/Image'
 import Gallery from '@/components/listings/Gallery'
+import GradientOverlay from '@/components/shared/GradientOverlay'
 import Matterport from '../Matterport'
 
 const GalleryContainer = styled.View`
@@ -142,6 +143,14 @@ export default class ListingHeader extends PureComponent {
     return (
       <Fragment>
         <GalleryContainer testID={testID} width={width} height={height}>
+          <GradientOverlay
+            from={1}
+            to={0}
+            size={0.4}
+            opacity={0.5}
+            axis="y"
+            color="#000000"
+          />
           {images && images.length ? (
             <Gallery
               lazy={false}
