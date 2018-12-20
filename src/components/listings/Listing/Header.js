@@ -131,6 +131,7 @@ export default class ListingHeader extends PureComponent {
         width="100%"
         height="100%"
       >
+        {!this.state.tourLoading && <TourOverlay />}
         {this.props.ready && (
           <Matterport
             ref={this.props.webViewRef}
@@ -170,7 +171,6 @@ export default class ListingHeader extends PureComponent {
     return (
       <Fragment>
         <GalleryContainer testID={testID} width={width} height={height}>
-          {!this.state.tourLoading && <TourOverlay />}
           {images && images.length ? (
             <Gallery
               lazy={false}
