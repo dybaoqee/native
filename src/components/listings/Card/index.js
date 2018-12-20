@@ -12,6 +12,7 @@ import {touchable} from '@/components/shared/Touchable'
 import Gallery from '@/components/listings/Gallery'
 import Image from '@/components/listings/Image'
 import FavoriteButton from '../FavoriteButton'
+import GradientOverlay from '@/components/shared/GradientOverlay'
 
 const stringifyProps = ({area, rooms, suites, bathrooms}) => {
   let result = `${area}m² - ${rooms} quarto${rooms != 1 ? 's' : ''}`
@@ -43,6 +44,14 @@ const Header = styled(function ListingCardHeader({children, ...props}) {
       >
         {children}
       </View>
+      <GradientOverlay
+        from={1}
+        to={0}
+        size={0.5}
+        opacity={0.5}
+        axis="y"
+        color="#000000"
+      />
       <ListingImages {...props} />
     </View>
   )
