@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 import android.content.Context;
+import android.webkit.WebView;
 
 import com.facebook.react.ReactApplication;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -116,5 +117,6 @@ public class MainApplication extends NavigationApplication implements ShareAppli
     SoLoader.init(this, /* native exopackage */ false);
     Fabric.with(this, new Crashlytics());
     AppEventsLogger.activateApp(this);
+    WebView.setWebContentsDebuggingEnabled(isDebug());
   }
 }
