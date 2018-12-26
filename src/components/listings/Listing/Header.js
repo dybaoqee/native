@@ -1,4 +1,4 @@
-import {PureComponent, Fragment} from 'react'
+import React, {PureComponent, Fragment} from 'react'
 import {Dimensions} from 'react-native'
 import styled from 'styled-components/native'
 import {themeGet, width, height} from 'styled-system'
@@ -98,20 +98,33 @@ const openFloorPlanScript = ({
 });`
 
 export default class ListingHeader extends PureComponent {
+  static defaultProps = {
+    get webViewRef() {
+      return React.createRef()
+    }
+  }
   state = {
+    showImages: 4,
     galleryData: undefined,
     tourLoading: true
   }
 
   get images() {
-    const images = this.props.images.slice(0, 4)
-    if (this.props.matterportCode) images.unshift(this.renderTour())
-    return images
+    const {images, showImages, matterportCode} = this.props
+    const galleryImages = images.slice(0, showImages)
+    if (matterportCode)
+      galleryImages.splice(this.tourSlideIndex, 0, this.renderTour())
+    return galleryImages
+  }
+
+  get tourSlideIndex() {
+    return Math.min(this.props.images.length, this.props.showImages)
   }
 
   onPressImage = (index) => {
-    if (index === 0) this.props.onOpenTour()
-    else this.props.onOpenGallery(index - 1)
+    if (this.props.matterportCode && index === this.tourSlideIndex)
+      this.props.onOpenTour()
+    else this.props.onOpenGallery(index)
   }
 
   onTourLoadEnd = () =>
@@ -165,7 +178,7 @@ export default class ListingHeader extends PureComponent {
   }
 
   render() {
-    const {testID} = this.props
+    const {testID, galleryRef} = this.props
     const images = this.images
     let {width, height} = Dimensions.get('window')
     height = width * 0.64
@@ -182,6 +195,7 @@ export default class ListingHeader extends PureComponent {
           />
           {images && images.length ? (
             <Gallery
+              ref={galleryRef}
               lazy={false}
               testID={`${testID}_gallery`}
               width={width}

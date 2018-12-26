@@ -18,6 +18,8 @@ export default class ListingGallery extends PureComponent {
     dimensions: {}
   }
 
+  swipeableViewRef = React.createRef()
+
   static getDerivedStateFromProps(props, state) {
     return {
       index:
@@ -45,10 +47,6 @@ export default class ListingGallery extends PureComponent {
     }
   }
 
-  galleryRef = (node) => {
-    this.gallery = node
-  }
-
   onChangeIndex = (_index) => {
     const {onChangeIndex} = this.props
     const index = Math.floor(_index)
@@ -66,12 +64,14 @@ export default class ListingGallery extends PureComponent {
       height: layout.height
     }
     this.setState({dimensions})
-    this.gallery.handleLayout(e)
-    this.gallery.scrollViewNode.scrollTo({
-      x: dimensions.width * index,
-      y: 0,
-      animated: false
-    })
+    if (this.swipeableViewRef.current) {
+      this.swipeableViewRef.current.handleLayout(e)
+      this.swipeableViewRef.current.scrollViewNode.scrollTo({
+        x: dimensions.width * index,
+        y: 0,
+        animated: false
+      })
+    }
   }
 
   renderImage = (image, index) => {
@@ -118,7 +118,7 @@ export default class ListingGallery extends PureComponent {
         <SwipeableView
           testID={testID}
           keyboardShouldPersistTaps="always"
-          ref={this.galleryRef}
+          ref={this.swipeableViewRef}
           index={index}
           onLayout={this.onLayout}
           style={{

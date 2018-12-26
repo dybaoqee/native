@@ -25,6 +25,8 @@ import TourScreen from '@/screens//listing/Tour'
 import InterestFormScreen from '@/screens//interest/Form'
 import Spinner from '@/components/shared/Spinner'
 
+const GALLERY_SLIDES = 6
+
 class ListingScreen extends PureComponent {
   static screenName = 'listing.Listing'
 
@@ -41,6 +43,8 @@ class ListingScreen extends PureComponent {
   }
 
   webViewRef = React.createRef()
+
+  galleryRef = React.createRef()
 
   get shareOptions() {
     const {
@@ -126,10 +130,31 @@ class ListingScreen extends PureComponent {
       }
     })
 
+  onShowTourSlide = _.throttle(() => {
+    const {
+      listing: {data}
+    } = this.props
+    if (!data || !this.galleryRef.current) return
+    this.galleryRef.current.onChangeIndex(
+      Math.min(GALLERY_SLIDES, data.images.length)
+    )
+  }, 500)
+
   onViewTour = _.once(() => this.props.onViewTour())
 
   renderRightButtons = () => {
-    return <RightButtons id={this.props.params.id} onShare={this.onShare} />
+    const {
+      listing: {data}
+    } = this.props
+    return (
+      <RightButtons
+        id={this.props.params.id}
+        onShare={this.onShare}
+        onShowTourSlide={
+          Boolean(data && data.matterportCode) && this.onShowTourSlide
+        }
+      />
+    )
   }
 
   render() {
@@ -161,7 +186,9 @@ class ListingScreen extends PureComponent {
             <Listing
               {...data}
               webViewRef={this.webViewRef}
+              galleryRef={this.galleryRef}
               ready={ready}
+              showImages={GALLERY_SLIDES}
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}
