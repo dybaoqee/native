@@ -8,6 +8,7 @@ import {Row, Button, Text} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
+import {debounceTransition} from '@/lib/navigation/helpers'
 import {
   withListing,
   withViewTourMutation,
@@ -66,12 +67,12 @@ class ListingScreen extends PureComponent {
     InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
   }
 
-  onDismiss = () => {
+  onDismiss = _.once(() => {
     if (this.webViewRef.current) this.webViewRef.current.stopLoading()
     Navigation.pop(this.props.componentId)
-  }
+  })
 
-  onOpenGallery = (index) => {
+  onOpenGallery = debounceTransition((index) => {
     Navigation.showModal({
       component: {
         name: GalleryScreen.screenName,
@@ -82,9 +83,9 @@ class ListingScreen extends PureComponent {
         }
       }
     })
-  }
+  })
 
-  onOpenTour = () => {
+  onOpenTour = debounceTransition(() => {
     Navigation.showModal({
       component: {
         name: TourScreen.screenName,
@@ -94,16 +95,16 @@ class ListingScreen extends PureComponent {
         }
       }
     })
-  }
+  })
 
-  onOpenInterestForm = () => {
+  onOpenInterestForm = debounceTransition(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: InterestFormScreen.screenName,
         passProps: {params: this.props.params}
       }
     })
-  }
+  })
 
   onShare = async () => {
     const {
@@ -118,13 +119,14 @@ class ListingScreen extends PureComponent {
     }
   }
 
-  onSelectListing = (id) =>
+  onSelectListing = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
+  )
 
   onViewTour = _.once(() => this.props.onViewTour())
 

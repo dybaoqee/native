@@ -6,6 +6,7 @@ import {View} from '@emcasa/ui-native'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
+import {debounceTransition} from '@/lib/navigation/helpers'
 import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
@@ -90,7 +91,7 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenLocationSearch = () =>
+  onOpenLocationSearch = debounceTransition(() =>
     this.setState({modalVisible: true}, () =>
       Modal.show({
         passProps: {
@@ -108,21 +109,22 @@ class ListingsFeedScreen extends PureComponent {
         }
       })
     )
+  )
 
-  onCloseLocationSearch = () => {
+  onCloseLocationSearch = debounceTransition(() => {
     if (this.state.modalVisible) Modal.hide()
-  }
+  })
 
   onClearFilters = () => this.props.clearFilters()
 
-  onSelect = (id) => {
+  onSelect = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
-  }
+  )
 
   renderListFooter = () => {
     const {
