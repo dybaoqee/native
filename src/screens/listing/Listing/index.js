@@ -141,7 +141,7 @@ class ListingScreen extends PureComponent {
 
     const isActive = data && data.isActive
     return (
-      <Shell>
+      <Shell testID="@listing.Listing">
         <Body
           scroll={!loading}
           loading={loading}

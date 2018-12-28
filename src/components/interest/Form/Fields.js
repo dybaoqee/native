@@ -28,6 +28,8 @@ const Name = () => (
     {({input: {onChange, ...input}, meta: {touched, error}}) => (
       <Input
         hideLabelView
+        accessible
+        accessibilityLabel="Nome"
         error={touched && error}
         autoCapitalize="words"
         autoCorrect={false}
@@ -44,6 +46,8 @@ const Email = () => (
     {({input: {onChange, ...input}, meta: {touched, error}}) => (
       <Input
         hideLabelView
+        accessible
+        accessibilityLabel="Email"
         error={touched && error}
         autoCapitalize="none"
         autoCorrect={false}
@@ -61,6 +65,8 @@ const Phone = () => (
     {({input: {onChange, ...input}, meta: {touched, error}}) => (
       <Input
         hideLabelView
+        accessible
+        accessibilityLabel="Telefone"
         error={touched && error}
         keyboardType="phone-pad"
         placeholder="Telefone"
