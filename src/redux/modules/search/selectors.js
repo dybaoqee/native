@@ -44,6 +44,6 @@ export const getSearchFiltersQuery = createSelector(
         suites && parseRange('suites', suites),
         garageSpots && parseRange('garageSpots', garageSpots)
       ),
-    _.pickBy(_.identity)
+    _.pickBy(_.negate(_.isNil))
   )
 )
