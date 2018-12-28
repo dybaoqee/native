@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Dimensions} from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 import {View} from '@emcasa/ui-native'
 
 import Card from '@/components/listings/Card'
 
-class HorizontalListingFeed extends Component {
+class HorizontalListingFeed extends PureComponent {
   static defaultProps = {
     Card,
     get itemWidth() {
@@ -17,13 +17,6 @@ class HorizontalListingFeed extends Component {
   }
 
   slider = React.createRef()
-
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.data.length !== this.props.data.length ||
-      nextProps.active !== this.props.active
-    )
-  }
 
   componentDidUpdate(prev) {
     const {active, data} = this.props

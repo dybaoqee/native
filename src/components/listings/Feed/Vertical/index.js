@@ -1,5 +1,5 @@
 import _ from 'lodash/fp'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {FlatList as RCTFlatList} from 'react-native'
 import {View} from '@emcasa/ui-native'
 
@@ -12,13 +12,9 @@ const keyExtractor = _.flow(
 
 const FlatList = View.withComponent(RCTFlatList)
 
-class VerticalListingFeed extends Component {
+class VerticalListingFeed extends PureComponent {
   static defaultProps = {
     Card
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.data.length !== this.props.data.length
   }
 
   renderItem = ({item, index}) => {
