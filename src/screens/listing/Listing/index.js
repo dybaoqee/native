@@ -167,7 +167,7 @@ class ListingScreen extends PureComponent {
               onOpenTour={this.onOpenTour}
             />
           )}
-          {loading || !ready ? (
+          {!ready ? (
             <Row height={60} justifyContent="center" alignItems="center">
               <Spinner size={15} />
             </Row>
@@ -221,6 +221,6 @@ export default composeWithRef(
     {logEvent}
   ),
   withViewTourMutation,
+  withListing(({params: {id}}) => ({id})),
   withRelatedListings(({params: {id}}) => ({id})),
-  withListing(({params: {id}}) => ({id}))
 )(ListingScreen)

@@ -1,39 +1,43 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import {View, Col, Icon} from '@emcasa/ui-native'
 
-import Map, {Marker} from '../Map'
+import BaseMap, {Marker} from '../Map'
 import Description from './Description'
 import Properties from './Properties'
 import Header from './Header'
+import styled from 'styled-components/native'
 
-export default class ListingView extends Component {
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.id !== this.props.id || nextProps.ready !== this.props.ready
-    )
-  }
+const MapView = styled(View)`
+  overflow: hidden;
+  margin-horizontal: 15px;
+  margin-bottom: 25px;
+  border-radius: 4px;
+`
 
+const Map = styled(function Map({style, testID, address}) {
+  return (
+    <MapView testID={testID}>
+      <BaseMap zoom="close" style={style} {...address}>
+        <Marker address={address}>
+          <Icon name="home" color="pink" size={20} />
+        </Marker>
+      </BaseMap>
+    </MapView>
+  )
+})`
+  width: 100%;
+  height: 300;
+`
+
+export default class ListingView extends PureComponent {
   render() {
-    const {address, ready} = this.props
+    const {ready, ...props} = this.props
     return (
       <Col flex={1}>
-        <Header testID="listing_header" {...this.props} />
-        <Properties {...this.props} />
-        <Description {...this.props} />
-        {ready && (
-          <View
-            mb="25px"
-            testID="listing_map"
-            style={{overflow: 'hidden', marginHorizontal: 15}}
-            borderRadius={4}
-          >
-            <Map zoom="close" style={{width: '100%', height: 300}} {...address}>
-              <Marker address={address}>
-                <Icon name="home" color="pink" size={20} />
-              </Marker>
-            </Map>
-          </View>
-        )}
+        <Header testID="listing_header" {...props} />
+        <Properties {...props} />
+        <Description {...props} />
+        {ready && <Map testID="listing_map" address={props.address} />}
       </Col>
     )
   }
