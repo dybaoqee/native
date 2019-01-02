@@ -29,6 +29,6 @@ export default FavoriteMutation
 export const withFavoriteMutation = (Target) =>
   withFavoriteListingByID((props) => (
     <FavoriteMutation {...props}>
-      {(onFavorite) => <Target {...props} onFavorite={() => onFavorite()} />}
+      {(onFavorite) => <Target {...props} onFavorite={onFavorite} />}
     </FavoriteMutation>
   ))

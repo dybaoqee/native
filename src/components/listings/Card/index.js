@@ -1,5 +1,5 @@
 import {cond, get, stubTrue} from 'lodash/fp'
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import {Dimensions, StyleSheet} from 'react-native'
 import styled from 'styled-components'
 import {themeGet} from 'styled-system'
@@ -75,7 +75,7 @@ const Body = styled.View`
   ])};
 `
 
-class ListingCard extends Component {
+class ListingCard extends PureComponent {
   static defaultProps = {
     testUniqueID: '',
     ml: 0,
@@ -86,12 +86,7 @@ class ListingCard extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.active !== this.props.active ||
-      nextProps.favorite !== this.props.favorite
-    )
-  }
+  onFavorite = () => this.props.onFavorite()
 
   render() {
     const {
@@ -101,7 +96,6 @@ class ListingCard extends Component {
       address,
       price,
       favorite,
-      onFavorite,
       showImages,
       index,
       ...props
@@ -117,7 +111,7 @@ class ListingCard extends Component {
                 testID="favorite_button"
                 hitSlop={15}
                 active={favorite}
-                onPress={onFavorite}
+                onPress={this.onFavorite}
               />
             </View>
           </Header>
