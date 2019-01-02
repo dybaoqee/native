@@ -4,11 +4,7 @@ import {GET_ALL_DISTRICTS} from '@/graphql/modules/meta/queries'
 
 function DistrictsQuery(props) {
   return (
-    <Query
-      query={GET_ALL_DISTRICTS}
-      fetchPolicy="cache-and-network"
-      {...props}
-    />
+    <Query query={GET_ALL_DISTRICTS} fetchPolicy="cache-first" {...props} />
   )
 }
 

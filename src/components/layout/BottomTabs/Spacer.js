@@ -12,12 +12,29 @@ export default withTheme(
       )
     }
 
+    get isVisible() {
+      return this.props.theme.Shell.bottomTabsVisible
+    }
+
+    get height() {
+      return this.isVisible ? this.props.theme.size.bottomTabs : 0
+    }
+
+    _onChangeCallback() {
+      const {onChange} = this.props
+      if (onChange) onChange(this.height)
+    }
+
+    componentDidUpdate = this._onChangeCallback
+
+    componentDidMount = this._onChangeCallback
+
     render() {
-      const {children, theme} = this.props
-      const height = theme.Shell.bottomTabsVisible ? theme.size.bottomTabs : 0
-      if (typeof children === 'function')
-        return children({height, visible: theme.Shell.bottomTabsVisible})
-      else return <View height={height} />
+      const {children} = this.props
+      if (!children) return null
+      else if (typeof children === 'function')
+        return children({height: this.height, visible: this.isVisible})
+      else return <View height={this.height} />
     }
   }
 )

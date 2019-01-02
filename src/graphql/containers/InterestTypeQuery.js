@@ -3,7 +3,11 @@ import {Query} from 'react-apollo'
 import {GET_INTEREST_TYPES} from '@/graphql/modules/interest/queries'
 
 function InterestTypeQuery({children}) {
-  return <Query query={GET_INTEREST_TYPES}>{children}</Query>
+  return (
+    <Query query={GET_INTEREST_TYPES} networkPolicy="cache-first">
+      {children}
+    </Query>
+  )
 }
 
 export const withInterestTypes = (Target) => (props) => (
