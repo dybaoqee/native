@@ -19,6 +19,7 @@ configurations:
   - &env-staging
     API_URL: https://em-casa-backend-staging.herokuapp.com
     APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
+    FRONTEND_URL: https://staging.emcasa.com
     MESSENGER_RECEIVER_ID: 16
     NODE_ENV: production
     RELEASE_PROFILE: staging
