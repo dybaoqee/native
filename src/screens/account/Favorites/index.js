@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {View, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
+import {debounceTransition} from '@/lib/navigation/helpers'
 import {withFavoriteListings} from '@/graphql/containers'
 import {switchTab} from '@/redux/modules/navigation'
 import {Shell, Body} from '@/components/layout'
@@ -50,17 +51,18 @@ class FavoritesScreen extends PureComponent {
     this.list.current.scrollToOffset({animated: true, offset: 0})
   }
 
-  onSelect = (id) =>
+  onSelect = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
+  )
 
-  onExplore = () => {
+  onExplore = debounceTransition(() => {
     this.props.switchTab(0)
-  }
+  })
 
   render() {
     const {

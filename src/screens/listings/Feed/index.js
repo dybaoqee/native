@@ -11,6 +11,7 @@ import {
   withDistricts,
   withInterestTypes
 } from '@/graphql/containers'
+import {debounceTransition} from '@/lib/navigation/helpers'
 import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
@@ -94,7 +95,7 @@ class ListingsFeedScreen extends PureComponent {
     if (!loading) fetchMore()
   }
 
-  onOpenLocationSearch = () =>
+  onOpenLocationSearch = debounceTransition(() =>
     this.setState({modalVisible: true}, () =>
       Modal.show({
         passProps: {
@@ -112,21 +113,22 @@ class ListingsFeedScreen extends PureComponent {
         }
       })
     )
+  )
 
-  onCloseLocationSearch = () => {
+  onCloseLocationSearch = debounceTransition(() => {
     if (this.state.modalVisible) Modal.hide()
-  }
+  })
 
   onClearFilters = () => this.props.clearFilters()
 
-  onSelect = (id) => {
+  onSelect = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
-  }
+  )
 
   onBottomTabsLayout = (height) =>
     this.setState({
