@@ -127,11 +127,10 @@ export default class ListingHeader extends PureComponent {
   onTourLoadEnd = () =>
     this.setState({tourLoading: false}, () => {
       const {webViewRef} = this.props
-      if (!webViewRef.current) return
-      setTimeout(
-        () => webViewRef.current.injectJavaScript(openFloorPlanScript()),
-        1500
-      )
+      setTimeout(() => {
+        if (webViewRef.current)
+          webViewRef.current.injectJavaScript(openFloorPlanScript())
+      }, 1500)
     })
 
   renderTour() {
