@@ -6,8 +6,12 @@ import {View} from '@emcasa/ui-native'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
+import {
+  withListingsFeed,
+  withDistricts,
+  withInterestTypes
+} from '@/graphql/containers'
 import {debounceTransition} from '@/lib/navigation/helpers'
-import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {clearFilters} from '@/redux/modules/search'
 import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
@@ -209,6 +213,7 @@ export default composeWithRef(
     (state) => ({filters: getSearchFiltersQuery(state)}),
     {clearFilters}
   ),
+  withInterestTypes,
   withListingsFeed(({filters}) => ({
     filters,
     pageSize: 15,

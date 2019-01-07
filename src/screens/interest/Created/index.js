@@ -15,7 +15,7 @@ export default class InterestCreatedModal extends PureComponent {
 
   render() {
     return (
-      <Modal bg="pink">
+      <Modal bg="pink" testID="@interest.Created">
         <Modal.Header color="white" onDismiss={this.props.onDismiss} />
         <Body flex={1} p="25px">
           <Row mb="25px" justifyContent="center">
