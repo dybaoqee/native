@@ -211,6 +211,10 @@ class ListingsFeedScreen extends PureComponent {
 }
 
 export default composeWithRef(
+  connect(
+    (state) => ({filters: getSearchFiltersQuery(state)}),
+    {clearFilters}
+  ),
   withListingsFeed(({filters}) => ({
     filters,
     pageSize: 15,
@@ -218,8 +222,4 @@ export default composeWithRef(
   })),
   withDistricts(),
   withInterestTypes,
-  connect(
-    (state) => ({filters: getSearchFiltersQuery(state)}),
-    {clearFilters}
-  )
 )(ListingsFeedScreen)
