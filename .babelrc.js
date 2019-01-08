@@ -34,6 +34,7 @@ module.exports = (api) => {
             'CODEPUSH_ENABLED',
             'SENTRY_ENABLED',
             'REMOTE_CONFIG_ENABLED',
+            'FRONTEND_URL',
             'API_URL',
             'IOS_API_URL',
             'ANDROID_API_URL',

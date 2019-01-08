@@ -8,6 +8,7 @@ import {Row, Button, Text} from '@emcasa/ui-native'
 
 import {FRONTEND_URL} from '@/config/const'
 import composeWithRef from '@/lib/composeWithRef'
+import {debounceTransition} from '@/lib/navigation/helpers'
 import {
   withListing,
   withViewTourMutation,
@@ -70,12 +71,12 @@ class ListingScreen extends PureComponent {
     InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
   }
 
-  onDismiss = () => {
+  onDismiss = _.once(() => {
     if (this.webViewRef.current) this.webViewRef.current.stopLoading()
     Navigation.pop(this.props.componentId)
-  }
+  })
 
-  onOpenGallery = (index) => {
+  onOpenGallery = debounceTransition((index) => {
     Navigation.showModal({
       component: {
         name: GalleryScreen.screenName,
@@ -86,9 +87,9 @@ class ListingScreen extends PureComponent {
         }
       }
     })
-  }
+  })
 
-  onOpenTour = () => {
+  onOpenTour = debounceTransition(() => {
     Navigation.showModal({
       component: {
         name: TourScreen.screenName,
@@ -98,16 +99,16 @@ class ListingScreen extends PureComponent {
         }
       }
     })
-  }
+  })
 
-  onOpenInterestForm = () => {
+  onOpenInterestForm = debounceTransition(() => {
     Navigation.push(this.props.componentId, {
       component: {
         name: InterestFormScreen.screenName,
         passProps: {params: this.props.params}
       }
     })
-  }
+  })
 
   onShare = async () => {
     const {
@@ -122,13 +123,14 @@ class ListingScreen extends PureComponent {
     }
   }
 
-  onSelectListing = (id) =>
+  onSelectListing = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
+  )
 
   onShowTourSlide = _.throttle(() => {
     const {
@@ -166,7 +168,7 @@ class ListingScreen extends PureComponent {
 
     const isActive = data && data.isActive
     return (
-      <Shell>
+      <Shell testID="@listing.Listing">
         <Body
           scroll={!loading}
           loading={loading}
@@ -194,7 +196,7 @@ class ListingScreen extends PureComponent {
               onOpenTour={this.onOpenTour}
             />
           )}
-          {loading || !ready ? (
+          {!ready ? (
             <Row height={60} justifyContent="center" alignItems="center">
               <Spinner size={15} />
             </Row>
@@ -248,6 +250,6 @@ export default composeWithRef(
     {logEvent}
   ),
   withViewTourMutation,
+  withListing(({params: {id}}) => ({id})),
   withRelatedListings(({params: {id}}) => ({id})),
-  withListing(({params: {id}}) => ({id}))
 )(ListingScreen)

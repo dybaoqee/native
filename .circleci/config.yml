@@ -19,6 +19,7 @@ configurations:
   - &env-staging
     API_URL: https://em-casa-backend-staging.herokuapp.com
     APOLLO_ENGINE_URL: https://em-casa-apollo-engine-staging.herokuapp.com/graphql_api
+    FRONTEND_URL: https://staging.emcasa.com
     MESSENGER_RECEIVER_ID: 16
     NODE_ENV: production
     RELEASE_PROFILE: staging
@@ -333,6 +334,7 @@ jobs:
           background: true
       - run:
           name: Launch app
+          no_output_timeout: 1m
           command: |-
             xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
             xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5

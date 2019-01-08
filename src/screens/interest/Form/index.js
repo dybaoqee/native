@@ -87,7 +87,7 @@ class InterestFormScreen extends PureComponent {
     const {loading} = this.state
 
     return (
-      <Shell>
+      <Shell testID="@interest.Form">
         <Body scroll bounces={false}>
           <Form
             interestTypes={data || []}

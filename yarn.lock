@@ -1687,18 +1687,18 @@
     slugify "^1.3.1"
     url "^0.11.0"
 
-"@emcasa/ui-native@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.8.3.tgz#9f3e584c5fe9d4fd2c05a90935da7529b5d330f8"
+"@emcasa/ui-native@^0.8.7":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui-native/-/ui-native-0.8.7.tgz#4fc284daa58fa1b17ee06c72066543c73ca4dedb"
   dependencies:
-    "@emcasa/ui" "^0.8.3"
+    "@emcasa/ui" "^0.8.7"
     lodash.omit "^4.5.0"
     lodash.pick "^4.4.0"
     recompose "^0.30.0"
 
-"@emcasa/ui@^0.8.3":
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.8.3.tgz#5f9b365a0b8631730bc1f83b3b88d594b6308646"
+"@emcasa/ui@^0.8.7":
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/@emcasa/ui/-/ui-0.8.7.tgz#ff67713715a1c82df4d3d0f7d61bab1f6750a0ab"
   dependencies:
     "@fortawesome/free-solid-svg-icons" "^5.4.1"
     everpolate "^0.0.3"

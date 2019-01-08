@@ -97,6 +97,17 @@ const openFloorPlanScript = ({
   }, ${timeout});
 });`
 
+const matterportQuery = {
+  title: 0, // Hide top bar
+  help: 0, // Don't show help
+  hl: 0, // Don't show highlight reel
+  vr: 0, // Hide VR button
+  dh: 1, // Hide dollhouse & floor-plan buttons
+  gt: 0, // Hide guided tour button
+  qs: 1,
+  ts: 0
+}
+
 export default class ListingHeader extends PureComponent {
   static defaultProps = {
     get webViewRef() {
@@ -108,7 +119,6 @@ export default class ListingHeader extends PureComponent {
     galleryData: undefined,
     tourLoading: true
   }
-
   get images() {
     const {images, showImages, matterportCode} = this.props
     const galleryImages = images.slice(0, showImages)
@@ -130,11 +140,10 @@ export default class ListingHeader extends PureComponent {
   onTourLoadEnd = () =>
     this.setState({tourLoading: false}, () => {
       const {webViewRef} = this.props
-      if (!webViewRef.current) return
-      setTimeout(
-        () => webViewRef.current.injectJavaScript(openFloorPlanScript()),
-        1500
-      )
+      setTimeout(() => {
+        if (webViewRef.current)
+          webViewRef.current.injectJavaScript(openFloorPlanScript())
+      }, 1500)
     })
 
   renderTour() {
@@ -146,33 +155,22 @@ export default class ListingHeader extends PureComponent {
         height="100%"
       >
         {!this.state.tourLoading && <TourOverlay />}
-        {this.props.ready && (
-          <Matterport
-            ref={this.props.webViewRef}
-            useWebKit
-            javascriptEnabled
-            javaScriptEnabledAndroid
-            play={false}
-            code={this.props.matterportCode}
-            pointerEvents="none"
-            onLoadEnd={this.onTourLoadEnd}
-            injectedJavaScript={injectCssScript(
-              ['.pinBottom-container', '#help-modal', '#cta-container'].join(
-                ','
-              ) + '{display: none}'
-            )}
-            q={{
-              title: 0, // Hide top bar
-              help: 0, // Don't show help
-              hl: 0, // Don't show highlight reel
-              vr: 0, // Hide VR button
-              dh: 1, // Hide dollhouse & floor-plan buttons
-              gt: 0, // Hide guided tour button
-              qs: 1,
-              ts: 0
-            }}
-          />
-        )}
+        <Matterport
+          ref={this.props.webViewRef}
+          useWebKit
+          javascriptEnabled
+          javaScriptEnabledAndroid
+          play={false}
+          code={this.props.matterportCode}
+          pointerEvents="none"
+          onLoadEnd={this.onTourLoadEnd}
+          injectedJavaScript={injectCssScript(
+            ['.pinBottom-container', '#help-modal', '#cta-container'].join(
+              ','
+            ) + '{display: none}'
+          )}
+          q={matterportQuery}
+        />
       </View>
     )
   }

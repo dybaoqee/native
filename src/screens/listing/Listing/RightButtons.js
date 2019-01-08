@@ -27,7 +27,7 @@ function RightButtons({favorite, onFavorite, onShare, onShowTourSlide}) {
           size={iconSize}
           testID="favorite_button"
           active={favorite}
-          onPress={onFavorite}
+          onPress={() => onFavorite()}
         />
       </Col>
       <Col>
