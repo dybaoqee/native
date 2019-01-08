@@ -56,8 +56,11 @@ describe('listing.Listing', () => {
       await element(select.headerGallery()).tap()
       await waitFor(element(select.listingScreen()))
         .toBeNotVisible()
-        .withTimeout(1000)
+        .withTimeout(500)
       await expect(element(select.tourScreen())).toBeVisible()
+      await waitFor(element(tourView()))
+        .toBeVisible()
+        .withTimeout(2000)
       await expect(element(tourView())).toBeVisible()
     })
 
