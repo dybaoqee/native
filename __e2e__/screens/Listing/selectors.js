@@ -16,7 +16,7 @@ export const gallerySlide = (index) => by.id(`gallery_slide(${index})`)
 
 export const scheduleVisitButton = () => by.text('Marcar visita')
 
-export const tourButton = () => by.label('Ver em tela cheia')
+export const tourButton = () => by.id('tour_button')
 
 export const likeButton = () => by.id('favorite_button')
 
