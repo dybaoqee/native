@@ -40,24 +40,25 @@ describe('listing.Listing', () => {
     const tourView = () => by.type('RCTWKWebView')
     const galleryTour = () => tourView().withAncestor(select.headerGallery())
 
-    it('has a 3d tour', async () => {
+    it('has a webview slide', async () => {
       await expect(element(galleryTour())).toExist()
     })
 
-    it('opens tour modal', async () => {
+    it('scrolls to webview slide', async () => {
       await element(select.tourButton()).tap()
       await waitFor(element(galleryTour()))
         .toBeVisible()
         .withTimeout(500)
       await expect(element(galleryTour())).toBeVisible()
+    })
+
+    it('opens tour modal', async () => {
       await element(select.headerGallery()).tap()
       await waitFor(element(select.listingScreen()))
         .toBeNotVisible()
-        .withTimeout(500)
+        .withTimeout(1000)
       await expect(element(select.tourScreen())).toBeVisible()
-      await expect(
-        element(tourView().withAncestor(select.tourScreen()))
-      ).toBeVisible()
+      await expect(element(tourView())).toBeVisible()
     })
 
     it('closes tour modal', async () => {
