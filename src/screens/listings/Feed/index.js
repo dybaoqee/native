@@ -130,6 +130,16 @@ class ListingsFeedScreen extends PureComponent {
     })
   )
 
+  onBottomTabsLayout = (height) =>
+    this.setState({
+      scrollIndicatorInsets: {
+        right: 0,
+        left: 0,
+        top: 0,
+        bottom: height
+      }
+    })
+
   renderListFooter = () => {
     const {
       listingsFeed: {loading}
@@ -172,35 +182,28 @@ class ListingsFeedScreen extends PureComponent {
     const {
       listingsFeed: {data, loading, remainingCount}
     } = this.props
+    const {scrollIndicatorInsets} = this.state
     return (
       <Shell testID="@listings.Feed" bottomTabs={this.bottomTabsProps}>
         <Body loading={loading}>
-          <BottomTabsSpacer>
-            {(bottomTabs) => (
-              <InfiniteScroll
-                loading={loading}
-                hasNextPage={remainingCount > 0}
-                onLoad={this.onLoadMore}
-              >
-                <Feed
-                  ref={this.listRef}
-                  testID="listing_feed"
-                  automaticallyAdjustContentInsets={false}
-                  data={data}
-                  scrollIndicatorInsets={{
-                    right: 0,
-                    left: 0,
-                    top: 0,
-                    bottom: bottomTabs.height
-                  }}
-                  onSelect={this.onSelect}
-                  ListHeaderComponent={ListHeader}
-                  ListFooterComponent={this.renderListFooter}
-                  ListEmptyComponent={this.renderListEmpty}
-                />
-              </InfiniteScroll>
-            )}
-          </BottomTabsSpacer>
+          <BottomTabsSpacer onChange={this.onBottomTabsLayout} />
+          <InfiniteScroll
+            loading={loading}
+            hasNextPage={remainingCount > 0}
+            onLoad={this.onLoadMore}
+          >
+            <Feed
+              ref={this.listRef}
+              testID="listing_feed"
+              automaticallyAdjustContentInsets={false}
+              data={data}
+              scrollIndicatorInsets={scrollIndicatorInsets}
+              onSelect={this.onSelect}
+              ListHeaderComponent={ListHeader}
+              ListFooterComponent={this.renderListFooter}
+              ListEmptyComponent={this.renderListEmpty}
+            />
+          </InfiniteScroll>
         </Body>
       </Shell>
     )
@@ -208,15 +211,15 @@ class ListingsFeedScreen extends PureComponent {
 }
 
 export default composeWithRef(
-  withDistricts(),
   connect(
     (state) => ({filters: getSearchFiltersQuery(state)}),
     {clearFilters}
   ),
-  withInterestTypes,
   withListingsFeed(({filters}) => ({
     filters,
     pageSize: 15,
     fetchPolicy: 'network-only'
-  }))
+  })),
+  withDistricts(),
+  withInterestTypes,
 )(ListingsFeedScreen)

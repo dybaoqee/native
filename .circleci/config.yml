@@ -334,6 +334,7 @@ jobs:
           background: true
       - run:
           name: Launch app
+          no_output_timeout: 1m
           command: |-
             xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
             xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5

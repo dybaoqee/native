@@ -1,12 +1,27 @@
 import _ from 'lodash'
 import React, {PureComponent} from 'react'
-import {TouchableOpacity} from 'react-native'
+import {TouchableOpacity, StyleSheet} from 'react-native'
 import SwipeableView from 'react-swipeable-views-native/lib/SwipeableViews.scroll'
 import {View} from '@emcasa/ui-native'
 
 import Image from '../Image'
 import Pagination from './Pagination'
 
+const styles = StyleSheet.create({
+  swipeableView: {
+    flex: 1,
+    width: '100%'
+  },
+  swipeableViewSlide: {
+    justifyContent: 'center',
+    alignItems: 'flex-start'
+  },
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 10,
+    width: '100%'
+  }
+})
 export default class ListingGallery extends PureComponent {
   static defaultProps = {
     lazy: true,
@@ -121,19 +136,13 @@ export default class ListingGallery extends PureComponent {
           ref={this.galleryRef}
           index={index}
           onLayout={this.onLayout}
-          style={{
-            flex: 1,
-            width: '100%'
-          }}
-          slideStyle={{
-            justifyContent: 'center',
-            alignItems: 'flex-start'
-          }}
+          style={styles.swipeableView}
+          slideStyle={styles.swipeableViewSlide}
           onChangeIndex={this.onChangeIndex}
         >
           {this.items.map(this.renderImage)}
         </SwipeableView>
-        <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
+        <View style={styles.paginationContainer}>
           <Pagination
             displayText={scalable}
             index={index}

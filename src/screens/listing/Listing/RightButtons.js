@@ -13,7 +13,7 @@ function LeftButtons({favorite, onFavorite, onShare}) {
         <FavoriteButton
           testID="favorite_button"
           active={favorite}
-          onPress={onFavorite}
+          onPress={() => onFavorite()}
         />
       </Col>
       <Col>
