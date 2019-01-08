@@ -18,20 +18,15 @@ class ListingTourScreen extends PureComponent {
     }
   }
 
-  state = {layout: {}}
-
-  onLayout = ({nativeEvent: {layout}}) => this.setState({layout})
-
   render() {
     const {
       listing: {data, loading},
       onDismiss
     } = this.props
-    const {layout} = this.state
 
     return (
       <Modal bg="black" testID="@listing.Tour">
-        <Body loading={loading} onLayout={this.onLayout}>
+        <Body loading={loading}>
           <Modal.Header
             translucent
             color="white"
