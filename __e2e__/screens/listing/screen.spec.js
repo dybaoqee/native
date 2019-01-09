@@ -16,11 +16,11 @@ describe('listing.Listing', () => {
 
     it('opens tour modal', async () => {
       await element(select.headerGallery()).tap()
-      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await waitFor(element(select.listingScreen()))
+        .toBeNotVisible()
+        .withTimeout(1000)
       await expect(element(select.tourScreen())).toBeVisible()
-      await expect(
-        element(tourView().withAncestor(select.tourScreen()))
-      ).toBeVisible()
+      await expect(element(tourView())).toBeVisible()
     })
 
     it('closes tour modal', async () => {

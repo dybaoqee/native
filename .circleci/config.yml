@@ -317,6 +317,13 @@ jobs:
           command: |-
             brew update
             brew upgrade python
+
+      - run:
+          name: Install NodeJS
+          command: |-
+            brew install node@10
+            brew unlink node
+            brew link --force --overwrite node@10
       - run: *install-detox-osx
       - save_cache: *cache-detox-framework
       - run:
@@ -332,12 +339,6 @@ jobs:
           name: Start bundler
           command: yarn start
           background: true
-      - run:
-          name: Launch app
-          no_output_timeout: 1m
-          command: |-
-            xcrun simctl install "$DEVICE_NAME" ios/build/Build/Products/Debug-iphonesimulator/EmCasa.app
-            xcrun simctl launch "$DEVICE_NAME" com.EmCasa.native-debug && sleep 5
       - run:
           name: Run tests
           no_output_timeout: 2m
