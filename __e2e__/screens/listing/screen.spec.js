@@ -20,7 +20,9 @@ describe('listing.Listing', () => {
 
     it('opens gallery modal at selected slide', async () => {
       await element(select.headerGallery()).tap()
-      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await waitFor(element(select.listingScreen()))
+        .toBeNotVisible()
+        .withTimeout(1000)
       await expect(element(select.galleryScreen())).toBeVisible()
       await expect(
         element(
@@ -31,7 +33,9 @@ describe('listing.Listing', () => {
 
     it('closes gallery modal', async () => {
       await element(shared.modalCloseButton()).tap()
-      await waitFor(element(select.galleryScreen())).toBeNotVisible()
+      await waitFor(element(select.galleryScreen()))
+        .toBeNotVisible()
+        .withTimeout(1000)
       await expect(element(select.galleryScreen())).toBeNotVisible()
     })
   })
@@ -60,13 +64,15 @@ describe('listing.Listing', () => {
       await expect(element(select.tourScreen())).toBeVisible()
       await waitFor(element(tourView()))
         .toBeVisible()
-        .withTimeout(2000)
+        .withTimeout(1000)
       await expect(element(tourView())).toBeVisible()
     })
 
     it('closes tour modal', async () => {
       await element(shared.modalCloseButton()).tap()
-      await waitFor(element(select.galleryScreen())).toBeNotVisible()
+      await waitFor(element(select.galleryScreen()))
+        .toBeNotVisible()
+        .withTimeout(1000)
       await expect(element(select.galleryScreen())).toBeNotVisible()
     })
   })
@@ -86,7 +92,9 @@ describe('listing.Listing', () => {
       const backButton = element(select.backButton())
       await expect(backButton).toBeVisible()
       await backButton.tap()
-      await waitFor(element(select.listingScreen())).toBeNotVisible()
+      await waitFor(element(select.listingScreen()))
+        .toBeNotVisible()
+        .withTimeout(1000)
       await expect(element(listings.feedScreen())).toBeVisible()
     })
   })
