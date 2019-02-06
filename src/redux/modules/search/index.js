@@ -9,7 +9,6 @@ export const updateFilters = (filters) => ({type: UPDATE_FILTERS, filters})
 export const clearFilters = () => ({type: CLEAR})
 
 export const initialState = {
-  city: 'rio-de-janeiro',
   filters: {}
 }
 
