@@ -13,24 +13,30 @@ class LocationContainer extends PureComponent {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.filters && !state.neighborhoods)
-      return {
-        neighborhoods: props.filters.neighborhoods || []
-      }
-    return null
+    const citySlug = state.citySlug || props.citySlug
+    const neighborhoods =
+      state.neighborhoods ||
+      (props.citySlug == citySlug ? props.filters.neighborhoods : undefined)
+    return {citySlug, neighborhoods}
   }
 
   componentWillUnmount() {
-    this.props.updateFilters({
-      ...this.props.filters,
-      neighborhoods: this.state.neighborhoods || []
-    })
+    const citySlug = this.state.citySlug
+    const neighborhoods = _.isEmpty(this.state.neighborhoods)
+      ? undefined
+      : this.state.neighborhoods
+    if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
+    if (neighborhoods !== this.props.filters.neighborhoods)
+      this.props.updateFilters({
+        ...this.props.filters,
+        neighborhoods
+      })
   }
 
   onChangeCity = (citySlug) => {
-    const nextState = {}
-    if (citySlug !== this.props.citySlug) nextState.neighborhoods = []
-    this.setState(nextState, () => this.props.updateCity(citySlug))
+    const nextState = {citySlug}
+    if (citySlug !== this.state.citySlug) nextState.neighborhoods = undefined
+    this.setState(nextState)
   }
 
   onChangeNeighborhoods = (neighborhoods) => {
@@ -38,8 +44,8 @@ class LocationContainer extends PureComponent {
   }
 
   render() {
-    const {citySlug, districts, ...props} = this.props
-    const {neighborhoods} = this.state
+    const {districts, ...props} = this.props
+    const {citySlug, neighborhoods} = this.state
     return (
       <Location
         {...props}
