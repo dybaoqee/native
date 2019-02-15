@@ -6,11 +6,7 @@ import {View} from '@emcasa/ui-native'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
-import {
-  withListingsFeed,
-  withDistricts,
-  withInterestTypes
-} from '@/graphql/containers'
+import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {debounceTransition} from '@/lib/navigation/helpers'
 import {clearFilters} from '@/redux/modules/search'
 import {
@@ -233,6 +229,5 @@ export default composeWithRef(
   })),
   withDistricts(() => ({
     fetchPolicy: 'cache-and-network'
-  })),
-  withInterestTypes
+  }))
 )(ListingsFeedScreen)
