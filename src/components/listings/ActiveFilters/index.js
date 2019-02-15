@@ -37,6 +37,11 @@ const Filter = styled(function Filter({children, onPress, ...props}) {
   margin-right: 5px;
 `
 
+const filterArrayValue = (values, valToFilter) => {
+  const value = _.without(values, valToFilter)
+  return _.isEmpty(value) ? undefined : value
+}
+
 function FilterArray({name, value, onChange}) {
   const toString = parse[name] || _.identity
   return (
@@ -44,7 +49,7 @@ function FilterArray({name, value, onChange}) {
       {value.map((val) => (
         <Filter
           key={val}
-          onPress={() => onChange({[name]: _.without(value, val)})}
+          onPress={() => onChange({[name]: filterArrayValue(value, val)})}
         >
           {toString(val)}
         </Filter>
