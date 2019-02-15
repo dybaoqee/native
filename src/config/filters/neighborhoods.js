@@ -2,27 +2,27 @@ export default {
   'rio-de-janeiro': [
     {
       label: 'Copacabana',
-      value: 'Copacabana',
+      value: 'copacabana',
       source: require('@/assets/img/neighborhoods/rj/copacabana.png')
     },
     {
       label: 'Ipanema',
-      value: 'Ipanema',
+      value: 'ipanema',
       source: require('@/assets/img/neighborhoods/rj/ipanema.png')
     },
     {
       label: 'Leblon',
-      value: 'Leblon',
+      value: 'leblon',
       source: require('@/assets/img/neighborhoods/rj/leblon.png')
     },
     {
       label: 'Botafogo',
-      value: 'Botafogo',
+      value: 'botafogo',
       source: require('@/assets/img/neighborhoods/rj/botafogo.png')
     },
     {
       label: 'Lagoa',
-      value: 'Lagoa',
+      value: 'lagoa',
       source: require('@/assets/img/neighborhoods/rj/lagoa.png')
     }
   ],

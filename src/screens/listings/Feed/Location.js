@@ -26,7 +26,7 @@ class LocationContainer extends PureComponent {
     const citySlug = this.state.citySlug
     const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
       ? undefined
-      : this.state.neighborhoods
+      : this.state.neighborhoodsSlugs
     if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
     if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs)
       this.props.updateFilters({
@@ -46,12 +46,10 @@ class LocationContainer extends PureComponent {
   }
 
   render() {
-    const {districts, ...props} = this.props
     const {citySlug, neighborhoodsSlugs} = this.state
     return (
       <Location
-        {...props}
-        districts={districts.data || []}
+        {...this.props}
         selectedCity={citySlug}
         selectedNeighborhoods={neighborhoodsSlugs}
         onChangeCity={this.onChangeCity}

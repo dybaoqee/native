@@ -4,11 +4,12 @@ import {Fragment} from 'react'
 import {ScrollView} from 'react-native'
 import styled from 'styled-components'
 import {themeGet} from 'styled-system'
-import {withPropsOnChange} from 'recompose'
+import {withPropsOnChange, compose} from 'recompose'
 import {Row, Text} from '@emcasa/ui-native'
 
 import * as parse from './parseFilters'
 import IconButton from '@/components/shared/IconButton'
+import {withNeighborhoodsNames} from '@/graphql/containers'
 
 const Filter = styled(function Filter({children, onPress, ...props}) {
   if (!children) return null
@@ -42,7 +43,7 @@ const filterArrayValue = (values, valToFilter) => {
   return _.isEmpty(value) ? undefined : value
 }
 
-function FilterArray({name, value, onChange}) {
+function FilterArray({name, value, onChange, ...props}) {
   const toString = parse[name] || _.identity
   return (
     <Fragment>
@@ -51,14 +52,14 @@ function FilterArray({name, value, onChange}) {
           key={val}
           onPress={() => onChange({[name]: filterArrayValue(value, val)})}
         >
-          {toString(val)}
+          {toString(val, props)}
         </Filter>
       ))}
     </Fragment>
   )
 }
 
-function ActiveFilters({filters, onChange}) {
+function ActiveFilters({filters, neighborhoodsNames, onChange}) {
   return (
     <ScrollView style={{maxHeight: 110}}>
       <Row flexWrap="wrap">
@@ -70,6 +71,7 @@ function ActiveFilters({filters, onChange}) {
                 name={key}
                 value={value}
                 onChange={onChange}
+                neighborhoodsNames={neighborhoodsNames}
               />
             ) : (
               <Filter key={key} onPress={() => onChange({[key]: undefined})}>
@@ -88,7 +90,9 @@ const sortFilters = fp.flow(
   fp.sortBy(['key'])
 )
 
-export default withPropsOnChange(['filters'], ({filters, props}) => ({
-  filters: sortFilters(filters),
-  ...props
-}))(ActiveFilters)
+export default compose(
+  withNeighborhoodsNames(),
+  withPropsOnChange(['filters'], ({filters}) => ({
+    filters: sortFilters(filters)
+  }))
+)(ActiveFilters)
