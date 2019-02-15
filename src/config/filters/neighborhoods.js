@@ -33,16 +33,15 @@ export default {
       source: require('@/assets/img/neighborhoods/sp/perdizes.png')
     },
     {
+      label: 'Vila Pompéia',
+      value: 'Vila Pompéia',
+      source: require('@/assets/img/neighborhoods/sp/pompeia.png')
+    },
+    {
       disabled: true,
       label: 'Pinheiros',
       value: 'Pinheiros',
       source: require('@/assets/img/neighborhoods/sp/pinheiros.disabled.png')
-    },
-    {
-      disabled: true,
-      label: 'Pompéia',
-      value: 'Pompéia',
-      source: require('@/assets/img/neighborhoods/sp/pompeia.disabled.png')
     }
   ]
 }
