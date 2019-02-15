@@ -29,18 +29,18 @@ export default {
   'sao-paulo': [
     {
       label: 'Perdizes',
-      value: 'Perdizes',
+      value: 'perdizes',
       source: require('@/assets/img/neighborhoods/sp/perdizes.png')
     },
     {
       label: 'Vila Pompéia',
-      value: 'Vila Pompéia',
+      value: 'vila-pompeia',
       source: require('@/assets/img/neighborhoods/sp/pompeia.png')
     },
     {
       disabled: true,
       label: 'Pinheiros',
-      value: 'Pinheiros',
+      value: 'pinheiros',
       source: require('@/assets/img/neighborhoods/sp/pinheiros.disabled.png')
     }
   ]

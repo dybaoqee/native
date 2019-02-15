@@ -1,9 +1,6 @@
 import _ from 'lodash/fp'
 import {isEqualWith} from 'lodash'
-import slugify$ from 'slugify'
 import {createSelector} from 'reselect'
-
-export const slugify = (str) => slugify$(str, {lower: true})
 
 const compareFilter = (a, b) => {
   if (_.isArray(a) && _.isArray(b))
@@ -30,17 +27,9 @@ export const getSearchFiltersQuery = createSelector(
   getSearchFilters,
   getSearchCity,
   _.flow.convert({cap: false})(
-    (
-      {price, area, rooms, garageSpots, suites, neighborhoods, ...filters},
-      citySlug
-    ) =>
+    ({price, area, rooms, garageSpots, suites, ...filters}, citySlug) =>
       Object.assign(
-        {
-          citiesSlug: citySlug ? [citySlug] : undefined,
-          neighborhoodsSlugs: neighborhoods
-            ? neighborhoods.map(slugify)
-            : undefined
-        },
+        {citiesSlug: citySlug ? [citySlug] : undefined},
         filters,
         price && parseRange('price', price),
         area && parseRange('area', area),
