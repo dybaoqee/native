@@ -142,7 +142,7 @@
     "babel-plugin-styled-components": "^1.9.2",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "body-parser": "^1.18.3",
-    "detox": "^9.1.2",
+    "detox": "^10.0.7",
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "graphql-tools": "^3.1.1",
