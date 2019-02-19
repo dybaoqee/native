@@ -88,7 +88,7 @@ aliases:
   - &cache-detox-framework
     paths:
       - ~/Library/Detox
-    key: v1-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
+    key: v2-detox-{{ checksum "tmp/xcode.checksum" }}-{{ checksum "node_modules/detox/package.json" }}
   - &cache-ios-build
     paths:
       - ios/build/Build
@@ -110,6 +110,11 @@ aliases:
       brew install watchman
       npm install --global detox-cli
       detox build-framework-cache
+  - &install-nodejs-osx
+    command: |-
+      brew unlink node
+      brew install node@10
+      brew link node@10
 
   # build configurations
   - &configure-version-staging
@@ -259,6 +264,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
+      - run: *install-nodejs-osx
       - run:
           name: Generate cache checksum
           command: xcodebuild -version | md5 > tmp/xcode.checksum
@@ -311,6 +317,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/emcasa
+      - run: *install-nodejs-osx
       - restore_cache: *restore-detox-framework
       - run:
           name: Brew update
