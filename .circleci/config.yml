@@ -43,7 +43,7 @@ configurations:
     SENTRY_PROPERTIES: ios/sentry.properties
     SENTRY_PROJECT: native-ios
     SENTRY_ORG: emcasa
-    SENTRY_DNS: https://480e9c9a4c9147108f8cca3c6d3455c7:cd7e119ef54d4abf83c266f494c267a4@sentry.io/1338163
+    SENTRY_DNS: https://480e9c9a4c9147108f8cca3c6d3455c7@sentry.io/1338163
   - &env-android
     PLATFORM: android
     BUNDLE_IDENTIFIER: com.emcasa
@@ -51,7 +51,7 @@ configurations:
     SENTRY_PROPERTIES: android/sentry.properties
     SENTRY_PROJECT: native-android
     SENTRY_ORG: emcasa
-    SENTRY_DNS: https://87cccabbc2bf4157ad64d1fd5430ac1f:0705d7e93f3c4025bb5b21befada2173@sentry.io/1338162
+    SENTRY_DNS: https://87cccabbc2bf4157ad64d1fd5430ac1f@sentry.io/1338162
 
 aliases:
   # restore caches
