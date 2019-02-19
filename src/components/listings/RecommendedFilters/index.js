@@ -91,7 +91,7 @@ export default class RecommendedNeighborhoods extends PureComponent {
         {...item}
         width={itemWidth}
         height={itemHeight}
-        onPress={() => onChange({neighborhoods: [item.value]})}
+        onPress={() => onChange({neighborhoodsSlugs: [item.value]})}
       />
     )
   }

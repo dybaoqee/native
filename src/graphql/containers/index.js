@@ -28,7 +28,12 @@ export {
   withSignOutMutation
 } from './AuthMutation'
 export {withJwt, withUserProfile} from './CredentialsQuery'
-export {withDistricts} from './DistrictsQuery'
+export {
+  withDistricts,
+  withCities,
+  withNeighborhoods,
+  withNeighborhoodsNames
+} from './DistrictsQuery'
 export {withInterestTypes} from './InterestTypeQuery'
 export {withInterestMutation} from './InterestMutation'
 export {withRelatedListings} from './RelatedListingsQuery'

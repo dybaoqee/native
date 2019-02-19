@@ -11,13 +11,21 @@ const rangeFilter = (singular, plural = singular + 's') => ({min, max}) => {
 }
 
 export const garageSpots = rangeFilter('vaga')
+
 export const rooms = rangeFilter('quarto')
+
 export const suites = rangeFilter('suíte')
+
 export const price = ({min, max}) => {
   if (!max) return `R$${abbrevPrice(min)}+`
   return `R$${abbrevPrice(min)} a ${abbrevPrice(max)}`
 }
+
 export const area = ({min, max}) => {
   if (!max) return `${min}m²+`
   return `${min} a ${max}m²`
+}
+
+export const neighborhoodsSlugs = (slug, {neighborhoodsNames = {}}) => {
+  return neighborhoodsNames[slug] || slug
 }

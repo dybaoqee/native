@@ -9,27 +9,29 @@ import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
   state = {
-    neighborhoods: undefined
+    neighborhoodsSlugs: undefined
   }
 
   static getDerivedStateFromProps(props, state) {
     const citySlug = state.citySlug || props.citySlug
-    const neighborhoods =
-      state.neighborhoods ||
-      (props.citySlug == citySlug ? props.filters.neighborhoods : undefined)
-    return {citySlug, neighborhoods}
+    const neighborhoodsSlugs =
+      state.neighborhoodsSlugs ||
+      (props.citySlug == citySlug
+        ? props.filters.neighborhoodsSlugs
+        : undefined)
+    return {citySlug, neighborhoodsSlugs}
   }
 
   componentWillUnmount() {
     const citySlug = this.state.citySlug
-    const neighborhoods = _.isEmpty(this.state.neighborhoods)
+    const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
       ? undefined
-      : this.state.neighborhoods
+      : this.state.neighborhoodsSlugs
     if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
-    if (neighborhoods !== this.props.filters.neighborhoods)
+    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs)
       this.props.updateFilters({
         ...this.props.filters,
-        neighborhoods
+        neighborhoodsSlugs
       })
   }
 
@@ -39,19 +41,17 @@ class LocationContainer extends PureComponent {
     this.setState(nextState)
   }
 
-  onChangeNeighborhoods = (neighborhoods) => {
-    this.setState({neighborhoods})
+  onChangeNeighborhoods = (neighborhoodsSlugs) => {
+    this.setState({neighborhoodsSlugs})
   }
 
   render() {
-    const {districts, ...props} = this.props
-    const {citySlug, neighborhoods} = this.state
+    const {citySlug, neighborhoodsSlugs} = this.state
     return (
       <Location
-        {...props}
-        districts={districts.data || []}
+        {...this.props}
         selectedCity={citySlug}
-        selectedNeighborhoods={neighborhoods}
+        selectedNeighborhoods={neighborhoodsSlugs}
         onChangeCity={this.onChangeCity}
         onChangeNeighborhoods={this.onChangeNeighborhoods}
       />
