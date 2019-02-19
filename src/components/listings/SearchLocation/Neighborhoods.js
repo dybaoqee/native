@@ -25,7 +25,7 @@ export default function Neighborhood({
   onChange,
   onDismiss
 }) {
-  const allOptions = neighborhoods.map(({name}) => name)
+  const allOptions = neighborhoods.map(({slug}) => slug)
   const allOptionsSelected = value && value.length === allOptions.length
   return (
     <View>
@@ -69,7 +69,7 @@ export default function Neighborhood({
             Todos os bairros
           </GhostButton>
           {neighborhoods.map(({name, slug}) => (
-            <GhostButton key={slug} value={name}>
+            <GhostButton key={slug} value={slug}>
               {name}
             </GhostButton>
           ))}

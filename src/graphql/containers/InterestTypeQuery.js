@@ -4,7 +4,7 @@ import {GET_INTEREST_TYPES} from '@/graphql/modules/interest/queries'
 
 function InterestTypeQuery({children}) {
   return (
-    <Query query={GET_INTEREST_TYPES} networkPolicy="cache-first">
+    <Query query={GET_INTEREST_TYPES} networkPolicy="cache-and-network">
       {children}
     </Query>
   )

@@ -9,43 +9,49 @@ import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
   state = {
-    neighborhoods: undefined
+    neighborhoodsSlugs: undefined
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.filters && !state.neighborhoods)
-      return {
-        neighborhoods: props.filters.neighborhoods || []
-      }
-    return null
+    const citySlug = state.citySlug || props.citySlug
+    const neighborhoodsSlugs =
+      state.neighborhoodsSlugs ||
+      (props.citySlug == citySlug
+        ? props.filters.neighborhoodsSlugs
+        : undefined)
+    return {citySlug, neighborhoodsSlugs}
   }
 
   componentWillUnmount() {
-    this.props.updateFilters({
-      ...this.props.filters,
-      neighborhoods: this.state.neighborhoods || []
-    })
+    const citySlug = this.state.citySlug
+    const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
+      ? undefined
+      : this.state.neighborhoodsSlugs
+    if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
+    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs)
+      this.props.updateFilters({
+        ...this.props.filters,
+        neighborhoodsSlugs
+      })
   }
 
   onChangeCity = (citySlug) => {
-    const nextState = {}
-    if (citySlug !== this.props.citySlug) nextState.neighborhoods = []
-    this.setState(nextState, () => this.props.updateCity(citySlug))
+    const nextState = {citySlug}
+    if (citySlug !== this.state.citySlug) nextState.neighborhoods = undefined
+    this.setState(nextState)
   }
 
-  onChangeNeighborhoods = (neighborhoods) => {
-    this.setState({neighborhoods})
+  onChangeNeighborhoods = (neighborhoodsSlugs) => {
+    this.setState({neighborhoodsSlugs})
   }
 
   render() {
-    const {citySlug, districts, ...props} = this.props
-    const {neighborhoods} = this.state
+    const {citySlug, neighborhoodsSlugs} = this.state
     return (
       <Location
-        {...props}
-        districts={districts.data || []}
+        {...this.props}
         selectedCity={citySlug}
-        selectedNeighborhoods={neighborhoods}
+        selectedNeighborhoods={neighborhoodsSlugs}
         onChangeCity={this.onChangeCity}
         onChangeNeighborhoods={this.onChangeNeighborhoods}
       />

@@ -6,14 +6,13 @@ import {View} from '@emcasa/ui-native'
 
 import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
-import {
-  withListingsFeed,
-  withDistricts,
-  withInterestTypes
-} from '@/graphql/containers'
+import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {debounceTransition} from '@/lib/navigation/helpers'
 import {clearFilters} from '@/redux/modules/search'
-import {getSearchFiltersQuery} from '@/redux/modules/search/selectors'
+import {
+  getSearchFiltersQuery,
+  getSearchCity
+} from '@/redux/modules/search/selectors'
 import {Shell, Body} from '@/components/layout'
 import BottomTabsSpacer from '@/components/layout/BottomTabs/Spacer'
 import InfiniteScroll from '@/containers/InfiniteScroll'
@@ -53,6 +52,11 @@ class ListingsFeedScreen extends PureComponent {
   state = {modalVisible: false}
 
   listRef = React.createRef()
+
+  componentDidMount() {
+    if (!this.props.citySlug && process.env.NODE_ENV !== 'e2e')
+      requestAnimationFrame(() => this.onOpenLocationSearch())
+  }
 
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.filters, this.props.filters))
@@ -212,7 +216,10 @@ class ListingsFeedScreen extends PureComponent {
 
 export default composeWithRef(
   connect(
-    (state) => ({filters: getSearchFiltersQuery(state)}),
+    (state) => ({
+      citySlug: getSearchCity(state),
+      filters: getSearchFiltersQuery(state)
+    }),
     {clearFilters}
   ),
   withListingsFeed(({filters}) => ({
@@ -220,6 +227,7 @@ export default composeWithRef(
     pageSize: 15,
     fetchPolicy: 'network-only'
   })),
-  withDistricts(),
-  withInterestTypes,
+  withDistricts(() => ({
+    fetchPolicy: 'cache-and-network'
+  }))
 )(ListingsFeedScreen)
