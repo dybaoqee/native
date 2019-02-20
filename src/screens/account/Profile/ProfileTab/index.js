@@ -1,8 +1,17 @@
 import React, {PureComponent, Fragment} from 'react'
-import {View as RCTView, ScrollView, Dimensions} from 'react-native'
+import {ScrollView, Dimensions} from 'react-native'
 import {withTheme} from 'styled-components'
+import {connect} from 'react-redux'
 import {View, Row, Col, Button, Text, Icon} from '@emcasa/ui-native'
 
+import composeWithRef from '@/lib/composeWithRef'
+import {
+  logProfileDetailsOpen,
+  logProfileDetailsClose,
+  logProfileEdit,
+  logProfileEditCancel,
+  logProfileEditSave
+} from '@/redux/modules/amplitude/logs/profile'
 import Avatar from '@/components/account/Avatar'
 import Profile from '@/components/account/Profile'
 import ProfileForm from './Form'
@@ -20,13 +29,30 @@ class UserProfileTab extends PureComponent {
     }
   }
 
+  componentDidMount() {
+    this.props.logProfileDetailsOpen()
+  }
+
+  componentWillUnmount() {
+    this.props.logProfileDetailsClose()
+  }
+
   hideMessage = () => this.setState({message: undefined})
 
-  onEditProfile = () => this.setState({isEditing: true, message: undefined})
+  onEditProfile = () =>
+    this.setState(
+      {isEditing: true, message: undefined},
+      this.props.logProfileEdit
+    )
 
-  onCancelEditing = () => this.setState({isEditing: false, message: undefined})
+  onCancelEditing = () =>
+    this.setState(
+      {isEditing: false, message: undefined},
+      this.props.logProfileEditCancel
+    )
 
-  onSuccess = (hasChanges) =>
+  onSuccess = (hasChanges) => {
+    this.props.logProfileEditSave()
     this.setState({
       isEditing: false,
       message: hasChanges && {
@@ -36,8 +62,10 @@ class UserProfileTab extends PureComponent {
         text: 'Informações salvas com sucesso'
       }
     })
+  }
 
-  onError = (error) =>
+  onError = (error) => {
+    this.props.logProfileEditSave({error})
     this.setState({
       isEditing: false,
       message: {
@@ -47,6 +75,7 @@ class UserProfileTab extends PureComponent {
         text: error.message
       }
     })
+  }
 
   renderMessage() {
     const {message} = this.state
@@ -142,4 +171,16 @@ class UserProfileTab extends PureComponent {
   }
 }
 
-export default withTheme(UserProfileTab)
+export default composeWithRef(
+  connect(
+    null,
+    {
+      logProfileDetailsOpen,
+      logProfileDetailsClose,
+      logProfileEdit,
+      logProfileEditCancel,
+      logProfileEditSave
+    }
+  ),
+  withTheme
+)(UserProfileTab)
