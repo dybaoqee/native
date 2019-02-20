@@ -1,7 +1,8 @@
-import {all, call, fork, takeEvery} from 'redux-saga/effects'
+import {all, call, select, fork, takeEvery} from 'redux-saga/effects'
 import RNAmplitude from 'react-native-amplitude-analytics'
 
 import {AMPLITUDE_API_KEY, AMPLITUDE_ENABLED} from '@/config/const'
+import {getCurrentScreen} from '@/redux/modules/navigation/selectors'
 import eventsSaga from './events'
 import * as actions from './index'
 
@@ -11,8 +12,12 @@ function initializeAmplitude() {
   amplitude = new RNAmplitude(AMPLITUDE_API_KEY)
 }
 
-function logEvent({event, data}) {
-  amplitude.logEvent(event, data)
+function* logEvent({event, data}) {
+  const screen = yield select(getCurrentScreen)
+  amplitude.logEvent(event, {
+    screen,
+    ...data
+  })
 }
 
 export default function* amplitudeSaga() {

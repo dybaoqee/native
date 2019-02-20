@@ -54,7 +54,7 @@ class ListHeader extends PureComponent {
               <Text fontWeight="500">Bairros mais buscados</Text>
               <View mr="-15px" ml="-15px">
                 <RecommendedFilters
-                  onChange={this.onSelectNeighborhood}
+                  onChange={this.onChangeNeighborhood}
                   data={neighborhoods[city] || []}
                 />
               </View>
