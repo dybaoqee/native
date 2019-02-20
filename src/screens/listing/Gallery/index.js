@@ -1,9 +1,11 @@
 import {pick} from 'lodash'
 import {PureComponent} from 'react'
 import {Dimensions} from 'react-native'
+import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListing} from '@/graphql/containers'
+import {logEvent} from '@/redux/modules/amplitude'
 import {Modal, Body} from '@/components/layout'
 import Gallery from '@/components/listings/Gallery'
 
@@ -18,6 +20,18 @@ class ListingGalleryScreen extends PureComponent {
     layout: {
       orientation: ['portrait', 'landscape']
     }
+  }
+
+  componentDidAppear() {
+    this.props.logEvent('listing-detail-photos-fullscreen-open', {
+      id: this.props.params.id
+    })
+  }
+
+  componentDidDisappear() {
+    this.props.logEvent('listing-detail-photos-fullscreen-close', {
+      id: this.props.params.id
+    })
   }
 
   render() {
@@ -47,6 +61,10 @@ class ListingGalleryScreen extends PureComponent {
   }
 }
 
-export default composeWithRef(withListing(({params: {id}}) => ({id})))(
-  ListingGalleryScreen
-)
+export default composeWithRef(
+  connect(
+    null,
+    {logEvent}
+  ),
+  withListing(({params: {id}}) => ({id}))
+)(ListingGalleryScreen)

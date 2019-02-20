@@ -64,7 +64,12 @@ class ListingScreen extends PureComponent {
   }
 
   componentDidAppear() {
+    const {
+      params: {id},
+      logEvent
+    } = this.props
     InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
+    logEvent('listing-detail-open', {id})
   }
 
   onDismiss = _.once(() => {
@@ -119,16 +124,26 @@ class ListingScreen extends PureComponent {
     }
   }
 
-  onSelectListing = debounceTransition((id) =>
+  onSelectListing = debounceTransition((id) => {
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
-  )
+    this.props.logEvent('listing-detail-view-featured-listing', {
+      id
+    })
+  })
 
   onViewTour = _.once(() => this.props.onViewTour())
+
+  onChangeGalleryIndex = (index, previousIndex) => {
+    const action = index > previousIndex ? 'right' : 'left'
+    this.props.logEvent(`listing-detail-photos-${action}`, {
+      id: this.props.params.id
+    })
+  }
 
   renderRightButtons = () => {
     return <RightButtons id={this.props.params.id} onShare={this.onShare} />
@@ -167,6 +182,7 @@ class ListingScreen extends PureComponent {
               onViewTour={this.onViewTour}
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}
+              onChangeGalleryIndex={this.onChangeGalleryIndex}
             />
           )}
           {!ready ? (
@@ -224,5 +240,5 @@ export default composeWithRef(
   ),
   withViewTourMutation,
   withListing(({params: {id}}) => ({id})),
-  withRelatedListings(({params: {id}}) => ({id})),
+  withRelatedListings(({params: {id}}) => ({id}))
 )(ListingScreen)

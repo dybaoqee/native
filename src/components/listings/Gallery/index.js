@@ -68,7 +68,7 @@ export default class ListingGallery extends PureComponent {
     const {onChangeIndex} = this.props
     const index = Math.floor(_index)
     this.setState({index})
-    if (onChangeIndex) onChangeIndex(index)
+    if (onChangeIndex) onChangeIndex(index, this.state.index)
   }
 
   onLayout = (e) => {
