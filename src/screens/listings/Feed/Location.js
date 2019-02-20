@@ -5,7 +5,13 @@ import {connect} from 'react-redux'
 import Location from '@/components/listings/SearchLocation'
 
 import {updateCity, updateFilters} from '@/redux/modules/search'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logNeighborhoodsOpen,
+  logNeighborhoodsClose,
+  logChangeCity,
+  logNeighborhoodsApply,
+  logNeighborhoodsClear
+} from '@/redux/modules/amplitude/logs/search'
 import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
@@ -24,7 +30,7 @@ class LocationContainer extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.logEvent('listing-search-neighborhood-open')
+    this.props.logNeighborhoodsOpen()
   }
 
   componentWillUnmount() {
@@ -32,23 +38,18 @@ class LocationContainer extends PureComponent {
     const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
       ? undefined
       : this.state.neighborhoodsSlugs
+    this.props.logNeighborhoodsClose()
     if (citySlug !== this.props.citySlug) {
       this.props.updateCity(citySlug)
-      this.props.logEvent('listing-search-neighborhood-change-city', {
-        city: citySlug
-      })
+      this.props.logChangeCity({city: citySlug})
     }
     if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs) {
       this.props.updateFilters({
         ...this.props.filters,
         neighborhoodsSlugs
       })
-      this.props.logEvent(
-        `listing-search-neighborhood-${
-          _.isEmpty(neighborhoodsSlugs) ? 'clear' : 'apply'
-        }`,
-        {neighborhoods: neighborhoodsSlugs}
-      )
+      if (_.isEmpty(neighborhoodsSlugs)) this.props.logNeighborhoodsClear()
+      else this.props.logNeighborhoodsApply({neighborhoods: neighborhoodsSlugs})
     }
   }
 
@@ -83,7 +84,11 @@ export default compose(
       filters: getSearchFilters(state)
     }),
     {
-      logEvent,
+      logNeighborhoodsOpen,
+      logNeighborhoodsClose,
+      logChangeCity,
+      logNeighborhoodsApply,
+      logNeighborhoodsClear,
       updateCity,
       updateFilters
     }

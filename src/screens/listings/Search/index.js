@@ -5,7 +5,11 @@ import {connect} from 'react-redux'
 import {View, Button} from '@emcasa/ui-native'
 
 import {updateFilters} from '@/redux/modules/search'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logFiltersOpen,
+  logFiltersClose,
+  logFiltersApply
+} from '@/redux/modules/amplitude/logs/search'
 import {getSearchFilters} from '@/redux/modules/search/selectors'
 import {Modal, Body} from '@/components/layout'
 import SearchFilters from '@/components/listings/SearchFilters'
@@ -38,14 +42,15 @@ class ListingSearchScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    this.props.logEvent('listing-search-filter-open')
+    this.props.logFiltersOpen()
   }
 
   componentDidDisappear() {
     const {values, initialValues, pristine} = this.state
+    this.props.logFiltersClose()
     if (!pristine) {
       this.props.updateFilters(values)
-      this.props.logEvent('listing-search-filter-apply', {
+      this.props.logFiltersApply({
         filters: Object.keys(values).filter(
           (key) => !isEqual(values[key], initialValues[key])
         ),
@@ -83,7 +88,12 @@ export default connect(
   (state) => ({
     filters: getSearchFilters(state)
   }),
-  {updateFilters, logEvent},
+  {
+    updateFilters,
+    logFiltersOpen,
+    logFiltersClose,
+    logFiltersApply
+  },
   null,
   {withRef: true}
 )(ListingSearchScreen)

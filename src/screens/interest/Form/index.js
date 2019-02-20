@@ -5,7 +5,11 @@ import {Navigation} from 'react-native-navigation'
 import {Button} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logInterestOpen,
+  logInterestClose,
+  logInterestCreated
+} from '@/redux/modules/amplitude/logs/interest'
 import {
   withUserProfile,
   withInterestTypes,
@@ -29,10 +33,8 @@ class InterestFormScreen extends PureComponent {
   state = {values: {}, valid: false}
 
   openSuccessModal = _.once(() => {
-    const {params, componentId, logEvent} = this.props
-    logEvent('listing-interest-created', {
-      id: params.id
-    })
+    const {params, componentId, logInterestCreated} = this.props
+    logInterestCreated(params)
     Navigation.showModal({
       component: {
         id: `${componentId}_success`,
@@ -59,16 +61,12 @@ class InterestFormScreen extends PureComponent {
 
   componentDidAppear() {
     this.setState({active: true})
-    this.props.logEvent('listing-interest-open', {
-      id: this.props.params.id
-    })
+    this.props.logInterestOpen(this.props.params)
   }
 
   componentDidDisappear() {
     this.setState({active: false})
-    this.props.logEvent('listing-interest-close', {
-      id: this.props.params.id
-    })
+    this.props.logInterestClose(this.props.params)
   }
 
   onChange = (state) => this.setState(state)
@@ -124,7 +122,11 @@ class InterestFormScreen extends PureComponent {
 export default composeWithRef(
   connect(
     null,
-    {logEvent}
+    {
+      logInterestOpen,
+      logInterestClose,
+      logInterestCreated
+    }
   ),
   withUserProfile,
   withInterestTypes,

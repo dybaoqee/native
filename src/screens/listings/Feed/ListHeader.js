@@ -4,7 +4,10 @@ import {compose} from 'recompose'
 import {View, Text} from '@emcasa/ui-native'
 
 import neighborhoods from '@/config/filters/neighborhoods'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logFiltersClear,
+  logFeaturedNeighborhoodApply
+} from '@/redux/modules/amplitude/logs/search'
 import {updateFilters} from '@/redux/modules/search'
 import {
   hasSearchFilters,
@@ -29,7 +32,7 @@ class ListHeader extends PureComponent {
   onChangeFilters = (nextValue) => {
     const filters = {...this.props.filters, ...nextValue}
     this.props.updateFilters(filters)
-    this.props.logEvent('listing-search-filter-clear', {
+    this.props.logFiltersClear({
       filters: Object.keys(nextValue),
       values: filters
     })
@@ -37,8 +40,8 @@ class ListHeader extends PureComponent {
 
   onChangeNeighborhood = (nextValue) => {
     this.props.updateFilters({...this.props.filters, ...nextValue})
-    this.props.logEvent('listing-search-neighborhood-apply', {
-      neighborhoods: nextValue.neighborhoodsSlugs
+    this.props.logFeaturedNeighborhoodApply({
+      neighborhood: nextValue.neighborhoodsSlugs[0]
     })
   }
 
@@ -76,6 +79,6 @@ export default compose(
       filters: getSearchFilters(state),
       city: getSearchCity(state)
     }),
-    {logEvent, updateFilters}
+    {logFiltersClear, logFeaturedNeighborhoodApply, updateFilters}
   )
 )(ListHeader)

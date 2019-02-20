@@ -8,7 +8,10 @@ import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {debounceTransition} from '@/lib/navigation/helpers'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logFiltersClear,
+  logSearchLoadMore
+} from '@/redux/modules/amplitude/logs/search'
 import {clearFilters} from '@/redux/modules/search'
 import {
   getSearchFiltersQuery,
@@ -109,7 +112,7 @@ class ListingsFeedScreen extends PureComponent {
         }),
         () => {
           fetchMore()
-          this.props.logEvent('listing-search-load-more', {
+          this.props.logSearchLoadMore({
             loadMoreCount: this.state.loadMoreCount
           })
         }
@@ -143,7 +146,7 @@ class ListingsFeedScreen extends PureComponent {
 
   onClearFilters = () => {
     this.props.clearFilters()
-    this.props.logEvent('listing-search-filter-clear', {
+    this.props.logFiltersClear({
       filters: Object.keys(this.props.filters),
       values: {}
     })
@@ -244,7 +247,7 @@ export default composeWithRef(
       citySlug: getSearchCity(state),
       filters: getSearchFiltersQuery(state)
     }),
-    {logEvent, clearFilters}
+    {logFiltersClear, logSearchLoadMore, clearFilters}
   ),
   withListingsFeed(({filters}) => ({
     filters,

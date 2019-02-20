@@ -5,7 +5,10 @@ import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListing} from '@/graphql/containers'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logGalleryOpen,
+  logGalleryClose
+} from '@/redux/modules/amplitude/logs/listingDetail'
 import {Modal, Body} from '@/components/layout'
 import Gallery from '@/components/listings/Gallery'
 
@@ -23,15 +26,11 @@ class ListingGalleryScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    this.props.logEvent('listing-detail-photos-fullscreen-open', {
-      id: this.props.params.id
-    })
+    this.props.logGalleryOpen(this.props.params)
   }
 
   componentDidDisappear() {
-    this.props.logEvent('listing-detail-photos-fullscreen-close', {
-      id: this.props.params.id
-    })
+    this.props.logGalleryClose(this.props.params)
   }
 
   render() {
@@ -64,7 +63,7 @@ class ListingGalleryScreen extends PureComponent {
 export default composeWithRef(
   connect(
     null,
-    {logEvent}
+    {logGalleryOpen, logGalleryClose}
   ),
   withListing(({params: {id}}) => ({id}))
 )(ListingGalleryScreen)

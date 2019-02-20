@@ -1,30 +1,22 @@
 import {all, put, takeEvery} from 'redux-saga/effects'
 
+import {logSignOut} from './logs/auth'
+import {logBreadcrumb, logAppLaunched} from './logs/navigation'
 import * as auth from '@/redux/helpers/auth'
 import * as nav from '@/redux/modules/navigation'
-import * as actions from './index'
 
-const logEvent = (event, getData) =>
+const logEvent = (action, getData) =>
   function* logEvent(action) {
-    yield put(
-      actions.logEvent(
-        event,
-        typeof getData === 'function' ? getData(action) : getData
-      )
-    )
+    yield put(action(typeof getData === 'function' ? getData(action) : getData))
   }
 
 export default function* amplitudeEventsSaga() {
   yield all([
-    takeEvery(nav.APP_LAUNCHED, logEvent('navigation-app-launched')),
+    takeEvery(nav.APP_LAUNCHED, logEvent(logAppLaunched)),
     takeEvery(
       nav.SCREEN_APPEARED,
-      logEvent('navigation-screen-appeared', ({id, name}) => ({
-        screen: {id, name}
-      }))
+      logEvent(logBreadcrumb, ({id, name}) => ({id, name}))
     ),
-    takeEvery(auth.signedIn, logEvent('signed-in')),
-    takeEvery(auth.signedUp, logEvent('signed-up')),
-    takeEvery(auth.signedOut, logEvent('signed-out'))
+    takeEvery(auth.signedOut, logEvent(logSignOut))
   ])
 }

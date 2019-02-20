@@ -14,7 +14,14 @@ import {
   withViewTourMutation,
   withRelatedListings
 } from '@/graphql/containers'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logListingOpen,
+  logListingClose,
+  logRelatedListingOpen,
+  logMapInteraction,
+  logGalleryInteraction
+} from '@/redux/modules/amplitude/logs/listingDetail'
+import {logListingShare} from '@/redux/modules/amplitude/logs/listing'
 import {getCurrentScreen} from '@/redux/modules/navigation/selectors'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Listing from '@/components/listings/Listing'
@@ -70,19 +77,14 @@ class ListingScreen extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (prevProps.currentScreen.id !== this.props.currentScreen.id) {
-      const {
-        componentId,
-        currentScreen,
-        params: {id},
-        logEvent
-      } = this.props
+      const {componentId, currentScreen, params} = this.props
       const pattern = new RegExp(`^${componentId}(\\_\\w+)?$`)
       const wasPreviouslyOpen = pattern.test(prevProps.currentScreen.id)
       const isCurrentlyOpen = pattern.test(currentScreen.id)
       if (wasPreviouslyOpen && !isCurrentlyOpen)
-        logEvent('listing-detail-close', {id})
+        this.props.logListingClose(params)
       else if (!wasPreviouslyOpen && isCurrentlyOpen)
-        logEvent('listing-detail-open', {id})
+        this.props.logListingOpen(params)
     }
   }
 
@@ -131,20 +133,20 @@ class ListingScreen extends PureComponent {
 
   onShare = async () => {
     const {
-      logEvent,
       params: {id}
     } = this.props
     try {
       const {app} = await Share.open(this.shareOptions)
-      logEvent('listing-shared', {id, app})
+      this.props.logListingShare({id, app})
     } catch (error) {
       /* User closed modal */
     }
   }
 
   onSelectListing = debounceTransition((id) => {
-    this.props.logEvent('listing-detail-view-featured-listing', {
-      id
+    this.props.logRelatedListingOpen({
+      id: this.props.params.id,
+      relatedListingId: id
     })
     Navigation.push(this.props.componentId, {
       component: {
@@ -159,7 +161,8 @@ class ListingScreen extends PureComponent {
   onChangeGalleryIndex = (index, previousIndex) => {
     requestAnimationFrame(() => {
       const action = index > previousIndex ? 'right' : 'left'
-      this.props.logEvent(`listing-detail-photos-${action}`, {
+      this.props.logGalleryInteraction({
+        action,
         id: this.props.params.id
       })
     })
@@ -168,9 +171,7 @@ class ListingScreen extends PureComponent {
   onMapInteraction = _.debounce(
     () => {
       requestAnimationFrame(() => {
-        this.props.logEvent('listing-detail-map', {
-          id: this.props.params.id
-        })
+        this.props.logMapInteraction(this.props.params)
       })
     },
     1000,
@@ -271,7 +272,14 @@ export default composeWithRef(
     (state) => ({
       currentScreen: getCurrentScreen(state)
     }),
-    {logEvent}
+    {
+      logListingShare,
+      logListingOpen,
+      logListingClose,
+      logRelatedListingOpen,
+      logMapInteraction,
+      logGalleryInteraction
+    }
   ),
   withViewTourMutation,
   withListing(({params: {id}}) => ({id})),
