@@ -8,6 +8,7 @@ import theme from '@/config/theme'
 import composeWithRef from '@/lib/composeWithRef'
 import {withListingsFeed, withDistricts} from '@/graphql/containers'
 import {debounceTransition} from '@/lib/navigation/helpers'
+import {logEvent} from '@/redux/modules/amplitude'
 import {clearFilters} from '@/redux/modules/search'
 import {
   getSearchFiltersQuery,
@@ -49,7 +50,10 @@ class ListingsFeedScreen extends PureComponent {
     }
   }
 
-  state = {modalVisible: false}
+  state = {
+    loadMoreCount: 0,
+    modalVisible: false
+  }
 
   listRef = React.createRef()
 
@@ -59,8 +63,10 @@ class ListingsFeedScreen extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(prevProps.filters, this.props.filters))
+    if (!_.isEqual(prevProps.filters, this.props.filters)) {
+      this.setState({loadMoreCount: 0})
       this.resetScrollPosition()
+    }
   }
 
   get bottomTabsProps() {
@@ -96,7 +102,19 @@ class ListingsFeedScreen extends PureComponent {
     const {
       listingsFeed: {loading, fetchMore}
     } = this.props
-    if (!loading) fetchMore()
+    if (!loading) {
+      this.setState(
+        (state) => ({
+          loadMoreCount: state.loadMoreCount + 1
+        }),
+        () => {
+          fetchMore()
+          this.props.logEvent('listing-search-load-more', {
+            loadMoreCount: this.state.loadMoreCount
+          })
+        }
+      )
+    }
   }
 
   onOpenLocationSearch = debounceTransition(() =>
@@ -123,7 +141,13 @@ class ListingsFeedScreen extends PureComponent {
     if (this.state.modalVisible) Modal.hide()
   })
 
-  onClearFilters = () => this.props.clearFilters()
+  onClearFilters = () => {
+    this.props.clearFilters()
+    this.props.logEvent('listing-search-filter-clear', {
+      filters: Object.keys(this.props.filters),
+      values: {}
+    })
+  }
 
   onSelect = debounceTransition((id) =>
     Navigation.push(this.props.componentId, {
@@ -220,7 +244,7 @@ export default composeWithRef(
       citySlug: getSearchCity(state),
       filters: getSearchFiltersQuery(state)
     }),
-    {clearFilters}
+    {logEvent, clearFilters}
   ),
   withListingsFeed(({filters}) => ({
     filters,

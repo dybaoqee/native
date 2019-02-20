@@ -1,10 +1,11 @@
-import {cloneDeep} from 'lodash'
+import {cloneDeep, isEqual} from 'lodash'
 import {PureComponent} from 'react'
 import {Navigation} from 'react-native-navigation'
 import {connect} from 'react-redux'
 import {View, Button} from '@emcasa/ui-native'
 
 import {updateFilters} from '@/redux/modules/search'
+import {logEvent} from '@/redux/modules/amplitude'
 import {getSearchFilters} from '@/redux/modules/search/selectors'
 import {Modal, Body} from '@/components/layout'
 import SearchFilters from '@/components/listings/SearchFilters'
@@ -36,10 +37,21 @@ class ListingSearchScreen extends PureComponent {
     }
   }
 
+  componentDidAppear() {
+    this.props.logEvent('listing-search-filter-open')
+  }
+
   componentDidDisappear() {
-    const {updateFilters} = this.props
-    const {values, pristine} = this.state
-    if (!pristine) updateFilters(values)
+    const {values, initialValues, pristine} = this.state
+    if (!pristine) {
+      this.props.updateFilters(values)
+      this.props.logEvent('listing-search-filter-apply', {
+        filters: Object.keys(values).filter(
+          (key) => !isEqual(values[key], initialValues[key])
+        ),
+        values
+      })
+    }
   }
 
   onChange = (formState) => this.setState(formState)
@@ -71,7 +83,7 @@ export default connect(
   (state) => ({
     filters: getSearchFilters(state)
   }),
-  {updateFilters},
+  {updateFilters, logEvent},
   null,
   {withRef: true}
 )(ListingSearchScreen)

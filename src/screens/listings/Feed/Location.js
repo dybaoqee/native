@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Location from '@/components/listings/SearchLocation'
 
 import {updateCity, updateFilters} from '@/redux/modules/search'
+import {logEvent} from '@/redux/modules/amplitude'
 import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
@@ -22,17 +23,33 @@ class LocationContainer extends PureComponent {
     return {citySlug, neighborhoodsSlugs}
   }
 
+  componentDidMount() {
+    this.props.logEvent('listing-search-neighborhood-open')
+  }
+
   componentWillUnmount() {
     const citySlug = this.state.citySlug
     const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
       ? undefined
       : this.state.neighborhoodsSlugs
-    if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
-    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs)
+    if (citySlug !== this.props.citySlug) {
+      this.props.updateCity(citySlug)
+      this.props.logEvent('listing-search-neighborhood-change-city', {
+        city: citySlug
+      })
+    }
+    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs) {
       this.props.updateFilters({
         ...this.props.filters,
         neighborhoodsSlugs
       })
+      this.props.logEvent(
+        `listing-search-neighborhood-${
+          _.isEmpty(neighborhoodsSlugs) ? 'clear' : 'apply'
+        }`,
+        {neighborhoods: neighborhoodsSlugs}
+      )
+    }
   }
 
   onChangeCity = (citySlug) => {
@@ -66,6 +83,7 @@ export default compose(
       filters: getSearchFilters(state)
     }),
     {
+      logEvent,
       updateCity,
       updateFilters
     }
