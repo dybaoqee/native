@@ -132,7 +132,7 @@ aliases:
       echo "export VERSION_NAME=$(.circleci/version.sh ${VERSION_TAG:-})" >> $BASH_ENV
       echo "export TESTER_GROUPS=$([ $CIRCLE_BRANCH != \"master\" ] && echo $ALPHA_TESTERS || echo $BETA_TESTERS)" >> $BASH_ENV
       echo "export ANDROID_KEYSTORE_FILE=$PWD/tmp/.secrets/android/keystore.jks" >> $BASH_ENV
-      echo "export PLAY_STORE_CERTIFICATE_FILE=$PWD/tmp/.secrets/android/play-store.p12" >> $BASH_ENV
+      echo "export PLAY_STORE_CERTIFICATE_FILE=$PWD/tmp/.secrets/android/play-store.json" >> $BASH_ENV
       echo "export IOS_XCCONFIG_FILE=$PWD/tmp/.secrets/ios/${RELEASE_PROFILE}.xcconfig" >> $BASH_ENV
       echo "export IOS_CERTIFICATE_FILE=$PWD/tmp/.secrets/ios/app.p12" >> $BASH_ENV
       echo "export IOS_PROVISIONING_FILE=$PWD/tmp/.secrets/ios/${CODESIGN_PROFILE:-ad-hoc}.mobileprovision" >> $BASH_ENV
