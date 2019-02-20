@@ -163,7 +163,7 @@ export default class ListingHeader extends PureComponent {
   }
 
   render() {
-    const {testID} = this.props
+    const {testID, onChangeGalleryIndex} = this.props
     const images = this.images
     let {width, height} = Dimensions.get('window')
     height = width * 0.64
@@ -185,6 +185,7 @@ export default class ListingHeader extends PureComponent {
               width={width}
               height={height}
               onPressImage={this.onPressImage}
+              onChangeIndex={onChangeGalleryIndex}
             >
               {images}
             </Gallery>

@@ -1,10 +1,15 @@
 import {PureComponent} from 'react'
 import {Linking} from 'react-native'
 import {Navigation} from 'react-native-navigation'
+import {connect} from 'react-redux'
 import {View, Text} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withUserListings} from '@/graphql/containers'
+import {
+  logProfileListingsOpen,
+  logProfileListingsClose
+} from '@/redux/modules/amplitude/logs/profile'
 import Feed from '@/components/listings/Feed/Vertical'
 import ListEmpty from '@/components/shared/ListEmpty'
 
@@ -12,6 +17,14 @@ import {FRONTEND_URL} from '@/config/const'
 import ListingScreen from '@/screens//listing/Listing'
 
 class UserListingsTab extends PureComponent {
+  componentDidMount() {
+    this.props.logProfileListingsOpen()
+  }
+
+  componentWillUnmount() {
+    this.props.logProfileListingsClose()
+  }
+
   onSelect = (id) => {
     const {componentId} = this.props
     Navigation.push(componentId, {
@@ -67,4 +80,13 @@ class UserListingsTab extends PureComponent {
   }
 }
 
-export default composeWithRef(withUserListings)(UserListingsTab)
+export default composeWithRef(
+  connect(
+    null,
+    {
+      logProfileListingsOpen,
+      logProfileListingsClose
+    }
+  ),
+  withUserListings
+)(UserListingsTab)

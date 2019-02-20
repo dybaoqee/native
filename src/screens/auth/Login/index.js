@@ -8,6 +8,7 @@ import composeWithRef from '@/lib/composeWithRef'
 import {withSignInMutation, withUserProfile} from '@/graphql/containers'
 import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
 import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
+import {logSignIn} from '@/redux/modules/amplitude/logs/auth'
 import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 import Spinner from '@/components/shared/Spinner'
@@ -90,6 +91,7 @@ class LoginScreen extends PureComponent {
       else this.onSignUp()
     } catch (error) {
       // TODO handle error
+      this.props.logSignIn({error})
       this.onDismiss()
     } finally {
       this.setState({loading: false})
@@ -108,12 +110,14 @@ class LoginScreen extends PureComponent {
       updateStackRoot,
       params: {previousTabIndex}
     } = this.props
+    this.props.logSignIn({newUser: false})
     updateStackRoot({tabIndex: previousTabIndex})
     Navigation.dismissAllModals()
   }
 
   onSignUp = () => {
     const {componentId} = this.props
+    this.props.logSignIn({newUser: true})
     Navigation.showModal({
       component: {
         id: `${componentId}_signUp`,
@@ -143,6 +147,6 @@ export default composeWithRef(
   withUserProfile,
   connect(
     (state) => ({previousTabIndex: getTabIndexHistory(state)[1]}),
-    {updateStackRoot, switchTab}
+    {updateStackRoot, switchTab, logSignIn}
   )
 )(LoginScreen)

@@ -5,6 +5,13 @@ import {connect} from 'react-redux'
 import Location from '@/components/listings/SearchLocation'
 
 import {updateCity, updateFilters} from '@/redux/modules/search'
+import {
+  logNeighborhoodsOpen,
+  logNeighborhoodsClose,
+  logChangeCity,
+  logNeighborhoodsApply,
+  logNeighborhoodsClear
+} from '@/redux/modules/amplitude/logs/search'
 import {getSearchCity, getSearchFilters} from '@/redux/modules/search/selectors'
 
 class LocationContainer extends PureComponent {
@@ -22,17 +29,28 @@ class LocationContainer extends PureComponent {
     return {citySlug, neighborhoodsSlugs}
   }
 
+  componentDidMount() {
+    this.props.logNeighborhoodsOpen()
+  }
+
   componentWillUnmount() {
     const citySlug = this.state.citySlug
     const neighborhoodsSlugs = _.isEmpty(this.state.neighborhoodsSlugs)
       ? undefined
       : this.state.neighborhoodsSlugs
-    if (citySlug !== this.props.citySlug) this.props.updateCity(citySlug)
-    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs)
+    this.props.logNeighborhoodsClose()
+    if (citySlug !== this.props.citySlug) {
+      this.props.updateCity(citySlug)
+      this.props.logChangeCity({city: citySlug})
+    }
+    if (neighborhoodsSlugs !== this.props.filters.neighborhoodsSlugs) {
       this.props.updateFilters({
         ...this.props.filters,
         neighborhoodsSlugs
       })
+      if (_.isEmpty(neighborhoodsSlugs)) this.props.logNeighborhoodsClear()
+      else this.props.logNeighborhoodsApply({neighborhoods: neighborhoodsSlugs})
+    }
   }
 
   onChangeCity = (citySlug) => {
@@ -66,6 +84,11 @@ export default compose(
       filters: getSearchFilters(state)
     }),
     {
+      logNeighborhoodsOpen,
+      logNeighborhoodsClose,
+      logChangeCity,
+      logNeighborhoodsApply,
+      logNeighborhoodsClear,
       updateCity,
       updateFilters
     }

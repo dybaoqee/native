@@ -31,8 +31,7 @@ const ListingImage = styled(function ListingImage({
     width: px(width) * resolution,
     height: px(height) * resolution
   })
-  if (scalable)
-    return <PhotoView source={source} resizeMode="cover" {...props} />
+  if (scalable) return <PhotoView source={source} {...props} />
   else return <Image source={source} {...props} />
 })`
   justify-content: center;

@@ -1,8 +1,10 @@
 import {PureComponent} from 'react'
 import {Button} from '@emcasa/ui-native'
+import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withEmailMutation, withProfileMutation} from '@/graphql/containers'
+import {logSignUp} from '@/redux/modules/amplitude/logs/auth'
 import {Modal, Body} from '@/components/layout'
 import ProfileForm from '@/components/account/ProfileForm'
 
@@ -36,7 +38,9 @@ class SignUpScreen extends PureComponent {
       if (email) await changeEmail({email})
       await editUserProfile({name})
       this.setState({loading: false}, onSuccess)
+      this.props.logSignUp()
     } catch (error) {
+      this.props.logSignUp({error})
       this.setState({loading: false, error})
     }
   }
@@ -69,6 +73,11 @@ class SignUpScreen extends PureComponent {
   }
 }
 
-export default composeWithRef(withEmailMutation, withProfileMutation)(
-  SignUpScreen
-)
+export default composeWithRef(
+  connect(
+    null,
+    {logSignUp}
+  ),
+  withEmailMutation,
+  withProfileMutation
+)(SignUpScreen)

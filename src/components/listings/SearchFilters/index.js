@@ -1,8 +1,8 @@
 import {Component} from 'react'
 import {range, isEqual} from 'lodash'
 import styled, {withTheme} from 'styled-components/native'
-import {width, height} from 'styled-system'
-import {View, Text, Button, Slider} from '@emcasa/ui-native'
+import {themeGet, width, height} from 'styled-system'
+import {View, Text, Button, Slider as BaseSlider} from '@emcasa/ui-native'
 import * as Final from 'react-final-form'
 import {compose, mapProps} from 'recompose'
 
@@ -129,6 +129,13 @@ const SliderLabel = styled(function Sliderlabel({
   margin-left: -${({width}) => width / 2}px;
 `
 
+const Slider = styled(BaseSlider).attrs({
+  height: 'medium',
+  width: ({theme}) => theme.dimensions.window.width - 62
+})`
+  margin-top: ${themeGet('space.4')}px;
+`
+
 class SliderRangeField extends Component {
   static defaultProps = {
     round: 1
@@ -144,6 +151,7 @@ class SliderRangeField extends Component {
   }
 
   parseRange = ({min, max}) => {
+    if (min == this.props.min && max == this.props.max) return undefined
     return {
       min: this.parseValue(min),
       max: this.parseValue(max)
@@ -167,8 +175,6 @@ class SliderRangeField extends Component {
         >
           {({input}) => (
             <Slider
-              height="medium"
-              mt="20px"
               range={[min, max]}
               initialValue={input.value || defaultInitialValues[props.name]}
               trackProps={{height: 1, bg: 'white'}}
@@ -195,16 +201,13 @@ class SliderRangeField extends Component {
 
 const defaultInitialValues = {
   price: {min: 250000, max: 12000000},
-  area: {min: 35, max: 500},
-  rooms: null,
-  garageSpots: null
+  area: {min: 35, max: 500}
 }
 
 export default function SearchFilters({onChange, initialValues}) {
   return (
     <Final.Form
       initialValues={{
-        ...defaultInitialValues,
         ...initialValues
       }}
       onSubmit={() => null}

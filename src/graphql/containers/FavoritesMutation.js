@@ -3,20 +3,31 @@ import {connect} from 'react-redux'
 
 import {FAVORITE, UNFAVORITE} from '@/graphql/modules/listings/mutations'
 import {GET_FAVORITE_LISTINGS_IDS} from '@/graphql/modules/user/queries'
-import {logEvent} from '@/redux/modules/amplitude'
+import {
+  logListingFavorite,
+  logListingUnfavorite
+} from '@/redux/modules/amplitude/logs/listing'
 import {withFavoriteListingByID} from './FavoritesQuery'
 
 const FavoriteMutation = connect(
   null,
-  {logEvent}
-)(function _FavoritesMutation({children, id, favorite, logEvent}) {
+  {logListingFavorite, logListingUnfavorite}
+)(function _FavoritesMutation({
+  children,
+  id,
+  favorite,
+  logListingFavorite,
+  logListingUnfavorite
+}) {
   return (
     <Mutation
       mutation={favorite ? UNFAVORITE : FAVORITE}
       variables={{id}}
       refetchQueries={[{query: GET_FAVORITE_LISTINGS_IDS}]}
       update={() =>
-        logEvent(favorite ? 'listing-unfavorited' : 'listing-favorited', {id})
+        (favorite ? logListingUnfavorite : logListingFavorite).call(undefined, {
+          id
+        })
       }
     >
       {children}

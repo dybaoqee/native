@@ -7,11 +7,11 @@ const compareFilter = (a, b) => {
     return _.isEqual(a.slice().sort(), b.slice().sort())
 }
 
-export const getSearchScreen = (state) => state.search
+export const getSearch = (state) => state.search
 
-export const getSearchCity = (state) => getSearchScreen(state).city
+export const getSearchCity = (state) => getSearch(state).city
 
-export const getSearchFilters = (state) => getSearchScreen(state).filters
+export const getSearchFilters = (state) => getSearch(state).filters
 
 export const hasSearchFilters = createSelector(
   getSearchFilters,

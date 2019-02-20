@@ -6,6 +6,10 @@ import {Tab} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
+import {
+  logProfileOpen,
+  logProfileClose
+} from '@/redux/modules/amplitude/logs/profile'
 import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
 import {
   withUserListings,
@@ -51,11 +55,16 @@ class UserProfileScreen extends PureComponent {
   }
 
   componentDidAppear() {
+    this.props.logProfileOpen()
     this.containerRef.current.measure((x, y, width, height) => {
       this.setState({
         layout: {x, y, width, height}
       })
     })
+  }
+
+  componentDidDisappear() {
+    this.props.logProfileClose()
   }
 
   onSignOut = _.once(async () => {
@@ -106,7 +115,7 @@ class UserProfileScreen extends PureComponent {
 export default composeWithRef(
   connect(
     (state) => ({previousTabIndex: getTabIndexHistory(state)[1]}),
-    {updateStackRoot, switchTab}
+    {updateStackRoot, switchTab, logProfileOpen, logProfileClose}
   ),
   withSignOutMutation,
   withUserListings,

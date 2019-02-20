@@ -1,7 +1,12 @@
 import {PureComponent} from 'react'
+import {connect} from 'react-redux'
 
 import composeWithRef from '@/lib/composeWithRef'
 import {withListing} from '@/graphql/containers'
+import {
+  logTourOpen,
+  logTourClose
+} from '@/redux/modules/amplitude/logs/listingDetail'
 import {Modal, Body} from '@/components/layout'
 import Matterport from '@/components/listings/Matterport'
 
@@ -18,16 +23,19 @@ class ListingTourScreen extends PureComponent {
     }
   }
 
-  state = {layout: {}}
+  componentDidAppear() {
+    this.props.logTourOpen(this.props.params)
+  }
 
-  onLayout = ({nativeEvent: {layout}}) => this.setState({layout})
+  componentDidDisappear() {
+    this.props.logTourClose(this.props.params)
+  }
 
   render() {
     const {
       listing: {data, loading},
       onDismiss
     } = this.props
-    const {layout} = this.state
 
     return (
       <Modal bg="black" testID="@listing.Tour">
@@ -45,6 +53,10 @@ class ListingTourScreen extends PureComponent {
   }
 }
 
-export default composeWithRef(withListing(({params: {id}}) => ({id})))(
-  ListingTourScreen
-)
+export default composeWithRef(
+  connect(
+    null,
+    {logTourOpen, logTourClose}
+  ),
+  withListing(({params: {id}}) => ({id}))
+)(ListingTourScreen)
