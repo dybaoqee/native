@@ -15,6 +15,7 @@ import {
   withRelatedListings
 } from '@/graphql/containers'
 import {logEvent} from '@/redux/modules/amplitude'
+import {getCurrentScreen} from '@/redux/modules/navigation/selectors'
 import {Shell, Body, Header, Footer, Section} from '@/components/layout'
 import Listing from '@/components/listings/Listing'
 import Feed from '@/components/listings/Feed/Horizontal'
@@ -64,22 +65,37 @@ class ListingScreen extends PureComponent {
   }
 
   componentDidAppear() {
-    const {
-      params: {id},
-      logEvent
-    } = this.props
     InteractionManager.runAfterInteractions(() => this.setState({ready: true}))
-    logEvent('listing-detail-open', {id})
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentScreen.id !== this.props.currentScreen.id) {
+      const {
+        componentId,
+        currentScreen,
+        params: {id},
+        logEvent
+      } = this.props
+      const pattern = new RegExp(`^${componentId}(\\_\\w+)?$`)
+      const wasPreviouslyOpen = pattern.test(prevProps.currentScreen.id)
+      const isCurrentlyOpen = pattern.test(currentScreen.id)
+      if (wasPreviouslyOpen && !isCurrentlyOpen)
+        logEvent('listing-detail-close', {id})
+      else if (!wasPreviouslyOpen && isCurrentlyOpen)
+        logEvent('listing-detail-open', {id})
+    }
   }
 
   onDismiss = _.once(() => {
+    const {componentId} = this.props
     if (this.webViewRef.current) this.webViewRef.current.stopLoading()
-    Navigation.pop(this.props.componentId)
+    Navigation.pop(componentId)
   })
 
   onOpenGallery = debounceTransition((index) => {
     Navigation.showModal({
       component: {
+        id: `${this.props.componentId}_gallery`,
         name: GalleryScreen.screenName,
         passProps: {
           index,
@@ -93,6 +109,7 @@ class ListingScreen extends PureComponent {
   onOpenTour = debounceTransition(() => {
     Navigation.showModal({
       component: {
+        id: `${this.props.componentId}_tour`,
         name: TourScreen.screenName,
         passProps: {
           params: this.props.params,
@@ -105,6 +122,7 @@ class ListingScreen extends PureComponent {
   onOpenInterestForm = debounceTransition(() => {
     Navigation.push(this.props.componentId, {
       component: {
+        id: `${this.props.componentId}_interest`,
         name: InterestFormScreen.screenName,
         passProps: {params: this.props.params}
       }
@@ -125,25 +143,39 @@ class ListingScreen extends PureComponent {
   }
 
   onSelectListing = debounceTransition((id) => {
+    this.props.logEvent('listing-detail-view-featured-listing', {
+      id
+    })
     Navigation.push(this.props.componentId, {
       component: {
         name: ListingScreen.screenName,
         passProps: {params: {id}}
       }
     })
-    this.props.logEvent('listing-detail-view-featured-listing', {
-      id
-    })
   })
 
   onViewTour = _.once(() => this.props.onViewTour())
 
   onChangeGalleryIndex = (index, previousIndex) => {
-    const action = index > previousIndex ? 'right' : 'left'
-    this.props.logEvent(`listing-detail-photos-${action}`, {
-      id: this.props.params.id
+    requestAnimationFrame(() => {
+      const action = index > previousIndex ? 'right' : 'left'
+      this.props.logEvent(`listing-detail-photos-${action}`, {
+        id: this.props.params.id
+      })
     })
   }
+
+  onMapInteraction = _.debounce(
+    () => {
+      requestAnimationFrame(() => {
+        this.props.logEvent('listing-detail-map', {
+          id: this.props.params.id
+        })
+      })
+    },
+    1000,
+    {leading: true, trailing: false}
+  )
 
   renderRightButtons = () => {
     return <RightButtons id={this.props.params.id} onShare={this.onShare} />
@@ -183,6 +215,7 @@ class ListingScreen extends PureComponent {
               onOpenGallery={this.onOpenGallery}
               onOpenTour={this.onOpenTour}
               onChangeGalleryIndex={this.onChangeGalleryIndex}
+              onMapInteraction={this.onMapInteraction}
             />
           )}
           {!ready ? (
@@ -235,7 +268,9 @@ class ListingScreen extends PureComponent {
 
 export default composeWithRef(
   connect(
-    null,
+    (state) => ({
+      currentScreen: getCurrentScreen(state)
+    }),
     {logEvent}
   ),
   withViewTourMutation,

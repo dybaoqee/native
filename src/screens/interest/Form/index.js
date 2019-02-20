@@ -1,9 +1,11 @@
 import _ from 'lodash/fp'
 import {PureComponent} from 'react'
+import {connect} from 'react-redux'
 import {Navigation} from 'react-native-navigation'
 import {Button} from '@emcasa/ui-native'
 
 import composeWithRef from '@/lib/composeWithRef'
+import {logEvent} from '@/redux/modules/amplitude'
 import {
   withUserProfile,
   withInterestTypes,
@@ -27,7 +29,10 @@ class InterestFormScreen extends PureComponent {
   state = {values: {}, valid: false}
 
   openSuccessModal = _.once(() => {
-    const {componentId} = this.props
+    const {params, componentId, logEvent} = this.props
+    logEvent('listing-interest-created', {
+      id: params.id
+    })
     Navigation.showModal({
       component: {
         id: `${componentId}_success`,
@@ -54,10 +59,16 @@ class InterestFormScreen extends PureComponent {
 
   componentDidAppear() {
     this.setState({active: true})
+    this.props.logEvent('listing-interest-open', {
+      id: this.props.params.id
+    })
   }
 
   componentDidDisappear() {
     this.setState({active: false})
+    this.props.logEvent('listing-interest-close', {
+      id: this.props.params.id
+    })
   }
 
   onChange = (state) => this.setState(state)
@@ -111,6 +122,10 @@ class InterestFormScreen extends PureComponent {
 }
 
 export default composeWithRef(
+  connect(
+    null,
+    {logEvent}
+  ),
   withUserProfile,
   withInterestTypes,
   withInterestMutation
