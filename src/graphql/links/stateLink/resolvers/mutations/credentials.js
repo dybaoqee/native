@@ -12,11 +12,24 @@ export const setJwt = async (jwt) => AsyncStorage.setItem(JWT_CACHE_KEY, jwt)
 export const resetJwt = () => AsyncStorage.removeItem(JWT_CACHE_KEY)
 
 export async function storeCredentials(_, {jwt, user}, {cache, graphql}) {
-  let userProfile = user
+  const credentials = {
+    __typename: 'Credentials',
+    jwt
+  }
+  const writeCredentials = async (userProfile) => {
+    await cache.writeQuery({
+      query: GET_CREDENTIALS,
+      data: {credentials}
+    })
+    await cache.writeQuery({
+      query: GET_USER_PROFILE,
+      data: {credentials, userProfile}
+    })
+  }
   if (!jwt) {
     await resetJwt()
     await graphql.resetStore()
-    userProfile = {
+    await writeCredentials({
       __typename: 'User',
       id: null,
       role: null,
@@ -31,22 +44,11 @@ export async function storeCredentials(_, {jwt, user}, {cache, graphql}) {
         app: true,
         email: true
       }
-    }
+    })
   } else {
     await setJwt(jwt)
+    await writeCredentials(user)
     await graphql.sync()
   }
-  const credentials = {
-    __typename: 'Credentials',
-    jwt
-  }
-  await cache.writeQuery({
-    query: GET_CREDENTIALS,
-    data: {credentials}
-  })
-  await cache.writeQuery({
-    query: GET_USER_PROFILE,
-    data: {credentials, userProfile}
-  })
   return credentials
 }
