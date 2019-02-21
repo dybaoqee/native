@@ -32,7 +32,7 @@ export default class PermissionProvider extends PureComponent {
   }
 
   onRequestPermission = async (alert = true) => {
-    const {permission, options} = this.props
+    const {permission, options, showAlert} = this.props
     const currentResponse = this.state.value || (await this.initialRequest)
     let response
     switch (currentResponse) {
@@ -42,10 +42,11 @@ export default class PermissionProvider extends PureComponent {
         return currentResponse
       case 'denied':
         if (!alert) break
-        if (Platform.OS === 'ios') return this.showAlertIOS()
+        if (Platform.OS === 'ios') return this.showSettingsAlertIOS()
         else response = await Permissions.request(permission, options)
         break
       default:
+        if (showAlert) await this.showAlert()
         response = await Permissions.request(permission, options)
         break
     }
@@ -53,7 +54,23 @@ export default class PermissionProvider extends PureComponent {
     return response
   }
 
-  showAlertIOS() {
+  showAlert(options = [{text: 'OK'}]) {
+    return new Promise((resolve) => {
+      Alert.alert(
+        this.props.title,
+        this.props.reason,
+        options.map((option) => ({
+          ...option,
+          onPress: () => {
+            if (option.onPress) option.onPress()
+            resolve()
+          }
+        }))
+      )
+    })
+  }
+
+  showSettingsAlertIOS() {
     const options = [{text: 'Cancelar', style: 'cancel', onPress: () => null}]
     if (Permissions.canOpenSettings()) {
       options.push({
@@ -61,11 +78,7 @@ export default class PermissionProvider extends PureComponent {
         onPress: () => Permissions.openSettings().then(this.onUpdatePermission)
       })
     }
-    Alert.alert(
-      'Permitir acesso ao seu local?',
-      'Este aplicativo não tem permissão para acessar o seu local.',
-      options
-    )
+    return Alert.alert(this.props.title, this.props.reason, options)
   }
 
   render() {
@@ -78,7 +91,7 @@ export default class PermissionProvider extends PureComponent {
 }
 
 export const withPermission = (permission, options) => (Target) => (props) => (
-  <PermissionProvider permission={permission} options={options}>
+  <PermissionProvider permission={permission} {...options}>
     {(ctx) => (
       <Target
         {...props}
