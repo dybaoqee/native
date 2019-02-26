@@ -5,6 +5,7 @@ import {CachePersistor} from 'apollo-cache-persist'
 import {ApolloLink} from 'apollo-link'
 
 import createLinks, {sync} from './links'
+import {VERSION_NAME} from '@/config/const'
 
 const SCHEMA_VERSION = '3'
 const SCHEMA_VERSION_KEY = '__emcasa_schema_version'
@@ -28,6 +29,8 @@ export default async function createApolloClient(client) {
   const links = createLinks({cache, client})
 
   const apolloClient = new ApolloClient({
+    name: '@emcasa/native',
+    version: VERSION_NAME,
     link: ApolloLink.from(Array.from(links.values())),
     cache
   })
