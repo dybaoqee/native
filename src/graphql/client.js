@@ -29,8 +29,6 @@ export default async function createApolloClient(client) {
   const links = createLinks({cache, client})
 
   const apolloClient = new ApolloClient({
-    name: '@emcasa/native',
-    version: VERSION_NAME,
     link: ApolloLink.from(Array.from(links.values())),
     cache
   })
