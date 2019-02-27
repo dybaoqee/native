@@ -4,12 +4,17 @@ import {login, navigateToLogin} from '../auth/interactions'
 import * as select from './selectors'
 import * as action from './interactions'
 
-describe('interest.Form', () => {
-  beforeAll(async () => {
+async function init() {
+  try {
     await navigateToLogin()
     await login()
-  })
-  beforeAll(action.navigate)
+  } finally {
+    await action.navigate()
+  }
+}
+
+describe('interest.Form', () => {
+  beforeAll(init)
 
   it('autofills user data', async () => {
     await action.selectInterestType('Me ligue dentro de 5 minutos')

@@ -354,7 +354,7 @@ jobs:
             --artifacts-location tmp/detox/
             --take-screenshots all
             --loglevel verbose
-            --debug-synchronization 500
+            --debug-synchronization 1000
             --cleanup
       - store_artifacts:
           path: tmp/detox
