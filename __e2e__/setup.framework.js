@@ -8,7 +8,10 @@ jest.setTimeout(120000)
 jasmine.getEnv().addReporter(detoxAdapter)
 
 beforeAll(async function() {
-  await detox.init(pkg.detox)
+  await detox.init(pkg.detox, {launchApp: false})
+  await detox.device.uninstallApp()
+  await detox.device.installApp()
+  await detox.device.launchApp({newInstance: true})
 })
 
 beforeEach(async function() {

@@ -1,4 +1,5 @@
 import * as select from './selectors'
+import * as listings from '../listings/selectors'
 import * as shared from '../shared/selectors'
 
 export async function navigateToLogin() {
@@ -13,4 +14,7 @@ export async function navigateToLogin() {
 
 export async function login() {
   await element(by.text('Login').withAncestor(select.accountKitScreen())).tap()
+  await waitFor(element(listings.feedScreen()))
+    .toBeVisible()
+    .withTimeout(2000)
 }
