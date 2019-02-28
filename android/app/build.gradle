@@ -279,5 +279,6 @@ if (playStoreCertificate) {
   play {
     track = 'production'
     serviceAccountCredentials = file(playStoreCertificate)
+    releaseStatus = 'draft'
   }
 }
