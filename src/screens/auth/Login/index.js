@@ -54,18 +54,7 @@ class LoginScreen extends PureComponent {
   }
 
   async componentDidAppear() {
-    const {
-      permissions: {receiveSms},
-      user
-    } = this.props
-    if (Platform.OS === 'android') {
-      const getPermission = async (permission) => {
-        if (permission.state === 'undetermined')
-          return permission.requestPermission()
-        else return permission.state
-      }
-      await getPermission(receiveSms)
-    }
+    const {user} = this.props
     if (!this.state.viewActive)
       this.setState(
         {viewActive: true},
@@ -140,12 +129,14 @@ class LoginScreen extends PureComponent {
 }
 
 export default composeWithRef(
+  /*
   withPermission('receiveSms', {
     showAlert: true,
     title: '',
     reason:
       'Precisamos receber SMS para autenticar o seu login com mais facilidade.'
   }),
+  */
   withSignInMutation,
   withUserProfile,
   connect(
