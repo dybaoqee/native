@@ -1,5 +1,5 @@
 import {PureComponent} from 'react'
-import {Platform} from 'react-native'
+// import {Platform} from 'react-native'
 import {Navigation} from 'react-native-navigation'
 import AccountKit from 'react-native-facebook-account-kit'
 import {connect} from 'react-redux'
@@ -9,11 +9,11 @@ import {withSignInMutation, withUserProfile} from '@/graphql/containers'
 import {getTabIndexHistory} from '@/redux/modules/navigation/selectors'
 import {updateStackRoot, switchTab} from '@/redux/modules/navigation'
 import {logSignIn} from '@/redux/modules/amplitude/logs/auth'
-import {withPermission} from '@/containers/Permission'
+// import {withPermission} from '@/containers/Permission'
 import {Shell, Body} from '@/components/layout'
 import Spinner from '@/components/shared/Spinner'
 
-import SignUpScreen from '@/screens//auth/SignUp'
+import SignUpScreen from '@/screens/auth/SignUp'
 
 const isRegistrationComplete = (user) => Boolean(user.name)
 

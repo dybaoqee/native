@@ -550,7 +550,7 @@ jobs:
       - run: *generate-assets-android
       - run: *bump-android
       - run: *bundle-js
-      - run: export TERM=xterm && cd android && ./gradlew assembleRelease
+      - run: export TERM=xterm && cd android && ./gradlew assembleRelease -x bundleReleaseJsAndAssets
       - run: export TERM=xterm && cd android && ./gradlew publishApkRelease -x bundleReleaseJsAndAssets
       - run: *sentry-deploy
       - store_artifacts:
