@@ -37,7 +37,6 @@ export async function storeCredentials(_, {jwt, user}, {cache, graphql}) {
       email: null,
       phone: null,
       listings: [],
-      blacklists: [],
       favorites: [],
       notificationPreferences: {
         __typename: 'NotificationPreferences',

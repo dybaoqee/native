@@ -72,39 +72,3 @@ export const GET_FAVORITE_LISTINGS = gql`
   }
   ${frag.ListingFeed}
 `
-
-export const GET_BLACKLISTED_LISTINGS_IDS = gql`
-  query blacklistedListingsIds {
-    userProfile @clientAuth {
-      id
-      blacklists(
-        filters: {}
-        pagination: {excludedListingIds: [], pageSize: 1000}
-      ) {
-        id
-      }
-    }
-  }
-`
-
-export const GET_BLACKLISTED_LISTINGS = gql`
-  query blacklistedListings(
-    $excludedListingIds: [ID] = []
-    $filters: ListingFilterInput = {}
-    $pageSize: Int = 1000
-  ) {
-    userProfile @clientAuth {
-      id
-      blacklists(
-        filters: $filters
-        pagination: {
-          excludedListingIds: $excludedListingIds
-          pageSize: $pageSize
-        }
-      ) {
-        ...ListingFeed
-      }
-    }
-  }
-  ${frag.ListingFeed}
-`

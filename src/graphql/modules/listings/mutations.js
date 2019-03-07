@@ -31,26 +31,6 @@ export const UNFAVORITE = gql`
   }
 `
 
-export const BLACKLIST = gql`
-  mutation blacklistListing($id: ID!) {
-    listingBlacklist(id: $id) @clientAuth {
-      listing {
-        id
-      }
-    }
-  }
-`
-
-export const WHITELIST = gql`
-  mutation whilelistListing($id: ID!) {
-    listingUnblacklist(id: $id) @clientAuth {
-      listing {
-        id
-      }
-    }
-  }
-`
-
 export const INSERT_LISTING = gql`
   mutation insertListing($listing: ListingInput!) {
     insertListing(input: $listing) {

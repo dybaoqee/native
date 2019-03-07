@@ -5,7 +5,6 @@ import authLink from './authLink'
 import contextLink from './contextLink'
 import errorLink from './errorLink'
 import httpLink from './httpLink'
-import queryResolverLink from './queryResolverLink'
 import stateLink from './stateLink'
 import wsLink from './wsLink'
 
@@ -16,7 +15,6 @@ export default (options) => {
   links.set('context', contextLink(options))
   links.set('auth', authLink(options))
   links.set('state', stateLink(options))
-  links.set('queryResolver', queryResolverLink(options))
   links.set(
     'server',
     new ApolloLink.split(

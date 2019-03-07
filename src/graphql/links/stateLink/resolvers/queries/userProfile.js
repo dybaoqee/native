@@ -1,5 +1,4 @@
 import {getFavorites} from '../mutations/favorites'
-import {getBlacklist} from '../mutations/blacklist'
 
 export default async function userProfile(prev = {}) {
   return {
@@ -11,7 +10,6 @@ export default async function userProfile(prev = {}) {
     phone: null,
     listings: [],
     favorites: await getFavorites(),
-    blacklists: await getBlacklist(),
     notificationPreferences: {
       __typename: 'NotificationPreferences',
       app: true,
