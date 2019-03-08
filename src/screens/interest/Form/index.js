@@ -25,7 +25,7 @@ class InterestFormScreen extends PureComponent {
 
   static options = {
     topBar: {
-      title: {text: 'Marcar visita'},
+      title: {text: 'Falar com Especialista'},
       backButton: {title: ''}
     }
   }

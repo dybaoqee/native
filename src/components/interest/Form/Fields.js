@@ -162,14 +162,8 @@ export default class InterestFormFields extends Component {
 
   render() {
     const {type} = this.props
-    const fields = [<Name key="name" />]
+    const fields = [<Name key="name" />, <Phone key="phone" />]
     if (type === CONTACT_BY_EMAIL) fields.push(<Email key="email" />)
-    if (
-      type === CALL_WITHIN_5_MINUTES ||
-      type === CALL_AT_SPECIFIC_TIME ||
-      type === CONTACT_BY_WHATSAPP
-    )
-      fields.push(<Phone key="phone" />)
     if (type === CALL_AT_SPECIFIC_TIME) fields.push(<Time key="time" />)
     if (type === CONTACT_BY_EMAIL) fields.push(<Message key="message" />)
     return fields
