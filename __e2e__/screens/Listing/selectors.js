@@ -14,7 +14,7 @@ export const modalGallery = () => by.id('listing_gallery')
 
 export const gallerySlide = (index) => by.id(`gallery_slide(${index})`)
 
-export const scheduleVisitButton = () => by.text('Marcar visita')
+export const scheduleVisitButton = () => by.text('Falar com especialista')
 
 export const tourButton = () => by.label('Ver em tela cheia')
 
