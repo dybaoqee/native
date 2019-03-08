@@ -20,7 +20,7 @@ export default class InterestCreatedModal extends PureComponent {
         <Body flex={1} p="25px">
           <Row mb="25px" justifyContent="center">
             <Text color="white" fontSize={24} textAlign="center">
-              Agente EmCasa notificado
+              Notificação Enviada
             </Text>
           </Row>
           <Row flex={1} alignItems="center">

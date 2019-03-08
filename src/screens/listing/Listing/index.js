@@ -258,7 +258,7 @@ class ListingScreen extends PureComponent {
               </Row>
             )}
             <Button active height="tall" onPress={this.onOpenInterestForm}>
-              Marcar visita
+              Falar com especialista
             </Button>
           </Footer>
         )}
