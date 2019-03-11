@@ -61,7 +61,7 @@ export const AMPLITUDE_API_KEY = process.env.AMPLITUDE_API_KEY
 
 export const AMPLITUDE_ENABLED = boolVal(
   process.env.AMPLITUDE_ENABLED,
-  AMPLITUDE_ENABLED && !__DEV__
+  AMPLITUDE_API_KEY && !__DEV__
 )
 
 export const CODEPUSH_DEPLOYMENT_KEY = process.env.CODEPUSH_DEPLOYMENT_KEY
