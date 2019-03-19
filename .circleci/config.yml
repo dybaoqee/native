@@ -36,6 +36,7 @@ configurations:
     CODESIGN_PROFILE: app-store
     BUILD_CONFIGURATION: Release
     CODEPUSH_DEPLOYMENT_TARGET: Production
+    AMPLITUDE_ENABLED: true
   - &env-ios
     PLATFORM: ios
     BUNDLE_IDENTIFIER: com.EmCasa.native

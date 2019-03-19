@@ -5,9 +5,9 @@ import {logBreadcrumb, logAppLaunched} from './logs/navigation'
 import * as auth from '@/redux/helpers/auth'
 import * as nav from '@/redux/modules/navigation'
 
-const logEvent = (action, getData) =>
+const logEvent = (fun, getData) =>
   function* logEvent(action) {
-    yield put(action(typeof getData === 'function' ? getData(action) : getData))
+    yield put(fun(typeof getData === 'function' ? getData(action) : getData))
   }
 
 export default function* amplitudeEventsSaga() {
