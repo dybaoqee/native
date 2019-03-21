@@ -131,73 +131,77 @@ const SliderLabel = styled(function Sliderlabel({
 
 const Slider = styled(BaseSlider).attrs({
   height: 'medium',
-  width: ({theme}) => theme.dimensions.window.width - 62
+  width: ({theme}) => theme.dimensions.window.width - theme.space[4] * 2
 })`
   margin-top: ${themeGet('space.4')}px;
 `
 
-class SliderRangeField extends Component {
-  static defaultProps = {
-    round: 1
-  }
+const SliderRangeField = withTheme(
+  class SliderRangeField extends Component {
+    static defaultProps = {
+      round: 1
+    }
 
-  shouldComponentUpdate() {
-    return false
-  }
+    shouldComponentUpdate() {
+      return false
+    }
 
-  parseValue = (value) => {
-    const {round} = this.props
-    return (value / round).toFixed(0) * round
-  }
+    parseValue = (value) => {
+      const {round} = this.props
+      return (value / round).toFixed(0) * round
+    }
 
-  parseRange = ({min, max}) => {
-    if (min == this.props.min && max == this.props.max) return undefined
-    return {
-      min: this.parseValue(min),
-      max: this.parseValue(max)
+    parseRange = ({min, max}) => {
+      if (min == this.props.min && max == this.props.max) return undefined
+      return {
+        min: this.parseValue(min),
+        max: this.parseValue(max)
+      }
+    }
+
+    renderLabel = ({value}) => {
+      return this.props.renderLabel({value: this.parseValue(value)})
+    }
+
+    render() {
+      const {min, max, theme, ...props} = this.props
+      return (
+        <View style={{marginHorizontal: theme.space[4]}}>
+          <Field
+            allowNull
+            isEqual={compareRange}
+            parse={this.parseRange}
+            slideEventThrottle={50}
+            {...props}
+          >
+            {({input}) => (
+              <Slider
+                range={[min, max]}
+                initialValue={input.value || defaultInitialValues[props.name]}
+                trackProps={{height: 1, bg: 'white'}}
+                onChange={input.onChange}
+              >
+                <Slider.Marker
+                  bg="white"
+                  name="min"
+                  renderLabel={this.renderLabel}
+                  hitSlop={40}
+                />
+                <Slider.Marker
+                  bg="white"
+                  name="max"
+                  trackProps={{height: 3}}
+                  renderLabel={this.renderLabel}
+                  hitSlop={40}
+                />
+              </Slider>
+            )}
+          </Field>
+        </View>
+      )
     }
   }
-
-  renderLabel = ({value}) => {
-    return this.props.renderLabel({value: this.parseValue(value)})
-  }
-
-  render() {
-    const {min, max, ...props} = this.props
-    return (
-      <View style={{marginHorizontal: 12}}>
-        <Field
-          allowNull
-          isEqual={compareRange}
-          parse={this.parseRange}
-          slideEventThrottle={100}
-          {...props}
-        >
-          {({input}) => (
-            <Slider
-              range={[min, max]}
-              initialValue={input.value || defaultInitialValues[props.name]}
-              trackProps={{height: 1, bg: 'white'}}
-              onChange={input.onChange}
-            >
-              <Slider.Marker
-                bg="white"
-                name="min"
-                renderLabel={this.renderLabel}
-              />
-              <Slider.Marker
-                bg="white"
-                name="max"
-                trackProps={{height: 3}}
-                renderLabel={this.renderLabel}
-              />
-            </Slider>
-          )}
-        </Field>
-      </View>
-    )
-  }
-}
+)
 
 const defaultInitialValues = {
   price: {min: 250000, max: 12000000},
